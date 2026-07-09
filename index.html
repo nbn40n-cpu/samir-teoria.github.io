@@ -431,17 +431,25 @@ function adminSwitchTab(tab) {
   }
 }
 
+let adminImgData = [];
+
 function adminShowImages() {
   const content = document.getElementById('adminContent');
-  const images = JSON.parse(localStorage.getItem('admin_images') || '["","","","",""]');
-  let html = '<p style="font-size:14px;color:#666;margin-bottom:10px;">أضف روابط الصور الإعلانية (5 صور كحد أقصى):</p>';
+  adminImgData = JSON.parse(localStorage.getItem('admin_images') || '["","","","",""]');
+  let html = '<p style="font-size:14px;color:#666;margin-bottom:10px;">اختر صور من جهازك أو أضف رابط (5 صور كحد أقصى):</p>';
   html += '<table class="admin-table">';
   for (let i = 0; i < 5; i++) {
-    html += '<tr><td style="width:40px;color:#888;font-weight:bold;">' + (i+1) + '</td>';
-    html += '<td><input type="text" id="imgUrl' + i + '" value="' + (images[i] || '') + '" placeholder="رابط الصورة ' + (i+1) + '"></td>';
-    html += '<td style="width:70px;text-align:center;">';
-    if (images[i]) {
-      html += '<img src="' + images[i] + '" class="admin-img-preview" onerror="this.outerHTML=\'<span style=color:#c62828;font-size:11px;>❌</span>\'">';
+    const src = adminImgData[i] || '';
+    html += '<tr><td style="width:40px;color:#888;font-weight:bold;vertical-align:top;padding-top:10px;">' + (i+1) + '</td>';
+    html += '<td style="padding:4px 0;">';
+    html += '<input type="file" accept="image/*" id="imgFile' + i + '" style="font-size:12px;margin-bottom:4px;width:100%;" onchange="adminPreviewFile(' + i + ')">';
+    html += '<input type="text" id="imgUrl' + i + '" value="' + (src && !src.startsWith('data:') ? src : '') + '" placeholder="أو أضف رابط صورة" style="width:100%;padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;box-sizing:border-box;">';
+    html += '</td>';
+    html += '<td style="width:70px;text-align:center;vertical-align:top;padding-top:4px;">';
+    if (src) {
+      html += '<div style="position:relative;display:inline-block;"><img src="' + src + '" class="admin-img-preview" id="preview' + i + '" onerror="this.outerHTML=\'<span style=color:#c62828;font-size:11px;>❌</span>\'"><div style="font-size:10px;color:#888;margin-top:2px;">' + Math.round(src.length * 0.75 / 1024) + 'KB</div></div>';
+    } else {
+      html += '<div id="preview' + i + '"></div>';
     }
     html += '</td></tr>';
   }
@@ -449,6 +457,41 @@ function adminShowImages() {
   html += '<button class="admin-save-btn" onclick="adminSaveImages()">💾 حفظ الصور</button>';
   html += '<div id="imgStatus" style="margin-top:6px;font-size:12px;color:#888;"></div>';
   content.innerHTML = html;
+}
+
+function adminPreviewFile(idx) {
+  const fileInput = document.getElementById('imgFile' + idx);
+  const preview = document.getElementById('preview' + idx);
+  const file = fileInput.files[0];
+  if (!file) return;
+  if (file.size > 500 * 1024) {
+    alert('الصورة كبيرة جداً! الحجم الأقصى 500 كيلوبايت.');
+    fileInput.value = '';
+    return;
+  }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    adminImgData[idx] = dataUrl;
+    preview.innerHTML = '<img src="' + dataUrl + '" class="admin-img-preview" style="border:2px solid #4caf50;"><div style="font-size:10px;color:#888;margin-top:2px;">' + Math.round(dataUrl.length * 0.75 / 1024) + 'KB</div>';
+    document.getElementById('imgUrl' + idx).value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function adminSaveImages() {
+  for (let i = 0; i < 5; i++) {
+    const url = document.getElementById('imgUrl' + i).value.trim();
+    if (url && !adminImgData[i]) {
+      adminImgData[i] = url;
+    }
+    if (!url && !adminImgData[i]) {
+      adminImgData[i] = '';
+    }
+  }
+  localStorage.setItem('admin_images', JSON.stringify(adminImgData));
+  document.getElementById('imgStatus').textContent = '✅ تم حفظ الصور بنجاح!';
+  loadGalleryImages();
 }
 
 function adminSaveImages() {
