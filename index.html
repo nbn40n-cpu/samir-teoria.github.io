@@ -3,7 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>امتحان التؤوريا النظري - مدرب السياقة سمير ابو قبيطة</title>
+<title>مدرب السياقة سمير ابو قبيطة - امتحان التؤوريا النظري التجريبي</title>
+<meta name="description" content="امتحان التؤوريا النظري التجريبي مع مدرب السياقة سمير ابو قبيطة. جميع أسئلة التؤوريا للخصوصي والشحن الخفيف والشامل والدراجة النارية مع الإشارات المرورية.">
+<meta name="keywords" content="تؤوريا, امتحان التؤوريا, سمير ابو قبيطة, مدرب سياقة, قيادة, الكويت, اسئلة تؤوريا">
+<meta property="og:title" content="مدرب السياقة سمير ابو قبيطة - امتحان التؤوريا النظري التجريبي">
+<meta property="og:description" content="اختبر نفسك في التؤوريا النظري مع جميع الأسئلة الرسمية">
+<meta property="og:type" content="website">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -20,7 +25,7 @@
     padding: 40px 20px 30px;
     border-radius: 20px;
     text-align: center;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
     box-shadow: 0 8px 30px rgba(0,150,136,0.3);
   }
   .header img {
@@ -28,64 +33,77 @@
     border: 4px solid white; margin-bottom: 15px;
     object-fit: cover;
   }
-  .header h1 { font-size: 28px; margin-bottom: 5px; }
-  .header p { font-size: 16px; opacity: 0.9; }
-  .header .phone { margin-top: 10px; font-size: 18px; direction: ltr; display: inline-block; }
-  .header .phone i { margin-left: 8px; }
+  .header h1 { font-size: 26px; margin-bottom: 5px; }
+  .header .sub { font-size: 15px; opacity: 0.9; margin-bottom: 10px; }
+  .header .phone { font-size: 18px; direction: ltr; display: inline-block; }
 
-  .section { background: white; border-radius: 16px; padding: 25px; margin-bottom: 20px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-  .section h2 { color: #009688; font-size: 22px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+  .btn-start {
+    display: block; width: 100%; padding: 18px;
+    background: #ff6f00; color: white; border: none; border-radius: 14px;
+    font-size: 22px; font-weight: bold; cursor: pointer;
+    text-decoration: none; text-align: center;
+    box-shadow: 0 6px 20px rgba(255,111,0,0.4);
+    transition: transform 0.2s;
+    margin-bottom: 20px;
+  }
+  .btn-start:hover { transform: scale(1.02); }
+  .btn-start small { display: block; font-size: 13px; font-weight: normal; opacity: 0.8; }
+
+  .section { background: white; border-radius: 16px; padding: 25px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
+  .section h2 { color: #009688; font-size: 20px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+  .section h3 { font-size: 17px; color: #00796b; margin: 15px 0 10px; display: flex; align-items: center; gap: 8px; }
   .section p { line-height: 1.8; font-size: 15px; color: #555; }
 
-  .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; margin-top: 15px; }
-  .card {
-    background: #f5f5f5; border-radius: 12px; padding: 20px; text-align: center;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .card:hover { transform: translateY(-3px); box-shadow: 0 8px 25px rgba(0,0,0,0.12); }
-  .card .icon { font-size: 40px; margin-bottom: 10px; }
-  .card h3 { font-size: 16px; color: #333; margin-bottom: 5px; }
-  .card p { font-size: 13px; color: #777; margin-bottom: 12px; }
-  .btn {
-    display: inline-block; padding: 10px 20px; border-radius: 8px;
-    text-decoration: none; font-weight: bold; font-size: 14px;
-    transition: all 0.2s; border: none; cursor: pointer;
-  }
-  .btn-primary { background: #009688; color: white; }
-  .btn-primary:hover { background: #00796b; }
-  .btn-secondary { background: #ff6f00; color: white; }
-  .btn-secondary:hover { background: #e65100; }
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
+  .feature { background: #e0f2f1; border-radius: 10px; padding: 14px; text-align: center; }
+  .feature span { font-size: 26px; }
+  .feature h4 { font-size: 13px; color: #333; margin-top: 4px; }
 
-  .videos { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 12px; margin-top: 15px; }
-  .video-card {
-    background: #f5f5f5; border-radius: 10px; padding: 15px;
-    display: flex; align-items: center; gap: 12px;
-    text-decoration: none; color: inherit; transition: background 0.2s;
+  .downloads { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .download-btn {
+    display: block; padding: 14px; border-radius: 12px; text-decoration: none;
+    font-weight: bold; text-align: center; transition: transform 0.2s;
   }
-  .video-card:hover { background: #e0f2f1; }
-  .video-card .thumb {
-    width: 50px; height: 50px; border-radius: 8px;
+  .download-btn:hover { transform: translateY(-2px); }
+  .download-btn .icon { font-size: 28px; }
+  .download-btn .label { font-size: 14px; }
+  .download-btn .sub-label { font-size: 12px; opacity: 0.8; }
+  .dl-apk { background: #009688; color: white; }
+  .dl-exe { background: #ff6f00; color: white; }
+
+  .video-list { display: flex; flex-direction: column; gap: 6px; }
+  .video-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; background: #f9f9f9;
+    border-radius: 10px; text-decoration: none; color: inherit;
+    transition: background 0.15s;
+  }
+  .video-item:hover { background: #e0f2f1; }
+  .video-item .num {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #009688; color: white;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: bold; flex-shrink: 0;
+  }
+  .video-item .play {
+    width: 36px; height: 36px; border-radius: 8px;
     background: #ff0000; display: flex; align-items: center; justify-content: center;
     flex-shrink: 0;
   }
-  .video-card .thumb span { color: white; font-size: 24px; }
-  .video-card .info h4 { font-size: 14px; color: #333; }
-  .video-card .info p { font-size: 12px; color: #777; }
+  .video-item .play span { color: white; font-size: 18px; }
+  .video-item .info { flex: 1; }
+  .video-item .info h4 { font-size: 14px; }
+  .video-item .info p { font-size: 12px; color: #888; }
 
-  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px; margin-top: 15px; }
-  .feature {
-    background: #e0f2f1; border-radius: 10px; padding: 15px; text-align: center;
+  .divider {
+    border: none; height: 1px; background: #e0e0e0; margin: 8px 0;
   }
-  .feature span { font-size: 28px; }
-  .feature h4 { font-size: 14px; color: #333; margin-top: 5px; }
 
   .footer { text-align: center; padding: 20px; color: #777; font-size: 13px; }
-  .footer a { color: #009688; text-decoration: none; }
-  .footer a:hover { text-decoration: underline; }
 
   @media (max-width: 600px) {
-    .header h1 { font-size: 22px; }
-    .cards { grid-template-columns: 1fr; }
+    .header h1 { font-size: 20px; }
+    .downloads { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -95,74 +113,183 @@
 
   <div class="header">
     <img src="assets/profile.jpeg" alt="مدرب السياقة سمير ابو قبيطة" onerror="this.style.display='none'">
-    <h1>🚗 امتحان التؤوريا النظري التجريبي</h1>
-    <p>مدرب السياقة <strong>سمير ابو قبيطة</strong></p>
+    <h1>🚗 مدرب السياقة سمير ابو قبيطة</h1>
+    <div class="sub">امتحان التؤوريا النظري التجريبي</div>
     <div class="phone">📞 0568444407</div>
   </div>
 
+  <a class="btn-start" href="build/web/index.html">
+    🖥️ ابدأ الامتحان الآن
+    <small>دون تحميل - يعمل مباشرة على المتصفح</small>
+  </a>
+
   <div class="section">
     <h2>📖 عن التطبيق</h2>
-    <p>
-      تطبيق امتحان التؤوريا النظري التجريبي يساعدك على التحضير لامتحان القيادة النظري في الكويت.
-      يحتوي على جميع أسئلة التؤوريا مقسمة حسب التصنيف (خصوصي، شحن خفيف، شامل عمومي، وغيرها)
-      مع خيارات عادي، استكمالي، وشفوي لكل تصنيف.
-    </p>
+    <p>تطبيق امتحان التؤوريا النظري التجريبي من إعداد <strong>مدرب السياقة سمير ابو قبيطة</strong> يساعدك على التحضير لامتحان القيادة النظري في الكويت. يحتوي على جميع أسئلة التؤوريا مقسمة حسب التصنيف (خصوصي، شحن خفيف، شامل عمومي، وغيرها) مع خيارات عادي، استكمالي، وشفوي لكل تصنيف.</p>
     <div class="features">
-      <div class="feature"><span>📋</span><h4>أكثر من 5000 سؤال</h4></div>
-      <div class="feature"><span>🖼️</span><h4>صور الإشارات مرفقة</h4></div>
-      <div class="feature"><span>⏱️</span><h4>مؤقت زمني 30 دقيقة</h4></div>
+      <div class="feature"><span>📋</span><h4>آلاف الأسئلة</h4></div>
+      <div class="feature"><span>🖼️</span><h4>صور الإشارات</h4></div>
+      <div class="feature"><span>⏱️</span><h4>مؤقت زمني</h4></div>
       <div class="feature"><span>📊</span><h4>مراجعة الأخطاء</h4></div>
-      <div class="feature"><span>📱</span><h4>يعمل بدون إنترنت</h4></div>
+      <div class="feature"><span>📱</span><h4>بدون إنترنت</h4></div>
     </div>
   </div>
 
   <div class="section">
     <h2>📥 تحميل التطبيق</h2>
-    <div class="cards">
-      <div class="card">
+    <div class="downloads">
+      <a class="download-btn dl-apk" href="build/app/outputs/flutter-apk/app-debug.apk" download>
         <div class="icon">📱</div>
-        <h3>نسخة أندرويد (APK)</h3>
-        <p>للجوالات والأجهزة اللوحية</p>
-        <a href="build/app/outputs/flutter-apk/app-debug.apk" class="btn btn-primary" download>⬇ تحميل APK</a>
-      </div>
-      <div class="card">
+        <div class="label">نسخة أندرويد APK</div>
+        <div class="sub-label">للجوالات والأجهزة اللوحية</div>
+      </a>
+      <a class="download-btn dl-exe" href="build/windows/x64/runner/Debug/teoria_test.exe" download>
         <div class="icon">💻</div>
-        <h3>نسخة ويندوز (EXE)</h3>
-        <p>للكمبيوتر واللابتوب</p>
-        <a href="build/windows/x64/runner/Debug/teoria_test.exe" class="btn btn-secondary" download>⬇ تحميل EXE</a>
-      </div>
+        <div class="label">نسخة ويندوز EXE</div>
+        <div class="sub-label">للكمبيوتر واللابتوب</div>
+      </a>
     </div>
   </div>
 
   <div class="section">
-    <h2>🎥 فيديوهات شرح التؤوريا</h2>
-    <div class="videos">
-      <a class="video-card" href="https://youtube.com/playlist?list=PL_EXAMPLE" target="_blank">
-        <div class="thumb"><span>▶</span></div>
-        <div class="info">
-          <h4>شرح كامل للتؤوريا</h4>
-          <p>جميع الإشارات والقوانين</p>
-        </div>
+    <h2>🎥 فيديوهات الشرح</h2>
+
+    <h3>🎓 الإشارات (بالترتيب)</h3>
+    <div class="video-list">
+      <a class="video-item" href="https://youtu.be/baGgU7C-J6s" target="_blank">
+        <div class="num">1</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء الأول</h4></div>
       </a>
-      <a class="video-card" href="https://youtube.com/playlist?list=PL_EXAMPLE2" target="_blank">
-        <div class="thumb"><span>▶</span></div>
-        <div class="info">
-          <h4>امتحانات تجريبية</h4>
-          <p>حل امتحانات كاملة</p>
-        </div>
+      <a class="video-item" href="https://youtu.be/cUwssN_eosw" target="_blank">
+        <div class="num">2</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء الثاني</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/DuZ1ApNXy_o" target="_blank">
+        <div class="num">3</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء الثالث (تحذير)</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/YXXMU6yS75o" target="_blank">
+        <div class="num">4</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء الرابع (إرشاد)</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/siETNGag3O4" target="_blank">
+        <div class="num">5</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء الخامس</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/3k2GiBH_ChQ" target="_blank">
+        <div class="num">6</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء السادس</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/yExOO3swZkY" target="_blank">
+        <div class="num">7</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء السابع</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/jvnGCZHw5BY" target="_blank">
+        <div class="num">8</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء الثامن</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/hFbSdrcrccs" target="_blank">
+        <div class="num">9</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء التاسع</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/qUsoP5FchxM" target="_blank">
+        <div class="num">10</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء العاشر</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/p1849SdvOPY" target="_blank">
+        <div class="num">11</div>
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>الجزء الحادي عشر</h4></div>
       </a>
     </div>
-    <p style="margin-top:12px;font-size:14px;color:#888;text-align:center;">
-      ⚠️ الرجاء استبدال روابط اليوتيوب بروابط قناتك أو فيديوهاتك
+
+    <hr class="divider">
+
+    <h3>📖 الدوسية</h3>
+    <div class="video-list">
+      <a class="video-item" href="https://youtu.be/9Ezf1P3LlxY" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>📘 الجزء الأول</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/DVISY_rAlII" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>📘 الجزء الثاني</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/YITC18yk2zg" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>🛑 الوقوف والتوقف</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/-5xhg4bJRtI" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>↔️ التجاوز والعبور</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/IFYBBlq0frc" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>⚖️ هرم الطاعة وحق الأولوية</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/iVf-7n1RNm8" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>🔄 الاستدارات</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/SSrZtJ4wxP0" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>🚗 معرفة المركبة (1)</h4></div>
+      </a>
+      <a class="video-item" href="https://youtu.be/TTkzV44FlEw" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>🚗 معرفة المركبة (2)</h4></div>
+      </a>
+    </div>
+
+    <hr class="divider">
+
+    <h3>📝 حل الأسئلة</h3>
+    <div class="video-list">
+      <a class="video-item" href="https://youtu.be/v_lo99ESNH0" target="_blank">
+        <div class="play"><span>▶</span></div>
+        <div class="info"><h4>📝 حل الأسئلة</h4></div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>🔍 الاستعلام عن النتائج</h2>
+    <p style="margin-bottom:12px;">للاستعلام عن نتائج امتحان التؤوريا النظري والعملي في فلسطين:</p>
+    <div class="downloads">
+      <a class="download-btn dl-apk" href="https://portal.mot.gov.ps/drive_exam_check.php" target="_blank" style="background:#1565c0;">
+        <div class="icon">📄</div>
+        <div class="label">نتائج التؤوريا النظري</div>
+        <div class="sub-label">وزارة النقل والمواصلات - فلسطين</div>
+      </a>
+      <a class="download-btn dl-exe" href="https://portal.mot.gov.ps/drive_exam_check.php" target="_blank" style="background:#1565c0;">
+        <div class="icon">🚗</div>
+        <div class="label">نتائج الامتحان العملي</div>
+        <div class="sub-label">وزارة النقل والمواصلات - فلسطين</div>
+      </a>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>📞 تواصل معي</h2>
+    <p style="text-align:center;font-size:16px;">
+      <strong>مدرب السياقة سمير ابو قبيطة</strong><br>
+      📞 0568444407<br>
+      🇰🇼 الكويت
     </p>
   </div>
 
   <div class="footer">
     <p>© جميع الحقوق محفوظة لـ <strong>مدرب السياقة سمير ابو قبيطة</strong></p>
-    <p>📞 0568444407</p>
-    <p style="margin-top:8px;font-size:12px;">
-      تم التطوير بواسطة <a href="https://github.com/anomalyco/opencode" target="_blank">OpenCode</a>
-    </p>
   </div>
 
 </div>
