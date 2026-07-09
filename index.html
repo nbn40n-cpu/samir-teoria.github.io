@@ -182,6 +182,98 @@
   }
 
   .hidden { display: none !important; }
+
+  /* Announcement bar */
+  .announcement-bar {
+    background: #fff3e0;
+    border: 2px solid #ff9800;
+    border-radius: 12px;
+    padding: 14px 18px;
+    margin-bottom: 18px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: #e65100;
+    display: none;
+  }
+  .announcement-bar.has-text { display: block; }
+  .announcement-bar .alabel {
+    font-weight: bold;
+    color: #e65100;
+    margin-left: 8px;
+    font-size: 13px;
+  }
+
+  /* Image Gallery */
+  .gallery-section { display: none; }
+  .gallery-section.has-images { display: block; }
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+  .gallery-item {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid #e0e0e0;
+    background: #fafafa;
+  }
+  .gallery-item img {
+    width: 100%;
+    height: 140px;
+    object-fit: cover;
+    display: block;
+  }
+  .gallery-item .gcap {
+    padding: 6px 10px;
+    font-size: 12px;
+    color: #555;
+    text-align: center;
+  }
+
+  /* Visitor counter */
+  .visitor-count {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: #e0f2f1;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #00796b;
+    direction: ltr;
+    margin-top: 8px;
+  }
+
+  /* Admin tabs */
+  .admin-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .admin-tab {
+    padding: 8px 14px; border-radius: 8px; border: none;
+    font-size: 13px; font-weight: bold; cursor: pointer;
+    background: #e0e0e0; color: #333; transition: all 0.15s;
+  }
+  .admin-tab.active { background: #009688; color: white; }
+  .admin-tab:hover { opacity: 0.8; }
+  .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .admin-table td { padding: 6px 8px; border-bottom: 1px solid #eee; }
+  .admin-table input[type=text] {
+    width: 100%; padding: 6px 10px; border: 1px solid #ddd;
+    border-radius: 6px; font-size: 13px; box-sizing: border-box;
+  }
+  .admin-table textarea {
+    width: 100%; padding: 8px 10px; border: 1px solid #ddd;
+    border-radius: 6px; font-size: 13px; box-sizing: border-box;
+    min-height: 80px; resize: vertical;
+  }
+  .admin-save-btn {
+    padding: 8px 20px; background: #009688; color: white;
+    border: none; border-radius: 8px; font-size: 13px;
+    font-weight: bold; cursor: pointer; margin-top: 8px;
+  }
+  .admin-save-btn:hover { opacity: 0.85; }
+  .admin-img-preview {
+    width: 60px; height: 60px; border-radius: 6px;
+    object-fit: cover; border: 1px solid #ddd;
+  }
 </style>
 </head>
 <body>
@@ -193,6 +285,16 @@
     <h1 id="mainTitle">🚗 مدرب السياقة سمير ابو قبيطة</h1>
     <div class="sub">امتحان التؤوريا النظري التجريبي</div>
     <div class="phone">📞 0568444407</div>
+  </div>
+
+  <div class="announcement-bar" id="announcementBar">
+    <span class="alabel">📢 إعلان:</span>
+    <span id="announcementText"></span>
+  </div>
+
+  <div class="section gallery-section" id="gallerySection">
+    <h2>📸 إعلانات</h2>
+    <div class="gallery-grid" id="galleryGrid"></div>
   </div>
 
   <div class="section" id="catsSection">
@@ -286,31 +388,124 @@
     adminTimer = setTimeout(() => { adminTaps = 0; }, adminTimeout);
     if (adminTaps >= adminTarget) {
       adminTaps = 0;
-      // Scroll to quiz area and show admin panel
-      const cats = document.getElementById('catGrid');
-      const firstBtn = cats.querySelector('.cat-btn');
-      if (firstBtn) firstBtn.scrollIntoView({ behavior: 'smooth' });
-      // Toggle debug info
       const existing = document.getElementById('adminPanel');
       if (existing) { existing.remove(); return; }
       const panel = document.createElement('div');
       panel.id = 'adminPanel';
-      panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:30px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:400px;width:90%;text-align:center;';
-      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><p style="margin-bottom:8px;font-size:14px;color:#666;">مرحباً بك يا سمير! 👋 اضغط على تصنيف لاستعراض الأسئلة:</p><div id="adminCats" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div><div id="adminContent" style="font-size:13px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div id="adminLoading" style="display:none;text-align:center;padding:20px;color:#888;">⏳ جاري التحميل...</div>';
+      panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:24px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:500px;width:92%;text-align:center;';
+      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الصور</button><button class="admin-tab" data-tab="announce">📢 الإعلان</button><button class="admin-tab" data-tab="stats">📊 الإحصائيات</button></div><div id="adminContent" style="font-size:13px;color:#555;max-height:400px;overflow-y:auto;text-align:right;"></div><div id="adminLoading" style="display:none;text-align:center;padding:20px;color:#888;">⏳ جاري التحميل...</div>';
       document.body.appendChild(panel);
-      const catsDiv = document.getElementById('adminCats');
-      for (const cat of CATEGORIES) {
-        const btn = document.createElement('div');
-        btn.style.cssText = 'padding:6px 12px;border-radius:8px;background:#e0f2f1;cursor:pointer;font-size:12px;transition:all 0.15s;border:1px solid #b2dfdb;';
-        btn.textContent = cat.icon + ' ' + cat.name;
-        btn.onmouseover = function() { this.style.background = '#009688'; this.style.color = 'white'; };
-        btn.onmouseout = function() { this.style.background = '#e0f2f1'; this.style.color = '#333'; };
-        btn.onclick = function() { adminLoadCategory(cat); };
-        catsDiv.appendChild(btn);
-      }
+      document.getElementById('adminTabs').addEventListener('click', function(e) {
+        const tab = e.target.closest('.admin-tab');
+        if (!tab) return;
+        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        adminSwitchTab(tab.dataset.tab);
+      });
+      adminSwitchTab('questions');
     }
   });
 })();
+
+function adminSwitchTab(tab) {
+  if (tab === 'questions') {
+    const content = document.getElementById('adminContent');
+    let html = '<p style="margin-bottom:10px;font-size:14px;color:#666;">مرحباً بك يا سمير! 👋</p><div id="adminCats" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div>';
+    content.innerHTML = html;
+    const catsDiv = document.getElementById('adminCats');
+    for (const cat of CATEGORIES) {
+      const btn = document.createElement('div');
+      btn.style.cssText = 'padding:6px 12px;border-radius:8px;background:#e0f2f1;cursor:pointer;font-size:12px;transition:all 0.15s;border:1px solid #b2dfdb;';
+      btn.textContent = cat.icon + ' ' + cat.name;
+      btn.onmouseover = function() { this.style.background = '#009688'; this.style.color = 'white'; };
+      btn.onmouseout = function() { this.style.background = '#e0f2f1'; this.style.color = '#333'; };
+      btn.onclick = function() { adminLoadCategory(cat); };
+      catsDiv.appendChild(btn);
+    }
+  } else if (tab === 'images') {
+    adminShowImages();
+  } else if (tab === 'announce') {
+    adminShowAnnounce();
+  } else if (tab === 'stats') {
+    adminShowStats();
+  }
+}
+
+function adminShowImages() {
+  const content = document.getElementById('adminContent');
+  const images = JSON.parse(localStorage.getItem('admin_images') || '["","","","",""]');
+  let html = '<p style="font-size:14px;color:#666;margin-bottom:10px;">أضف روابط الصور الإعلانية (5 صور كحد أقصى):</p>';
+  html += '<table class="admin-table">';
+  for (let i = 0; i < 5; i++) {
+    html += '<tr><td style="width:40px;color:#888;font-weight:bold;">' + (i+1) + '</td>';
+    html += '<td><input type="text" id="imgUrl' + i + '" value="' + (images[i] || '') + '" placeholder="رابط الصورة ' + (i+1) + '"></td>';
+    html += '<td style="width:70px;text-align:center;">';
+    if (images[i]) {
+      html += '<img src="' + images[i] + '" class="admin-img-preview" onerror="this.outerHTML=\'<span style=color:#c62828;font-size:11px;>❌</span>\'">';
+    }
+    html += '</td></tr>';
+  }
+  html += '</table>';
+  html += '<button class="admin-save-btn" onclick="adminSaveImages()">💾 حفظ الصور</button>';
+  html += '<div id="imgStatus" style="margin-top:6px;font-size:12px;color:#888;"></div>';
+  content.innerHTML = html;
+}
+
+function adminSaveImages() {
+  const images = [];
+  for (let i = 0; i < 5; i++) {
+    const url = document.getElementById('imgUrl' + i).value.trim();
+    images.push(url);
+  }
+  localStorage.setItem('admin_images', JSON.stringify(images));
+  document.getElementById('imgStatus').textContent = '✅ تم حفظ الصور بنجاح!';
+  loadGalleryImages();
+}
+
+function adminShowAnnounce() {
+  const content = document.getElementById('adminContent');
+  const text = localStorage.getItem('admin_announcement') || '';
+  let html = '<p style="font-size:14px;color:#666;margin-bottom:10px;">اكتب الإعلان أو النشرة التي تريد إظهارها للزوار:</p>';
+  html += '<textarea id="announceText" placeholder="اكتب الإعلان هنا...">' + text + '</textarea>';
+  html += '<div><button class="admin-save-btn" onclick="adminSaveAnnounce()">💾 حفظ الإعلان</button>';
+  html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminClearAnnounce()">🗑️ حذف الإعلان</button></div>';
+  html += '<div id="announceStatus" style="margin-top:6px;font-size:12px;color:#888;"></div>';
+  content.innerHTML = html;
+}
+
+function adminSaveAnnounce() {
+  const text = document.getElementById('announceText').value.trim();
+  localStorage.setItem('admin_announcement', text);
+  document.getElementById('announceStatus').textContent = '✅ تم حفظ الإعلان!';
+  loadAnnouncement();
+}
+
+function adminClearAnnounce() {
+  localStorage.setItem('admin_announcement', '');
+  document.getElementById('announceText').value = '';
+  document.getElementById('announceStatus').textContent = '🗑️ تم حذف الإعلان';
+  loadAnnouncement();
+}
+
+function adminShowStats() {
+  const content = document.getElementById('adminContent');
+  let visits = parseInt(localStorage.getItem('visit_count_local') || '1');
+  let lastVisit = localStorage.getItem('last_visit_date') || 'غير متوفر';
+  let html = '<p style="font-size:14px;color:#666;margin-bottom:12px;">إحصائيات الموقع:</p>';
+  html += '<div style="background:#f9f9f9;padding:16px;border-radius:10px;text-align:center;">';
+  html += '<div id="globalCount" style="font-size:36px;font-weight:bold;color:#009688;">⏳</div>';
+  html += '<div style="font-size:13px;color:#888;margin-top:4px;">إجمالي زوار الموقع</div>';
+  html += '</div>';
+  html += '<div style="margin-top:12px;background:#f0f0f0;padding:12px;border-radius:8px;text-align:center;">';
+  html += '<div style="font-size:14px;color:#555;">عدد زياراتك الشخصية: <strong>' + visits + '</strong></div>';
+  html += '<div style="font-size:12px;color:#999;margin-top:4px;">آخر زيارة: ' + lastVisit + '</div>';
+  html += '</div>';
+  content.innerHTML = html;
+  fetch('https://api.countapi.xyz/get/samir-teoria/visitors')
+    .then(r => r.json())
+    .then(d => { document.getElementById('globalCount').textContent = d.value; })
+    .catch(() => { document.getElementById('globalCount').textContent = visits; });
+}
 
 // Quiz configuration
 const CATEGORIES = [
@@ -911,9 +1106,51 @@ function adminShowGroup(gi) {
   content.innerHTML = html;
 }
 
+// Load gallery images from localStorage
+function loadGalleryImages() {
+  const section = document.getElementById('gallerySection');
+  const grid = document.getElementById('galleryGrid');
+  const images = JSON.parse(localStorage.getItem('admin_images') || '["","","","",""]');
+  const valid = images.filter(u => u && u.trim());
+  if (valid.length === 0) {
+    section.classList.remove('has-images');
+    return;
+  }
+  section.classList.add('has-images');
+  grid.innerHTML = valid.map(url =>
+    '<div class="gallery-item"><img src="' + url + '" alt="إعلان" onerror="this.parentElement.style.display=\'none\'"></div>'
+  ).join('');
+}
+
+// Load announcement from localStorage
+function loadAnnouncement() {
+  const bar = document.getElementById('announcementBar');
+  const text = document.getElementById('announcementText');
+  const val = localStorage.getItem('admin_announcement') || '';
+  if (val.trim()) {
+    text.textContent = val;
+    bar.classList.add('has-text');
+  } else {
+    bar.classList.remove('has-text');
+  }
+}
+
+// Track visits
+function trackVisit() {
+  let count = parseInt(localStorage.getItem('visit_count_local') || '0');
+  count++;
+  localStorage.setItem('visit_count_local', count.toString());
+  localStorage.setItem('last_visit_date', new Date().toLocaleDateString('ar-PS'));
+  fetch('https://api.countapi.xyz/create?namespace=samir-teoria&key=visitors&value=0').catch(()=>{});
+  fetch('https://api.countapi.xyz/hit/samir-teoria/visitors').catch(()=>{});
+}
+
 // Init
 loadSignMap();
 initCategories();
+loadGalleryImages();
+loadAnnouncement();
+trackVisit();
 </script>
 
 </body>
