@@ -33,43 +33,91 @@
     border: 4px solid white; margin-bottom: 15px;
     object-fit: cover;
   }
-  .header h1 { font-size: 26px; margin-bottom: 5px; }
+  .header h1 { font-size: 26px; margin-bottom: 5px; cursor: default; }
   .header .sub { font-size: 15px; opacity: 0.9; margin-bottom: 10px; }
   .header .phone { font-size: 18px; direction: ltr; display: inline-block; }
-
-  .btn-start {
-    display: block; width: 100%; padding: 18px;
-    background: #ff6f00; color: white; border: none; border-radius: 14px;
-    font-size: 22px; font-weight: bold; cursor: pointer;
-    text-decoration: none; text-align: center;
-    box-shadow: 0 6px 20px rgba(255,111,0,0.4);
-    transition: transform 0.2s;
-    margin-bottom: 20px;
-  }
-  .btn-start:hover { transform: scale(1.02); }
-  .btn-start small { display: block; font-size: 13px; font-weight: normal; opacity: 0.8; }
 
   .section { background: white; border-radius: 16px; padding: 25px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
   .section h2 { color: #009688; font-size: 20px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
   .section h3 { font-size: 17px; color: #00796b; margin: 15px 0 10px; display: flex; align-items: center; gap: 8px; }
   .section p { line-height: 1.8; font-size: 15px; color: #555; }
 
-  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 10px; }
-  .feature { background: #e0f2f1; border-radius: 10px; padding: 14px; text-align: center; }
-  .feature span { font-size: 26px; }
-  .feature h4 { font-size: 13px; color: #333; margin-top: 4px; }
-
-  .downloads { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-  .download-btn {
-    display: block; padding: 14px; border-radius: 12px; text-decoration: none;
-    font-weight: bold; text-align: center; transition: transform 0.2s;
+  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+  .cat-btn {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: 16px 10px; border-radius: 12px; border: 2px solid #e0e0e0;
+    background: #f9f9f9; cursor: pointer; transition: all 0.2s;
+    font-size: 14px; font-weight: bold; color: #333; text-align: center; gap: 6px;
   }
-  .download-btn:hover { transform: translateY(-2px); }
-  .download-btn .icon { font-size: 28px; }
-  .download-btn .label { font-size: 14px; }
-  .download-btn .sub-label { font-size: 12px; opacity: 0.8; }
-  .dl-apk { background: #009688; color: white; }
-  .dl-exe { background: #ff6f00; color: white; }
+  .cat-btn:hover { border-color: #009688; background: #e0f2f1; transform: translateY(-2px); }
+  .cat-btn .icon { font-size: 28px; }
+  .cat-btn.loading { opacity: 0.6; pointer-events: none; }
+
+  .quiz-section { display: none; }
+  .quiz-section.active { display: block; }
+
+  .group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 10px; }
+  .group-btn {
+    padding: 12px; border-radius: 10px; border: 1px solid #b2dfdb;
+    background: #e0f2f1; cursor: pointer; text-align: center;
+    font-size: 14px; font-weight: bold; transition: all 0.2s;
+  }
+  .group-btn:hover { background: #009688; color: white; }
+
+  .question-card { margin-top: 12px; }
+  .q-header { font-size: 18px; font-weight: bold; color: #00796b; margin-bottom: 12px; }
+  .q-text { font-size: 16px; line-height: 1.8; margin-bottom: 12px; }
+  .q-image { margin-bottom: 12px; }
+  .q-image img { max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #e0e0e0; }
+  .sign-inline { display: inline; }
+  .sign-inline img { height: 28px; vertical-align: middle; margin: 0 2px; border-radius: 3px; }
+
+  .options { display: flex; flex-direction: column; gap: 8px; }
+  .option {
+    display: flex; align-items: center; gap: 10px;
+    padding: 12px 16px; border-radius: 10px;
+    border: 2px solid #e0e0e0; cursor: pointer;
+    transition: all 0.15s; font-size: 15px; line-height: 1.6;
+  }
+  .option:hover { border-color: #009688; background: #f5f5f5; }
+  .option.selected { border-color: #009688; background: #e0f2f1; }
+  .option.correct { border-color: #2e7d32; background: #c8e6c9; }
+  .option.wrong { border-color: #c62828; background: #ffcdd2; }
+  .option .letter {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #e0e0e0; display: flex; align-items: center; justify-content: center;
+    font-weight: bold; font-size: 13px; flex-shrink: 0;
+  }
+  .option.selected .letter { background: #009688; color: white; }
+  .option.correct .letter { background: #2e7d32; color: white; }
+  .option.wrong .letter { background: #c62828; color: white; }
+  .option .sign-inline img { height: 22px; }
+
+  .q-nav { display: flex; justify-content: space-between; margin-top: 16px; gap: 8px; }
+  .q-nav button {
+    padding: 10px 24px; border-radius: 10px; border: none;
+    font-size: 15px; font-weight: bold; cursor: pointer; transition: all 0.2s;
+  }
+  .q-nav .prev { background: #e0e0e0; color: #333; }
+  .q-nav .next { background: #009688; color: white; }
+  .q-nav .submit { background: #ff6f00; color: white; }
+  .q-nav button:disabled { opacity: 0.4; cursor: default; }
+  .q-nav button:hover:not(:disabled) { transform: scale(1.03); }
+
+  .q-counter { text-align: center; font-size: 13px; color: #888; margin-top: 8px; }
+
+  .result-card { text-align: center; padding: 30px; }
+  .result-card .score { font-size: 64px; font-weight: bold; color: #009688; }
+  .result-card .score.fail { color: #c62828; }
+  .result-card .detail { font-size: 16px; color: #555; margin: 8px 0; }
+  .result-card .status { font-size: 20px; font-weight: bold; margin: 12px 0; }
+  .result-card .status.pass { color: #2e7d32; }
+  .result-card .status.fail { color: #c62828; }
+  .result-card .back-btn {
+    display: inline-block; padding: 12px 32px; background: #009688; color: white;
+    border: none; border-radius: 10px; font-size: 16px; font-weight: bold;
+    cursor: pointer; text-decoration: none; margin-top: 16px;
+  }
 
   .video-list { display: flex; flex-direction: column; gap: 6px; }
   .video-item {
@@ -95,186 +143,115 @@
   .video-item .info h4 { font-size: 14px; }
   .video-item .info p { font-size: 12px; color: #888; }
 
-  .divider {
-    border: none; height: 1px; background: #e0e0e0; margin: 8px 0;
-  }
-
+  .divider { border: none; height: 1px; background: #e0e0e0; margin: 8px 0; }
   .footer { text-align: center; padding: 20px; color: #777; font-size: 13px; }
+
+  .loading-spinner { text-align: center; padding: 40px; color: #888; font-size: 16px; }
+
+  .progress-bar {
+    display: flex; gap: 4px; margin-bottom: 16px; justify-content: center;
+    flex-wrap: wrap;
+  }
+  .progress-dot {
+    width: 20px; height: 20px; border-radius: 50%;
+    background: #e0e0e0; border: none; cursor: pointer;
+    font-size: 10px; font-weight: bold; color: #999;
+    display: flex; align-items: center; justify-content: center;
+    transition: all 0.15s;
+  }
+  .progress-dot.active { background: #009688; color: white; }
+  .progress-dot.answered { background: #80cbc4; color: white; }
+  .progress-dot.correct { background: #2e7d32; color: white; }
+  .progress-dot.wrong { background: #c62828; color: white; }
+
+  .loading-msg { text-align: center; padding: 20px; color: #888; }
+  .error-msg { text-align: center; padding: 20px; color: #c62828; }
+
+  .review-card { border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; margin-bottom: 10px; }
+  .review-card .r-q { font-weight: bold; color: #00796b; margin-bottom: 6px; }
+  .review-card .r-your { color: #2e7d32; }
+  .review-card .r-your.wrong { color: #c62828; }
+  .review-card .r-correct { color: #2e7d32; }
 
   @media (max-width: 600px) {
     .header h1 { font-size: 20px; }
-    .downloads { grid-template-columns: 1fr; }
+    .cat-grid { grid-template-columns: repeat(2, 1fr); }
+    .group-grid { grid-template-columns: repeat(2, 1fr); }
+    .q-nav button { padding: 10px 16px; font-size: 13px; }
   }
+
+  .hidden { display: none !important; }
 </style>
 </head>
 <body>
 
 <div class="container">
 
-  <div class="header">
+  <div class="header" id="mainHeader">
     <img src="assets/profile.jpeg" alt="مدرب السياقة سمير ابو قبيطة" onerror="this.style.display='none'">
-    <h1>🚗 مدرب السياقة سمير ابو قبيطة</h1>
+    <h1 id="mainTitle">🚗 مدرب السياقة سمير ابو قبيطة</h1>
     <div class="sub">امتحان التؤوريا النظري التجريبي</div>
     <div class="phone">📞 0568444407</div>
   </div>
 
-  <a class="btn-start" href="build/web/index.html">
-    🖥️ ابدأ الامتحان الآن
-    <small>دون تحميل - يعمل مباشرة على المتصفح</small>
-  </a>
-
-  <div class="section">
-    <h2>📖 عن التطبيق</h2>
-    <p>تطبيق امتحان التؤوريا النظري التجريبي من إعداد <strong>مدرب السياقة سمير ابو قبيطة</strong> يساعدك على التحضير لامتحان القيادة النظري في فلسطين. يحتوي على جميع أسئلة التؤوريا مقسمة حسب التصنيف (خصوصي، شحن خفيف، شامل عمومي، وغيرها) مع خيارات عادي، استكمالي، وشفوي لكل تصنيف.</p>
-    <div class="features">
-      <div class="feature"><span>📋</span><h4>آلاف الأسئلة</h4></div>
-      <div class="feature"><span>🖼️</span><h4>صور الإشارات</h4></div>
-      <div class="feature"><span>⏱️</span><h4>مؤقت زمني</h4></div>
-      <div class="feature"><span>📊</span><h4>مراجعة الأخطاء</h4></div>
-      <div class="feature"><span>📱</span><h4>بدون إنترنت</h4></div>
-    </div>
+  <div class="section" id="catsSection">
+    <h2>📋 اختر تصنيف الأسئلة</h2>
+    <p style="margin-bottom:12px;">اختر التصنيف المناسب لبدء الامتحان التجريبي:</p>
+    <div class="cat-grid" id="catGrid"></div>
   </div>
 
-  <div class="section">
-    <h2>📥 تحميل التطبيق</h2>
-    <div class="downloads">
-      <a class="download-btn dl-apk" href="build/app/outputs/flutter-apk/app-debug.apk" download>
-        <div class="icon">📱</div>
-        <div class="label">نسخة أندرويد APK</div>
-        <div class="sub-label">للجوالات والأجهزة اللوحية</div>
-      </a>
-      <a class="download-btn dl-exe" href="build/windows/x64/runner/Debug/teoria_test.exe" download>
-        <div class="icon">💻</div>
-        <div class="label">نسخة ويندوز EXE</div>
-        <div class="sub-label">للكمبيوتر واللابتوب</div>
-      </a>
-    </div>
+  <div class="section quiz-section" id="quizSection">
+    <div id="quizArea"></div>
   </div>
 
   <div class="section">
     <h2>🎥 فيديوهات الشرح</h2>
-
     <h3>🎓 الإشارات (بالترتيب)</h3>
     <div class="video-list">
-      <a class="video-item" href="https://youtu.be/baGgU7C-J6s" target="_blank">
-        <div class="num">1</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء الأول</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/cUwssN_eosw" target="_blank">
-        <div class="num">2</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء الثاني</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/DuZ1ApNXy_o" target="_blank">
-        <div class="num">3</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء الثالث (تحذير)</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/YXXMU6yS75o" target="_blank">
-        <div class="num">4</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء الرابع (إرشاد)</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/siETNGag3O4" target="_blank">
-        <div class="num">5</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء الخامس</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/3k2GiBH_ChQ" target="_blank">
-        <div class="num">6</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء السادس</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/yExOO3swZkY" target="_blank">
-        <div class="num">7</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء السابع</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/jvnGCZHw5BY" target="_blank">
-        <div class="num">8</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء الثامن</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/hFbSdrcrccs" target="_blank">
-        <div class="num">9</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء التاسع</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/qUsoP5FchxM" target="_blank">
-        <div class="num">10</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء العاشر</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/p1849SdvOPY" target="_blank">
-        <div class="num">11</div>
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>الجزء الحادي عشر</h4></div>
-      </a>
+      <a class="video-item" href="https://youtu.be/baGgU7C-J6s" target="_blank"><div class="num">1</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الأول</h4></div></a>
+      <a class="video-item" href="https://youtu.be/cUwssN_eosw" target="_blank"><div class="num">2</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثاني</h4></div></a>
+      <a class="video-item" href="https://youtu.be/DuZ1ApNXy_o" target="_blank"><div class="num">3</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثالث (تحذير)</h4></div></a>
+      <a class="video-item" href="https://youtu.be/YXXMU6yS75o" target="_blank"><div class="num">4</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الرابع (إرشاد)</h4></div></a>
+      <a class="video-item" href="https://youtu.be/siETNGag3O4" target="_blank"><div class="num">5</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الخامس</h4></div></a>
+      <a class="video-item" href="https://youtu.be/3k2GiBH_ChQ" target="_blank"><div class="num">6</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء السادس</h4></div></a>
+      <a class="video-item" href="https://youtu.be/yExOO3swZkY" target="_blank"><div class="num">7</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء السابع</h4></div></a>
+      <a class="video-item" href="https://youtu.be/jvnGCZHw5BY" target="_blank"><div class="num">8</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثامن</h4></div></a>
+      <a class="video-item" href="https://youtu.be/hFbSdrcrccs" target="_blank"><div class="num">9</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء التاسع</h4></div></a>
+      <a class="video-item" href="https://youtu.be/qUsoP5FchxM" target="_blank"><div class="num">10</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء العاشر</h4></div></a>
+      <a class="video-item" href="https://youtu.be/p1849SdvOPY" target="_blank"><div class="num">11</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الحادي عشر</h4></div></a>
     </div>
-
     <hr class="divider">
-
     <h3>📖 الدوسية</h3>
     <div class="video-list">
-      <a class="video-item" href="https://youtu.be/9Ezf1P3LlxY" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>📘 الجزء الأول</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/DVISY_rAlII" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>📘 الجزء الثاني</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/YITC18yk2zg" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>🛑 الوقوف والتوقف</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/-5xhg4bJRtI" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>↔️ التجاوز والعبور</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/IFYBBlq0frc" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>⚖️ هرم الطاعة وحق الأولوية</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/iVf-7n1RNm8" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>🔄 الاستدارات</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/SSrZtJ4wxP0" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>🚗 معرفة المركبة (1)</h4></div>
-      </a>
-      <a class="video-item" href="https://youtu.be/TTkzV44FlEw" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>🚗 معرفة المركبة (2)</h4></div>
-      </a>
+      <a class="video-item" href="https://youtu.be/9Ezf1P3LlxY" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📘 الجزء الأول</h4></div></a>
+      <a class="video-item" href="https://youtu.be/DVISY_rAlII" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📘 الجزء الثاني</h4></div></a>
+      <a class="video-item" href="https://youtu.be/YITC18yk2zg" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🛑 الوقوف والتوقف</h4></div></a>
+      <a class="video-item" href="https://youtu.be/-5xhg4bJRtI" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>↔️ التجاوز والعبور</h4></div></a>
+      <a class="video-item" href="https://youtu.be/IFYBBlq0frc" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>⚖️ هرم الطاعة وحق الأولوية</h4></div></a>
+      <a class="video-item" href="https://youtu.be/iVf-7n1RNm8" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🔄 الاستدارات</h4></div></a>
+      <a class="video-item" href="https://youtu.be/SSrZtJ4wxP0" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🚗 معرفة المركبة (1)</h4></div></a>
+      <a class="video-item" href="https://youtu.be/TTkzV44FlEw" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🚗 معرفة المركبة (2)</h4></div></a>
     </div>
-
     <hr class="divider">
-
     <h3>📝 حل الأسئلة</h3>
     <div class="video-list">
-      <a class="video-item" href="https://youtu.be/v_lo99ESNH0" target="_blank">
-        <div class="play"><span>▶</span></div>
-        <div class="info"><h4>📝 حل الأسئلة</h4></div>
-      </a>
+      <a class="video-item" href="https://youtu.be/v_lo99ESNH0" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📝 حل الأسئلة</h4></div></a>
     </div>
   </div>
 
   <div class="section">
     <h2>🔍 الاستعلام عن النتائج</h2>
     <p style="margin-bottom:12px;">للاستعلام عن نتائج امتحان التؤوريا النظري والعملي في فلسطين:</p>
-    <div class="downloads">
-      <a class="download-btn dl-apk" href="https://www.mot.gov.ps/theoretical-exam" target="_blank" style="background:#1565c0;">
-        <div class="icon">📄</div>
-        <div class="label">نتائج التؤوريا النظري</div>
-        <div class="sub-label">وزارة النقل والمواصلات - فلسطين</div>
+    <div class="downloads" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+      <a class="download-btn" href="https://www.mot.gov.ps/theoretical-exam" target="_blank" style="display:block;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;text-align:center;background:#1565c0;color:white;">
+        <div style="font-size:28px;">📄</div>
+        <div style="font-size:14px;">نتائج التؤوريا النظري</div>
+        <div style="font-size:12px;opacity:0.8;">وزارة النقل والمواصلات - فلسطين</div>
       </a>
-      <a class="download-btn dl-exe" href="https://www.mot.gov.ps/practical-exam" target="_blank" style="background:#1565c0;">
-        <div class="icon">🚗</div>
-        <div class="label">نتائج الامتحان العملي</div>
-        <div class="sub-label">وزارة النقل والمواصلات - فلسطين</div>
+      <a class="download-btn" href="https://www.mot.gov.ps/practical-exam" target="_blank" style="display:block;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;text-align:center;background:#1565c0;color:white;">
+        <div style="font-size:28px;">🚗</div>
+        <div style="font-size:14px;">نتائج الامتحان العملي</div>
+        <div style="font-size:12px;opacity:0.8;">وزارة النقل والمواصلات - فلسطين</div>
       </a>
     </div>
   </div>
@@ -282,7 +259,7 @@
   <div class="section">
     <h2>📞 تواصل معي</h2>
     <p style="text-align:center;font-size:16px;">
-      <strong>مدرب السياقة سمير ابو قبيطة</strong><br>
+      <strong id="contactName">مدرب السياقة سمير ابو قبيطة</strong><br>
       📞 0568444407<br>
       🇵🇸 فلسطين
     </p>
@@ -293,6 +270,519 @@
   </div>
 
 </div>
+
+<script>
+// Admin tap counter
+(function() {
+  let adminTaps = 0;
+  let adminTimer = null;
+  const adminTarget = 15;
+  const adminTimeout = 5000;
+
+  document.getElementById('mainTitle').addEventListener('click', function() {
+    adminTaps++;
+    if (adminTimer) clearTimeout(adminTimer);
+    adminTimer = setTimeout(() => { adminTaps = 0; }, adminTimeout);
+    if (adminTaps >= adminTarget) {
+      adminTaps = 0;
+      // Scroll to quiz area and show admin panel
+      const cats = document.getElementById('catGrid');
+      const firstBtn = cats.querySelector('.cat-btn');
+      if (firstBtn) firstBtn.scrollIntoView({ behavior: 'smooth' });
+      // Toggle debug info
+      const existing = document.getElementById('adminPanel');
+      if (existing) { existing.remove(); return; }
+      const panel = document.createElement('div');
+      panel.id = 'adminPanel';
+      panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:30px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:400px;width:90%;text-align:center;';
+      panel.innerHTML = '<h3 style="color:#009688;margin-bottom:12px;">🔧 لوحة الإدارة</h3><p style="margin-bottom:12px;">مرحباً بك يا سمير! 👋</p><p style="margin-bottom:8px;font-size:14px;color:#666;">لمحة سريعة عن الأسئلة المحملة:</p><div id="adminStats" style="font-size:13px;color:#555;margin-bottom:16px;"></div><button onclick="this.parentElement.remove()" style="padding:8px 24px;border:none;border-radius:8px;background:#009688;color:white;font-size:14px;cursor:pointer;">إغلاق</button>';
+      document.body.appendChild(panel);
+      const stats = document.getElementById('adminStats');
+      if (window.quizData && window.quizData.loadedQuestions) {
+        stats.innerHTML = `عدد الأسئلة المحملة: ${window.quizData.loadedQuestions}<br>عدد التصنيفات: ${window.quizData.loadedCategories}`;
+      } else {
+        stats.textContent = 'لم يتم تحميل أي أسئلة بعد. اختر تصنيفاً لبدء التحميل.';
+      }
+    }
+  });
+})();
+
+// Quiz configuration
+const CATEGORIES = [
+  { file: 'alkhososi', name: '🚗 خصوصي', icon: '🚗' },
+  { file: 'alshahn_alkhafif', name: '🚚 شحن خفيف', icon: '🚚' },
+  { file: 'alshamel_omomi', name: '🚐 شامل عمومي', icon: '🚐' },
+  { file: 'alshamel_shahn_thaqeel', name: '🚛 شحن ثقيل', icon: '🚛' },
+  { file: 'altractor', name: '🚜 تراكتور', icon: '🚜' },
+  { file: 'aldaraja_elnaria', name: '🏍️ دراجة نارية', icon: '🏍️' },
+  { file: 'alenjlezia', name: '🔤 الإنجليزية', icon: '🔤' },
+  { file: 'tadreb_seaqa', name: '🎓 تدريب سياقة', icon: '🎓' },
+  { file: 'qabol_omomi', name: '📋 قبول عمومي', icon: '📋' },
+];
+
+const BASE = 'build/web/assets/assets';
+const Q_DIR = BASE + '/questions';
+const S_DIR = BASE + '/signs';
+
+let signMap = {};
+let currentQuestions = [];
+let userAnswers = {};
+let currentIdx = 0;
+let isReviewMode = false;
+let catFileName = '';
+let quizPassScore = 25;
+let quizTotalQ = 30;
+
+// Load sign map
+async function loadSignMap() {
+  try {
+    const res = await fetch(BASE + '/signs/sign_map.json');
+    signMap = await res.json();
+  } catch(e) {
+    // If sign map fails, just continue without it
+  }
+}
+
+function getSignUrl(code) {
+  const num = signMap[code];
+  if (!num) return null;
+  const padded = String(num).padStart(3, '0');
+  return S_DIR + '/' + padded + '.jpg';
+}
+
+function renderSign(code) {
+  const url = getSignUrl(code);
+  if (!url) return code;
+  return '<img src="' + url + '" alt="' + code + '" style="height:40px;vertical-align:middle;border-radius:4px;border:1px solid #ddd;" onerror="this.outerHTML=\'[' + code + ']\'">';
+}
+
+function replaceSigns(text) {
+  return text.replace(/\[SIG:(\w+)\]/g, function(m, code) {
+    const url = getSignUrl(code);
+    if (!url) return '[الإشارة: ' + code + ']';
+    return '<span class="sign-inline"><img src="' + url + '" alt="' + code + '" onerror="this.outerHTML=\'[' + code + ']\'"></span>';
+  });
+}
+
+function replaceImageCodes(text) {
+  return text.replace(/\[صورة:\s*([^\]]+)\]/g, function(m, codes) {
+    return codes.split(',').map(function(c) {
+      c = c.trim();
+      if (!c) return '';
+      const url = getSignUrl(c);
+      if (!url) return '[' + c + ']';
+      return '<br><img src="' + url + '" alt="' + c + '" style="max-width:200px;max-height:200px;border-radius:8px;border:2px solid #e0e0e0;margin:6px 0;" onerror="this.outerHTML=\'[' + c + ']\'">';
+    }).join('');
+  });
+}
+
+// Parse question file
+function parseQuestions(content) {
+  const lines = content.split('\n');
+  const sections = [];
+  let currentSection = null;
+
+  for (let i = 0; i < lines.length; i++) {
+    const line = lines[i];
+    const secMatch = line.match(/القسم:\s*(.+)/);
+    if (secMatch) {
+      if (currentSection) sections.push(currentSection);
+      currentSection = {
+        name: secMatch[1].trim(),
+        passScore: 25,
+        totalQuestions: 30,
+        groups: [],
+        lines: []
+      };
+      continue;
+    }
+    const passMatch = line.match(/درجة النجاح:\s*(\d+)\/(\d+)/);
+    if (passMatch && currentSection) {
+      currentSection.passScore = parseInt(passMatch[1]);
+      currentSection.totalQuestions = parseInt(passMatch[2]);
+    }
+    if (currentSection) {
+      currentSection.lines.push(line);
+    }
+  }
+  if (currentSection) sections.push(currentSection);
+
+  // Parse groups from each section
+  const allGroups = [];
+  for (const sec of sections) {
+    let groups = [];
+    let currentGroup = null;
+
+    for (const line of sec.lines) {
+      const gm = line.match(/\[\s*مجموعة\s+(\d+)/);
+      if (gm) {
+        if (currentGroup) groups.push(currentGroup);
+        currentGroup = { number: parseInt(gm[1]), lines: [] };
+        continue;
+      }
+      if (currentGroup) currentGroup.lines.push(line);
+    }
+    if (currentGroup) groups.push(currentGroup);
+
+    if (groups.length === 0) {
+      groups = [{ number: 1, lines: sec.lines }];
+    }
+
+    for (const g of groups) {
+      const questions = parseQuestionsFromLines(g.lines);
+      if (questions.length > 0) {
+        allGroups.push({
+          sectionName: sec.name,
+          passScore: sec.passScore,
+          totalQuestions: sec.totalQuestions,
+          groupNumber: g.number,
+          questions: questions
+        });
+      }
+    }
+  }
+
+  return allGroups;
+}
+
+function parseQuestionsFromLines(lines) {
+  const questions = [];
+  let current = null;
+
+  function finalize() {
+    if (!current || current.text === '' || current.answers.length === 0) return;
+    questions.push({
+      number: current.number,
+      text: current.text,
+      imageCodes: current.imageCodes,
+      answers: current.answers
+    });
+  }
+
+  for (const line of lines) {
+    const qm = line.trim().match(/سؤال (\d+):\s*(.*)/);
+    if (qm) {
+      finalize();
+      current = {
+        number: parseInt(qm[1]),
+        text: qm[2].trim(),
+        imageCodes: [],
+        answers: []
+      };
+      continue;
+    }
+    if (!current) continue;
+
+    const imgMatch = line.match(/\[صورة:\s*(.+?)\]/);
+    if (imgMatch) {
+      const codes = imgMatch[1].split(',').map(c => c.trim()).filter(c => c);
+      current.imageCodes.push(...codes);
+      continue;
+    }
+
+    const am = line.trim().match(/^[أ-د]\)/);
+    if (am) {
+      const isCorrect = line.indexOf('✓') !== -1;
+      let clean = line.trim().replace('✓', '').trim();
+      const letterMatch = clean.match(/^[أ-د]\)\s*/);
+      if (letterMatch) clean = clean.substring(letterMatch[0].length);
+      let sigCode = null;
+      const sigMatch = clean.match(/\[SIG:(\w+)\]/);
+      if (sigMatch) sigCode = sigMatch[1];
+      current.answers.push({
+        text: clean,
+        isCorrect: isCorrect,
+        signCode: sigCode
+      });
+    }
+  }
+  finalize();
+
+  return questions;
+}
+
+// UI
+function initCategories() {
+  const grid = document.getElementById('catGrid');
+  grid.innerHTML = '';
+  for (const cat of CATEGORIES) {
+    const btn = document.createElement('div');
+    btn.className = 'cat-btn';
+    btn.innerHTML = '<span class="icon">' + cat.icon + '</span><span>' + cat.name + '</span>';
+    btn.addEventListener('click', function() { loadCategory(cat); });
+    grid.appendChild(btn);
+  }
+}
+
+async function loadCategory(cat) {
+  const grid = document.getElementById('catGrid');
+  const buttons = grid.querySelectorAll('.cat-btn');
+  for (const b of buttons) b.classList.add('loading');
+
+  const quizArea = document.getElementById('quizArea');
+  quizArea.innerHTML = '<div class="loading-msg">⏳ جاري تحميل الأسئلة...</div>';
+  document.getElementById('quizSection').classList.add('active');
+  document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
+
+  try {
+    const url = Q_DIR + '/' + cat.file + '.txt';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('فشل تحميل الملف');
+    const content = await res.text();
+    const groups = parseQuestions(content);
+    catFileName = cat.file;
+
+    // Track stats
+    let totalQs = 0;
+    for (const g of groups) totalQs += g.questions.length;
+    window.quizData = {
+      loadedQuestions: totalQs,
+      loadedCategories: groups.length
+    };
+
+    if (groups.length === 0) throw new Error('لا توجد أسئلة في هذا التصنيف');
+
+    showGroupSelection(groups, cat);
+  } catch(e) {
+    quizArea.innerHTML = '<div class="error-msg">❌ خطأ: ' + e.message + '</div>';
+  } finally {
+    for (const b of buttons) b.classList.remove('loading');
+  }
+}
+
+let pendingGroupQuestions = null;
+let pendingGroupMeta = null;
+
+function showGroupSelection(groups, cat) {
+  const quizArea = document.getElementById('quizArea');
+  let html = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">';
+  html += '<span style="font-size:24px;">' + cat.icon + '</span>';
+  html += '<h3 style="margin:0;color:#00796b;">' + cat.name + '</h3>';
+  html += '<button onclick="backToCategories()" style="margin-right:auto;padding:6px 14px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:13px;">↩ رجوع</button>';
+  html += '</div>';
+  html += '<p style="margin-bottom:10px;color:#555;">اختر مجموعة الأسئلة:</p>';
+  html += '<div class="group-grid">';
+
+  for (let gi = 0; gi < groups.length; gi++) {
+    const g = groups[gi];
+    const groupLabel = g.sectionName;
+    html += '<div class="group-btn" onclick="selectGroup(' + gi + ')">';
+    html += '<strong>' + groupLabel + '</strong>';
+    html += '<div style="font-size:11px;color:#888;margin-top:4px;">مجموعة ' + g.groupNumber + ' • ' + g.questions.length + ' سؤال</div>';
+    html += '<div style="font-size:11px;color:#888;">نجاح: ' + g.passScore + '/' + g.totalQuestions + '</div>';
+    html += '</div>';
+  }
+  html += '</div>';
+  quizArea.innerHTML = html;
+
+  // Store groups globally
+  pendingGroupQuestions = groups;
+  pendingGroupMeta = null;
+}
+
+function selectGroup(gi) {
+  if (!pendingGroupQuestions) return;
+  const g = pendingGroupQuestions[gi];
+  startQuiz(g.questions, g.sectionName, g.groupNumber, g.passScore, g.totalQuestions);
+}
+
+function backToCategories() {
+  document.getElementById('quizSection').classList.remove('active');
+  document.getElementById('quizArea').innerHTML = '';
+  currentQuestions = [];
+  userAnswers = {};
+  currentIdx = 0;
+  isReviewMode = false;
+  document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function startQuiz(questions, sectionName, groupNum, passScore, totalQ) {
+  currentQuestions = questions;
+  userAnswers = {};
+  currentIdx = 0;
+  isReviewMode = false;
+  quizPassScore = passScore;
+  quizTotalQ = totalQ;
+
+  const quizArea = document.getElementById('quizArea');
+  quizArea.innerHTML = '<div class="q-header">' + sectionName + ' - مجموعة ' + groupNum + '</div>';
+  quizArea.innerHTML += '<div class="q-text" style="font-size:13px;color:#888;margin-bottom:8px;">درجة النجاح: ' + passScore + '/' + totalQ + '</div>';
+  quizArea.innerHTML += '<div class="progress-bar" id="progressBar"></div>';
+  renderProgress();
+  renderQuestion();
+
+  // Scroll to quiz
+  document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth' });
+}
+
+function renderProgress() {
+  const bar = document.getElementById('progressBar');
+  if (!bar) return;
+  let html = '';
+  for (let i = 0; i < currentQuestions.length; i++) {
+    let cls = '';
+    if (i === currentIdx) cls = 'active';
+    if (userAnswers[i] !== undefined) {
+      if (isReviewMode) {
+        cls = userAnswers[i] === currentQuestions[i].answers.findIndex(a => a.isCorrect) ? 'correct' : 'wrong';
+      } else {
+        cls = 'answered';
+      }
+    }
+    html += '<button class="progress-dot ' + cls + '" onclick="goToQuestion(' + i + ')">' + (i + 1) + '</button>';
+  }
+  bar.innerHTML = html;
+}
+
+function renderQuestion() {
+  const q = currentQuestions[currentIdx];
+  if (!q) return;
+  const quizArea = document.getElementById('quizArea');
+
+  // Render images
+  let imgHtml = '';
+  for (const code of q.imageCodes) {
+    const url = getSignUrl(code);
+    if (url) imgHtml += '<div class="q-image"><img src="' + url + '" alt="' + code + '" onerror="this.outerHTML=\'\'"></div>';
+  }
+
+  const letters = ['أ', 'ب', 'ج', 'د'];
+  const selectedIdx = userAnswers[currentIdx];
+
+  let optionsHtml = '<div class="options">';
+  for (let i = 0; i < q.answers.length; i++) {
+    const a = q.answers[i];
+    let cls = 'option';
+    let statusHtml = '';
+
+    if (isReviewMode) {
+      const correctIdx = q.answers.findIndex(x => x.isCorrect);
+      if (i === correctIdx) cls += ' correct';
+      if (i === selectedIdx && i !== correctIdx) cls += ' wrong';
+      statusHtml = a.isCorrect ? ' ✓' : '';
+    } else if (selectedIdx === i) {
+      cls += ' selected';
+    }
+
+    const answerText = replaceSigns(a.text);
+    optionsHtml += '<div class="' + cls + '" onclick="selectAnswer(' + i + ')">';
+    optionsHtml += '<div class="letter">' + letters[i] + '</div>';
+    optionsHtml += '<div>' + answerText + statusHtml + '</div>';
+    optionsHtml += '</div>';
+  }
+  optionsHtml += '</div>';
+
+  const qText = replaceSigns(replaceImageCodes(q.text));
+  const total = currentQuestions.length;
+  const answered = Object.keys(userAnswers).length;
+
+  let navHtml = '<div class="q-nav">';
+  navHtml += '<button class="prev" onclick="prevQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + '>‹ السابق</button>';
+  if (currentIdx < total - 1) {
+    navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>';
+  } else {
+    navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>';
+  }
+  navHtml += '</div>';
+
+  const cardHtml =
+    '<div class="question-card">' +
+    '<div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total + '</div>' +
+    imgHtml +
+    '<div class="q-text">' + qText + '</div>' +
+    optionsHtml +
+    navHtml +
+    '<div class="q-counter">تمت الإجابة على ' + answered + ' من ' + total + ' أسئلة</div>' +
+    '</div>';
+
+  // Replace content
+  const existing = quizArea.querySelector('.question-card');
+  if (existing) {
+    existing.outerHTML = cardHtml;
+  } else {
+    quizArea.innerHTML += cardHtml;
+  }
+
+  renderProgress();
+}
+
+function selectAnswer(idx) {
+  if (isReviewMode) return;
+  const q = currentQuestions[currentIdx];
+  if (!q) return;
+  userAnswers[currentIdx] = idx;
+
+  // Auto advance if not last question
+  renderQuestion();
+  if (currentIdx < currentQuestions.length - 1) {
+    // Small delay before advancing so user sees the selection
+    setTimeout(function() {
+      currentIdx++;
+      renderQuestion();
+    }, 200);
+  }
+}
+
+function prevQuestion() {
+  if (currentIdx > 0) {
+    currentIdx--;
+    renderQuestion();
+  }
+}
+
+function nextQuestion() {
+  if (currentIdx < currentQuestions.length - 1) {
+    currentIdx++;
+    renderQuestion();
+  }
+}
+
+function goToQuestion(idx) {
+  if (idx >= 0 && idx < currentQuestions.length) {
+    currentIdx = idx;
+    renderQuestion();
+  }
+}
+
+function submitQuiz() {
+  isReviewMode = true;
+  const total = currentQuestions.length;
+  const answered = Object.keys(userAnswers).length;
+  let correct = 0;
+  for (let i = 0; i < total; i++) {
+    const correctIdx = currentQuestions[i].answers.findIndex(a => a.isCorrect);
+    if (userAnswers[i] === correctIdx) correct++;
+  }
+
+  const passed = correct >= quizPassScore;
+  const pct = Math.round(correct / total * 100);
+
+  renderQuestion();
+
+  // Show result card after a small delay
+  setTimeout(function() {
+    const quizArea = document.getElementById('quizArea');
+    const resultHtml =
+      '<div class="result-card">' +
+      '<div class="score ' + (passed ? '' : 'fail') + '">' + correct + '/' + total + '</div>' +
+      '<div class="detail">نسبة الإجابة: ' + pct + '%</div>' +
+      '<div class="status ' + (passed ? 'pass' : 'fail') + '">' + (passed ? '✔️ نجاح! مبروك!' : '❌ للأسف لم تنجح. حاول مرة أخرى') + '</div>' +
+      '<div class="detail" style="font-size:13px;margin-top:4px;">درجة النجاح المطلوبة: ' + quizPassScore + '/' + total + '</div>' +
+      '<button class="back-btn" onclick="backToCategories()">⬅️ العودة لاختيار التصنيفات</button>' +
+      '<br><button onclick="isReviewMode=false;currentIdx=0;userAnswers={};renderQuestion();renderProgress();" style="margin-top:10px;padding:8px 20px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:14px;">🔄 إعادة الامتحان</button>' +
+      '</div>';
+
+    // Remove old content, add result
+    quizArea.innerHTML = quizArea.innerHTML.replace(/<div class="q-nav">.*?<\/div><div class="q-counter">.*?<\/div>/, '');
+    quizArea.innerHTML += resultHtml;
+    renderProgress();
+  }, 300);
+}
+
+// Init
+loadSignMap();
+initCategories();
+</script>
 
 </body>
 </html>
