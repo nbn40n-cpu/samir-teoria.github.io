@@ -274,6 +274,29 @@
     width: 60px; height: 60px; border-radius: 6px;
     object-fit: cover; border: 1px solid #ddd;
   }
+
+  /* Speaker button */
+  .spk {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 28px; height: 28px; border-radius: 50%;
+    background: #009688; color: white; border: none;
+    cursor: pointer; font-size: 14px; transition: all 0.15s;
+    vertical-align: middle; margin: 0 4px; flex-shrink: 0;
+  }
+  .spk:hover { background: #00796b; transform: scale(1.1); }
+  .spk.muted { background: #bdbdbd; }
+  .spk-sm {
+    width: 22px; height: 22px; font-size: 11px;
+  }
+  .speak-toggle {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 10px; border-radius: 16px; border: 1px solid #b2dfdb;
+    background: #e0f2f1; cursor: pointer; font-size: 12px;
+    transition: all 0.15s;
+  }
+  .speak-toggle:hover { background: #009688; color: white; border-color: #009688; }
+  .speak-toggle.muted { background: #eee; color: #999; border-color: #ddd; }
+
 </style>
 </head>
 <body>
@@ -375,37 +398,73 @@
 </div>
 
 <script>
+// Admin - password protection
+let adminUnlocked = false;
+
+function checkAdminPassword(callback) {
+  const saved = localStorage.getItem('admin_password') || '1234';
+  const pwd = prompt('🔒 أدخل كلمة سر الإدارة:');
+  if (pwd === saved) {
+    adminUnlocked = true;
+    callback();
+  } else if (pwd !== null) {
+    alert('❌ كلمة سر خطأ!');
+  }
+}
+
+function setAdminPassword() {
+  const current = localStorage.getItem('admin_password') || '1234';
+  const old = prompt('🔒 كلمة السر الحالية:');
+  if (old !== current) { alert('❌ كلمة سر خطأ!'); return; }
+  const new1 = prompt('🔑 كلمة السر الجديدة:');
+  if (!new1 || new1.length < 4) { alert('⚠️ كلمة السر يجب أن تكون 4 أحرف على الأقل'); return; }
+  const new2 = prompt('🔑 أعد كتابة كلمة السر الجديدة:');
+  if (new1 !== new2) { alert('❌ كلمة السر غير متطابقة'); return; }
+  localStorage.setItem('admin_password', new1);
+  alert('✅ تم تغيير كلمة السر بنجاح!');
+}
+
 // Admin tap counter
 (function() {
   let adminTaps = 0;
   let adminTimer = null;
-  const adminTarget = 15;
-  const adminTimeout = 5000;
+  const adminTarget = 10;
+  const adminTimeout = 4000;
 
   document.getElementById('mainTitle').addEventListener('click', function() {
+    if (adminUnlocked) {
+      toggleAdminPanel();
+      return;
+    }
     adminTaps++;
     if (adminTimer) clearTimeout(adminTimer);
     adminTimer = setTimeout(() => { adminTaps = 0; }, adminTimeout);
     if (adminTaps >= adminTarget) {
       adminTaps = 0;
-      const existing = document.getElementById('adminPanel');
-      if (existing) { existing.remove(); return; }
-      const panel = document.createElement('div');
-      panel.id = 'adminPanel';
-      panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:24px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:500px;width:92%;text-align:center;';
-      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="profile">🖼️ الصورة</button><button class="admin-tab" data-tab="announce">📢 الإعلان</button><button class="admin-tab" data-tab="stats">📊 الإحصائيات</button></div><div id="adminContent" style="font-size:13px;color:#555;max-height:400px;overflow-y:auto;text-align:right;"></div><div id="adminLoading" style="display:none;text-align:center;padding:20px;color:#888;">⏳ جاري التحميل...</div>';
-      document.body.appendChild(panel);
-      document.getElementById('adminTabs').addEventListener('click', function(e) {
-        const tab = e.target.closest('.admin-tab');
-        if (!tab) return;
-        document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        adminSwitchTab(tab.dataset.tab);
+      checkAdminPassword(function() {
+        toggleAdminPanel();
       });
-      adminSwitchTab('questions');
     }
   });
 })();
+
+function toggleAdminPanel() {
+  const existing = document.getElementById('adminPanel');
+  if (existing) { existing.remove(); return; }
+  const panel = document.createElement('div');
+  panel.id = 'adminPanel';
+  panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:24px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:500px;width:92%;text-align:center;';
+  panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="profile">🖼️ الصورة</button><button class="admin-tab" data-tab="announce">📢 الإعلان</button><button class="admin-tab" data-tab="stats">📊 الإحصائيات</button></div><div id="adminContent" style="font-size:13px;color:#555;max-height:370px;overflow-y:auto;text-align:right;"></div><div style="margin-top:8px;padding-top:8px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:20px;color:#888;">⏳ جاري التحميل...</div>';
+  document.body.appendChild(panel);
+  document.getElementById('adminTabs').addEventListener('click', function(e) {
+    const tab = e.target.closest('.admin-tab');
+    if (!tab) return;
+    document.querySelectorAll('.admin-tab').forEach(t => t.classList.remove('active'));
+    tab.classList.add('active');
+    adminSwitchTab(tab.dataset.tab);
+  });
+  adminSwitchTab('questions');
+}
 
 function adminSwitchTab(tab) {
   if (tab === 'questions') {
@@ -952,7 +1011,7 @@ function startQuiz(questions, sectionName, groupNum, passScore, totalQ) {
   quizTotalQ = totalQ;
 
   const quizArea = document.getElementById('quizArea');
-  quizArea.innerHTML = '<div class="q-header">' + sectionName + ' - مجموعة ' + groupNum + '</div>';
+  quizArea.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="q-header" style="margin:0;">' + sectionName + ' - مجموعة ' + groupNum + '</div><div style="margin-right:auto;"><span class="speak-toggle muted" id="muteBtn" onclick="toggleMute()">🔇 مكتوم</span></div></div>';
   quizArea.innerHTML += '<div class="q-text" style="font-size:13px;color:#888;margin-bottom:8px;">درجة النجاح: ' + passScore + '/' + totalQ + '</div>';
   quizArea.innerHTML += '<div class="progress-bar" id="progressBar"></div>';
   renderProgress();
@@ -980,6 +1039,38 @@ function renderProgress() {
   }
   bar.innerHTML = html;
 }
+
+// Voice functions
+let isMuted = true;
+
+function toggleMute() {
+  isMuted = !isMuted;
+  const btn = document.getElementById('muteBtn');
+  if (btn) {
+    btn.innerHTML = isMuted ? '🔇 مكتوم' : '🔊 صوت';
+    btn.classList.toggle('muted', isMuted);
+  }
+  if (isMuted) window.speechSynthesis.cancel();
+}
+
+function speakText(text) {
+  if (isMuted || !text) return;
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = 'ar-SA';
+  u.rate = 0.9;
+  u.pitch = 1;
+  window.speechSynthesis.speak(u);
+}
+
+document.addEventListener('click', function(e) {
+  const btn = e.target.closest('.spk');
+  if (btn) {
+    e.stopPropagation();
+    const txt = btn.getAttribute('data-t');
+    if (txt) speakText(txt);
+  }
+});
 
 function renderQuestion() {
   const q = currentQuestions[currentIdx];
@@ -1012,14 +1103,17 @@ function renderQuestion() {
     }
 
     const answerText = replaceSigns(a.text);
+    const cleanText = a.text.replace(/\[SIG:\w+\]/g, '').replace(/\[صورة:[^\]]+\]/g, '');
     optionsHtml += '<div class="' + cls + '" onclick="selectAnswer(' + i + ')">';
     optionsHtml += '<div class="letter">' + letters[i] + '</div>';
     optionsHtml += '<div>' + answerText + statusHtml + '</div>';
+    optionsHtml += '<button class="spk spk-sm" data-t="' + cleanText.replace(/"/g, '&quot;') + '">🔊</button>';
     optionsHtml += '</div>';
   }
   optionsHtml += '</div>';
 
   const qText = replaceSigns(replaceImageCodes(q.text));
+  const cleanQText = q.text.replace(/\[SIG:\w+\]/g, '').replace(/\[صورة:[^\]]+\]/g, '').replace(/"/g, '&quot;');
   const total = currentQuestions.length;
   const answered = Object.keys(userAnswers).length;
 
@@ -1034,7 +1128,9 @@ function renderQuestion() {
 
   const cardHtml =
     '<div class="question-card">' +
-    '<div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total + '</div>' +
+    '<div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total +
+    '<button class="spk" data-t="' + cleanQText + '" style="margin-right:8px;">🔊</button>' +
+    '</div>' +
     imgHtml +
     '<div class="q-text">' + qText + '</div>' +
     optionsHtml +
