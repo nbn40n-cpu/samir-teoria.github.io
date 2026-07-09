@@ -295,13 +295,20 @@
       const panel = document.createElement('div');
       panel.id = 'adminPanel';
       panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:30px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:400px;width:90%;text-align:center;';
-      panel.innerHTML = '<h3 style="color:#009688;margin-bottom:12px;">🔧 لوحة الإدارة</h3><p style="margin-bottom:12px;">مرحباً بك يا سمير! 👋</p><p style="margin-bottom:8px;font-size:14px;color:#666;">لمحة سريعة عن الأسئلة المحملة:</p><div id="adminStats" style="font-size:13px;color:#555;margin-bottom:16px;"></div><button onclick="this.parentElement.remove()" style="padding:8px 24px;border:none;border-radius:8px;background:#009688;color:white;font-size:14px;cursor:pointer;">إغلاق</button>';
+      panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="this.parentElement.parentElement.remove()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><p style="margin-bottom:12px;font-size:14px;color:#666;">مرحباً بك يا سمير! 👋</p><div id="adminStats" style="font-size:13px;color:#555;margin-bottom:16px;text-align:right;"></div><div id="adminContent" style="font-size:13px;color:#555;margin-bottom:16px;max-height:300px;overflow-y:auto;text-align:right;"></div><button onclick="this.parentElement.remove()" style="padding:8px 24px;border:none;border-radius:8px;background:#009688;color:white;font-size:14px;cursor:pointer;">إغلاق</button>';
       document.body.appendChild(panel);
       const stats = document.getElementById('adminStats');
+      const content = document.getElementById('adminContent');
       if (window.quizData && window.quizData.loadedQuestions) {
-        stats.innerHTML = `عدد الأسئلة المحملة: ${window.quizData.loadedQuestions}<br>عدد التصنيفات: ${window.quizData.loadedCategories}`;
+        stats.innerHTML = 'عدد الأسئلة المحملة: ' + window.quizData.loadedQuestions + '<br>عدد التصنيفات: ' + window.quizData.loadedCategories;
+        // Show categories with subcategories
+        let html = '<div style="border-top:1px solid #eee;padding-top:8px;"><strong>جميع التصنيفات المتاحة:</strong></div>';
+        for (const cat of CATEGORIES) {
+          html += '<div style="margin:6px 0;padding:4px 8px;background:#f9f9f9;border-radius:6px;">' + cat.icon + ' ' + cat.name + '</div>';
+        }
+        content.innerHTML = html;
       } else {
-        stats.textContent = 'لم يتم تحميل أي أسئلة بعد. اختر تصنيفاً لبدء التحميل.';
+        stats.textContent = 'لم يتم تحميل أي أسئلة بعد. اختر تصنيفاً من الأسفل لبدء التحميل.';
       }
     }
   });
@@ -376,6 +383,16 @@ function replaceImageCodes(text) {
   });
 }
 
+function subType(name) {
+  if (name.includes('(استكمالي)')) return 'استكمالي';
+  if (name.includes('(شفوي)')) return 'شفوي';
+  return 'عادي';
+}
+
+function mainName(name) {
+  return name.replace(/\s*\([^)]*\)/g, '').trim();
+}
+
 // Parse question file
 function parseQuestions(content) {
   const lines = content.split('\n');
@@ -428,11 +445,16 @@ function parseQuestions(content) {
       groups = [{ number: 1, lines: sec.lines }];
     }
 
+    const sub = subType(sec.name);
+    const main = mainName(sec.name);
+
     for (const g of groups) {
       const questions = parseQuestionsFromLines(g.lines);
       if (questions.length > 0) {
         allGroups.push({
           sectionName: sec.name,
+          mainName: main,
+          subType: sub,
           passScore: sec.passScore,
           totalQuestions: sec.totalQuestions,
           groupNumber: g.number,
@@ -560,19 +582,36 @@ function showGroupSelection(groups, cat) {
   html += '<h3 style="margin:0;color:#00796b;">' + cat.name + '</h3>';
   html += '<button onclick="backToCategories()" style="margin-right:auto;padding:6px 14px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:13px;">↩ رجوع</button>';
   html += '</div>';
-  html += '<p style="margin-bottom:10px;color:#555;">اختر مجموعة الأسئلة:</p>';
-  html += '<div class="group-grid">';
 
-  for (let gi = 0; gi < groups.length; gi++) {
-    const g = groups[gi];
-    const groupLabel = g.sectionName;
-    html += '<div class="group-btn" onclick="selectGroup(' + gi + ')">';
-    html += '<strong>' + groupLabel + '</strong>';
-    html += '<div style="font-size:11px;color:#888;margin-top:4px;">مجموعة ' + g.groupNumber + ' • ' + g.questions.length + ' سؤال</div>';
-    html += '<div style="font-size:11px;color:#888;">نجاح: ' + g.passScore + '/' + g.totalQuestions + '</div>';
-    html += '</div>';
+  // Group by subtype
+  const bySub = {};
+  for (const g of groups) {
+    const st = g.subType;
+    if (!bySub[st]) bySub[st] = [];
+    bySub[st].push(g);
   }
-  html += '</div>';
+
+  const subOrder = ['عادي', 'استكمالي', 'شفوي'];
+  const subColors = { 'عادي': '#2e7d32', 'استكمالي': '#e65100', 'شفوي': '#6a1b9a' };
+  const subIcons = { 'عادي': '📝', 'استكمالي': '🔄', 'شفوي': '🎤' };
+
+  for (const st of subOrder) {
+    const grps = bySub[st];
+    if (!grps || grps.length === 0) continue;
+    const color = subColors[st] || '#009688';
+    html += '<div style="margin-top:14px;">';
+    html += '<h4 style="color:' + color + ';font-size:16px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">' + (subIcons[st] || '📋') + ' ' + grps[0].mainName + ' ' + st + '</h4>';
+    html += '<div class="group-grid">';
+    for (const g of grps) {
+      html += '<div class="group-btn" onclick="selectGroup(' + groups.indexOf(g) + ')" style="border-color:' + color + ';color:' + color + ';">';
+      html += '<strong>مجموعة ' + g.groupNumber + '</strong>';
+      html += '<div style="font-size:11px;color:#888;margin-top:4px;">' + g.questions.length + ' سؤال</div>';
+      html += '<div style="font-size:11px;color:#888;">نجاح: ' + g.passScore + '/' + g.totalQuestions + '</div>';
+      html += '</div>';
+    }
+    html += '</div></div>';
+  }
+
   quizArea.innerHTML = html;
 
   // Store groups globally
