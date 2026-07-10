@@ -639,7 +639,7 @@ function closeExamPage() {
 }
 
 function openPdfPage() {
-  const pdfUrl = localStorage.getItem('admin_pdf_url') || 'https://info.wafa.ps/userfiles/server/pdf/t_t_2015.pdf';
+  const pdfUrl = localStorage.getItem('admin_pdf_url') || 'https://info.wafa.ps/userfiles/server/pdf/p_t_2015.pdf';
   document.getElementById('pdfFrame').src = pdfUrl;
   hideAllPages();
   document.getElementById('pdfPage').classList.remove('hidden');
@@ -847,10 +847,15 @@ function loadHeaderImage() {
 // ========== Admin: PDF Settings ==========
 function adminShowPdfSettings() {
   const content = document.getElementById('adminContent');
-  const url = localStorage.getItem('admin_pdf_url') || 'https://info.wafa.ps/userfiles/server/pdf/t_t_2015.pdf';
+  const url = localStorage.getItem('admin_pdf_url') || 'https://info.wafa.ps/userfiles/server/pdf/p_t_2015.pdf';
   let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">تغيير رابط ملف دوسية التؤوريا PDF:</p>';
   html += '<div style="margin-bottom:8px;padding:10px;background:#f5f5f5;border-radius:8px;word-break:break-all;font-size:11px;color:#888;">الرابط الحالي:<br><strong id="currentPdfUrl">' + url + '</strong></div>';
   html += '<input type="url" id="pdfUrlInput" value="' + url + '" placeholder="ألصق رابط ملف PDF هنا" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;box-sizing:border-box;">';
+  html += '<div style="margin-top:6px;margin-bottom:8px;font-size:11px;color:#888;padding:8px;background:#f0f0f0;border-radius:8px;">روابط PDF المتاحة من وزارة النقل:<br>';
+  html += '• <strong>الخصوصي:</strong> https://info.wafa.ps/userfiles/server/pdf/p_t_2015.pdf (الافتراضي)<br>';
+  html += '• <strong>الشحن الخفيف:</strong> https://info.wafa.ps/userfiles/server/pdf/l_t_2015.pdf<br>';
+  html += '• <strong>الدراجة النارية:</strong> https://info.wafa.ps/userfiles/server/pdf/b_t_2015.pdf<br>';
+  html += '• <strong>التراكتور:</strong> https://info.wafa.ps/userfiles/server/pdf/t_t_2015.pdf</div>';
   html += '<div><button class="admin-save-btn" onclick="adminSavePdfUrl()">💾 حفظ الرابط</button>';
   html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminResetPdfUrl()">🗑️ استعادة الافتراضي</button></div>';
   html += '<div id="pdfStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
@@ -866,7 +871,7 @@ function adminSavePdfUrl() {
 }
 
 function adminResetPdfUrl() {
-  const url = 'https://info.wafa.ps/userfiles/server/pdf/t_t_2015.pdf';
+  const url = 'https://info.wafa.ps/userfiles/server/pdf/p_t_2015.pdf';
   localStorage.setItem('admin_pdf_url', url);
   document.getElementById('pdfUrlInput').value = url;
   document.getElementById('currentPdfUrl').textContent = url;
