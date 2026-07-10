@@ -2,7 +2,7 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>مدرب السياقة سمير ابو قبيطة - امتحان التؤوريا النظري التجريبي</title>
 <meta name="description" content="امتحان التؤوريا النظري التجريبي مع مدرب السياقة سمير ابو قبيطة. جميع أسئلة التؤوريا للخصوصي والشحن الخفيف والشامل والدراجة النارية مع الإشارات المرورية.">
 <meta name="keywords" content="تؤوريا, امتحان التؤوريا, سمير ابو قبيطة, مدرب سياقة, قيادة, فلسطين, اسئلة تؤوريا">
@@ -10,394 +10,641 @@
 <meta property="og:description" content="اختبر نفسك في التؤوريا النظري مع جميع الأسئلة الرسمية">
 <meta property="og:type" content="website">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body {
-    font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-    background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
-    min-height: 100vh;
-    color: #333;
-  }
-  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+  background: linear-gradient(135deg, #e0f2f1 0%, #b2dfdb 100%);
+  min-height: 100vh;
+  color: #333;
+  padding-bottom: 80px;
+}
+.container { max-width: 900px; margin: 0 auto; padding: 16px; }
+.hidden { display: none !important; }
+.page-content { animation: fadeIn 0.3s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.08); } 100% { transform: scale(1); } }
+.slide-up { animation: slideUp 0.35s ease; }
 
-  .header {
-    background: linear-gradient(135deg, #0288d1, #0277bd);
-    color: white;
-    padding: 40px 20px 30px;
-    border-radius: 20px;
-    text-align: center;
-    margin-bottom: 20px;
-    box-shadow: 0 8px 30px rgba(2,136,209,0.3);
-  }
-  .header img {
-    width: 130px; height: 130px; border-radius: 50%;
-    border: 4px solid #bbdefb; margin-bottom: 15px;
-    object-fit: cover;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-  }
-  .header h1 { font-size: 26px; margin-bottom: 5px; cursor: default; }
-  .header .sub { font-size: 15px; opacity: 0.9; margin-bottom: 10px; }
-  .header .phone { font-size: 18px; direction: ltr; display: inline-block; }
+/* Header */
+.header {
+  background: linear-gradient(135deg, #0288d1, #01579b);
+  color: white;
+  padding: 24px 16px 20px;
+  border-radius: 20px;
+  text-align: center;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 30px rgba(2,136,209,0.3);
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 60%);
+  animation: pulse 4s ease-in-out infinite;
+}
+.header img {
+  width: 130px; height: 130px; border-radius: 50%;
+  border: 4px solid #bbdefb; margin-bottom: 12px;
+  object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  transition: transform 0.3s;
+  position: relative;
+}
+.header img:hover { transform: scale(1.05); }
+.header h1 { font-size: 24px; margin-bottom: 4px; cursor: default; position: relative; }
+.header .sub { font-size: 14px; opacity: 0.9; margin-bottom: 6px; }
+.header .phone { font-size: 17px; direction: ltr; display: inline-block; }
 
-  .section { background: white; border-radius: 16px; padding: 25px; margin-bottom: 18px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); }
-  .section h2 { color: #009688; font-size: 20px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
-  .section h3 { font-size: 17px; color: #00796b; margin: 15px 0 10px; display: flex; align-items: center; gap: 8px; }
-  .section p { line-height: 1.8; font-size: 15px; color: #555; }
+/* Section cards */
+.section {
+  background: white; border-radius: 16px; padding: 20px;
+  margin-bottom: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.section:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.section h2 { color: #009688; font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+.section h3 { font-size: 16px; color: #00796b; margin: 12px 0 8px; display: flex; align-items: center; gap: 8px; }
+.section p { line-height: 1.7; font-size: 14px; color: #555; }
 
-  .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
-  .cat-btn {
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 16px 10px; border-radius: 12px; border: 2px solid #e0e0e0;
-    background: #f9f9f9; cursor: pointer; transition: all 0.2s;
-    font-size: 14px; font-weight: bold; color: #333; text-align: center; gap: 6px;
-  }
-  .cat-btn:hover { border-color: #009688; background: #e0f2f1; transform: translateY(-2px); }
-  .cat-btn .icon { font-size: 28px; }
-  .cat-btn.loading { opacity: 0.6; pointer-events: none; }
+/* Quick action buttons */
+.action-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.action-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 16px 10px; border-radius: 14px; border: none;
+  cursor: pointer; transition: all 0.2s;
+  font-size: 14px; font-weight: bold; color: white; text-align: center; gap: 6px;
+  text-decoration: none;
+}
+.action-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+.action-btn:active { transform: translateY(-1px); }
+.action-btn .icon { font-size: 28px; }
+.action-btn.whatsapp { background: linear-gradient(135deg, #25d366, #128C7E); }
+.action-btn.share { background: linear-gradient(135deg, #0288d1, #01579b); }
+.action-videos { background: linear-gradient(135deg, #e53935, #b71c1c); }
+.action-exams { background: linear-gradient(135deg, #009688, #00695c); }
+.action-pdf { background: linear-gradient(135deg, #ff6f00, #e65100); }
 
-  .quiz-section { display: none; }
-  .quiz-section.active { display: block; }
+/* Big action button (full width) */
+.big-btn {
+  display: flex; align-items: center; gap: 12px;
+  padding: 18px 20px; border-radius: 14px; border: none;
+  cursor: pointer; transition: all 0.2s;
+  font-size: 16px; font-weight: bold; color: white; text-align: right;
+  width: 100%; text-decoration: none;
+}
+.big-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(0,0,0,0.2); }
+.big-btn:active { transform: translateY(0); }
+.big-btn .icon { font-size: 32px; flex-shrink: 0; }
+.big-btn .text { flex: 1; }
+.big-btn .arrow { font-size: 20px; }
 
-  .group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 8px; margin-top: 10px; }
-  .group-btn {
-    padding: 12px; border-radius: 10px; border: 1px solid #b2dfdb;
-    background: #e0f2f1; cursor: pointer; text-align: center;
-    font-size: 14px; font-weight: bold; transition: all 0.2s;
-  }
-  .group-btn:hover { background: #009688; color: white; }
+/* Result check links */
+.result-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.result-link {
+  display: block; padding: 16px; border-radius: 14px;
+  text-decoration: none; font-weight: bold; text-align: center;
+  transition: all 0.2s; color: white;
+}
+.result-link:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.15); }
+.result-link .icon { font-size: 28px; display: block; margin-bottom: 6px; }
 
-  .question-card { margin-top: 12px; }
-  .q-header { font-size: 18px; font-weight: bold; color: #00796b; margin-bottom: 12px; }
-  .q-text { font-size: 16px; line-height: 1.8; margin-bottom: 12px; }
-  .q-image { margin-bottom: 12px; }
-  .q-image img { max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #e0e0e0; }
-  .sign-inline { display: inline; }
-  .sign-inline img { height: 28px; vertical-align: middle; margin: 0 2px; border-radius: 3px; }
+/* Gallery */
+.gallery-section.hidden { display: none; }
+.gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.gallery-item { border-radius: 12px; overflow: hidden; border: 2px solid #e0e0e0; background: #fafafa; }
+.gallery-item img { width: 100%; height: 130px; object-fit: cover; display: block; }
 
-  .options { display: flex; flex-direction: column; gap: 8px; }
-  .option {
-    display: flex; align-items: center; gap: 10px;
-    padding: 12px 16px; border-radius: 10px;
-    border: 2px solid #e0e0e0; cursor: pointer;
-    transition: all 0.15s; font-size: 15px; line-height: 1.6;
-  }
-  .option:hover { border-color: #009688; background: #f5f5f5; }
-  .option.selected { border-color: #009688; background: #e0f2f1; }
-  .option.correct { border-color: #2e7d32; background: #c8e6c9; }
-  .option.wrong { border-color: #c62828; background: #ffcdd2; }
-  .option .letter {
-    width: 28px; height: 28px; border-radius: 50%;
-    background: #e0e0e0; display: flex; align-items: center; justify-content: center;
-    font-weight: bold; font-size: 13px; flex-shrink: 0;
-  }
-  .option.selected .letter { background: #009688; color: white; }
-  .option.correct .letter { background: #2e7d32; color: white; }
-  .option.wrong .letter { background: #c62828; color: white; }
-  .option .sign-inline img { height: 22px; }
+/* Video page */
+.video-list { display: flex; flex-direction: column; gap: 6px; }
+.video-item {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 14px; background: #f9f9f9;
+  border-radius: 10px; text-decoration: none; color: inherit;
+  transition: all 0.15s;
+}
+.video-item:hover { background: #e0f2f1; transform: translateX(-3px); }
+.video-item .num {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: #009688; color: white;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: bold; flex-shrink: 0;
+}
+.video-item .play {
+  width: 36px; height: 36px; border-radius: 8px;
+  background: #ff0000; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.video-item .play span { color: white; font-size: 18px; }
+.video-item .info { flex: 1; }
+.video-item .info h4 { font-size: 14px; }
+.video-item .info p { font-size: 12px; color: #888; }
 
-  .q-nav { display: flex; justify-content: space-between; margin-top: 16px; gap: 8px; }
-  .q-nav button {
-    padding: 10px 24px; border-radius: 10px; border: none;
-    font-size: 15px; font-weight: bold; cursor: pointer; transition: all 0.2s;
-  }
-  .q-nav .prev { background: #e0e0e0; color: #333; }
-  .q-nav .next { background: #009688; color: white; }
-  .q-nav .submit { background: #ff6f00; color: white; }
-  .q-nav button:disabled { opacity: 0.4; cursor: default; }
-  .q-nav button:hover:not(:disabled) { transform: scale(1.03); }
+/* Back button */
+.back-bar {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 14px; padding-bottom: 12px;
+  border-bottom: 2px solid #e0e0e0;
+}
+.back-btn {
+  padding: 8px 16px; border: none; border-radius: 10px;
+  background: #e0e0e0; color: #333; cursor: pointer;
+  font-size: 14px; font-weight: bold; transition: all 0.2s;
+}
+.back-btn:hover { background: #bdbdbd; }
 
-  .q-counter { text-align: center; font-size: 13px; color: #888; margin-top: 8px; }
+/* Category grid */
+.cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 8px; }
+.cat-btn {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 14px 8px; border-radius: 12px; border: 2px solid #e0e0e0;
+  background: #f9f9f9; cursor: pointer; transition: all 0.2s;
+  font-size: 13px; font-weight: bold; color: #333; text-align: center; gap: 4px;
+}
+.cat-btn:hover { border-color: #009688; background: #e0f2f1; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,150,136,0.15); }
+.cat-btn .icon { font-size: 26px; }
+.cat-btn.loading { opacity: 0.6; pointer-events: none; }
 
-  .result-card { text-align: center; padding: 30px; }
-  .result-card .score { font-size: 64px; font-weight: bold; color: #009688; }
-  .result-card .score.fail { color: #c62828; }
-  .result-card .detail { font-size: 16px; color: #555; margin: 8px 0; }
-  .result-card .status { font-size: 20px; font-weight: bold; margin: 12px 0; }
-  .result-card .status.pass { color: #2e7d32; }
-  .result-card .status.fail { color: #c62828; }
-  .result-card .back-btn {
-    display: inline-block; padding: 12px 32px; background: #009688; color: white;
-    border: none; border-radius: 10px; font-size: 16px; font-weight: bold;
-    cursor: pointer; text-decoration: none; margin-top: 16px;
-  }
+/* Group grid */
+.group-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 6px; margin-top: 8px; }
+.group-btn {
+  padding: 10px; border-radius: 10px; border: 1px solid #b2dfdb;
+  background: #e0f2f1; cursor: pointer; text-align: center;
+  font-size: 13px; font-weight: bold; transition: all 0.2s;
+}
+.group-btn:hover { background: #009688; color: white; transform: translateY(-2px); }
 
-  .video-list { display: flex; flex-direction: column; gap: 6px; }
-  .video-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 14px; background: #f9f9f9;
-    border-radius: 10px; text-decoration: none; color: inherit;
-    transition: background 0.15s;
-  }
-  .video-item:hover { background: #e0f2f1; }
-  .video-item .num {
-    width: 30px; height: 30px; border-radius: 50%;
-    background: #009688; color: white;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: bold; flex-shrink: 0;
-  }
-  .video-item .play {
-    width: 36px; height: 36px; border-radius: 8px;
-    background: #ff0000; display: flex; align-items: center; justify-content: center;
-    flex-shrink: 0;
-  }
-  .video-item .play span { color: white; font-size: 18px; }
-  .video-item .info { flex: 1; }
-  .video-item .info h4 { font-size: 14px; }
-  .video-item .info p { font-size: 12px; color: #888; }
+/* Quiz */
+.question-card { margin-top: 10px; }
+.q-header { font-size: 17px; font-weight: bold; color: #00796b; margin-bottom: 10px; }
+.q-text { font-size: 15px; line-height: 1.8; margin-bottom: 10px; }
+.q-image { margin-bottom: 10px; }
+.q-image img { max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #e0e0e0; }
+.sign-inline { display: inline; }
+.sign-inline img { height: 28px; vertical-align: middle; margin: 0 2px; border-radius: 3px; }
+.options { display: flex; flex-direction: column; gap: 6px; }
+.option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; border-radius: 10px;
+  border: 2px solid #e0e0e0; cursor: pointer;
+  transition: all 0.15s; font-size: 14px; line-height: 1.6;
+}
+.option:hover { border-color: #009688; background: #f5f5f5; }
+.option.selected { border-color: #009688; background: #e0f2f1; }
+.option.correct { border-color: #2e7d32; background: #c8e6c9; }
+.option.wrong { border-color: #c62828; background: #ffcdd2; }
+.option .letter {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #e0e0e0; display: flex; align-items: center; justify-content: center;
+  font-weight: bold; font-size: 12px; flex-shrink: 0;
+}
+.option.selected .letter { background: #009688; color: white; }
+.option.correct .letter { background: #2e7d32; color: white; }
+.option.wrong .letter { background: #c62828; color: white; }
+.option .sign-inline img { height: 20px; }
 
-  .divider { border: none; height: 1px; background: #e0e0e0; margin: 8px 0; }
-  .footer { text-align: center; padding: 20px; color: #777; font-size: 13px; }
+.q-nav { display: flex; justify-content: space-between; margin-top: 14px; gap: 8px; }
+.q-nav button {
+  padding: 10px 20px; border-radius: 10px; border: none;
+  font-size: 14px; font-weight: bold; cursor: pointer; transition: all 0.2s;
+}
+.q-nav .prev { background: #e0e0e0; color: #333; }
+.q-nav .next { background: #009688; color: white; }
+.q-nav .submit { background: #ff6f00; color: white; }
+.q-nav button:disabled { opacity: 0.4; cursor: default; }
+.q-nav button:hover:not(:disabled) { transform: scale(1.05); }
 
-  .loading-spinner { text-align: center; padding: 40px; color: #888; font-size: 16px; }
+.q-counter { text-align: center; font-size: 12px; color: #888; margin-top: 6px; }
 
-  .progress-bar {
-    display: flex; gap: 4px; margin-bottom: 16px; justify-content: center;
-    flex-wrap: wrap;
-  }
-  .progress-dot {
-    width: 20px; height: 20px; border-radius: 50%;
-    background: #e0e0e0; border: none; cursor: pointer;
-    font-size: 10px; font-weight: bold; color: #999;
-    display: flex; align-items: center; justify-content: center;
-    transition: all 0.15s;
-  }
-  .progress-dot.active { background: #009688; color: white; }
-  .progress-dot.answered { background: #80cbc4; color: white; }
-  .progress-dot.correct { background: #2e7d32; color: white; }
-  .progress-dot.wrong { background: #c62828; color: white; }
+/* Progress */
+.progress-bar { display: flex; gap: 3px; margin-bottom: 14px; justify-content: center; flex-wrap: wrap; }
+.progress-dot {
+  width: 18px; height: 18px; border-radius: 50%;
+  background: #e0e0e0; border: none; cursor: pointer;
+  font-size: 9px; font-weight: bold; color: #999;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+}
+.progress-dot.active { background: #009688; color: white; }
+.progress-dot.answered { background: #80cbc4; color: white; }
+.progress-dot.correct { background: #2e7d32; color: white; }
+.progress-dot.wrong { background: #c62828; color: white; }
 
-  .loading-msg { text-align: center; padding: 20px; color: #888; }
-  .error-msg { text-align: center; padding: 20px; color: #c62828; }
+/* Result */
+.result-card { text-align: center; padding: 24px; }
+.result-card .score { font-size: 56px; font-weight: bold; color: #009688; }
+.result-card .score.fail { color: #c62828; }
+.result-card .detail { font-size: 15px; color: #555; margin: 6px 0; }
+.result-card .status { font-size: 18px; font-weight: bold; margin: 10px 0; }
+.result-card .status.pass { color: #2e7d32; }
+.result-card .status.fail { color: #c62828; }
+.result-card .back-btn {
+  display: inline-block; padding: 10px 28px; background: #009688; color: white;
+  border: none; border-radius: 10px; font-size: 15px; font-weight: bold;
+  cursor: pointer; text-decoration: none; margin-top: 12px; transition: all 0.2s;
+}
+.result-card .back-btn:hover { transform: scale(1.05); }
 
-  .review-card { border: 1px solid #e0e0e0; border-radius: 10px; padding: 14px; margin-bottom: 10px; }
-  .review-card .r-q { font-weight: bold; color: #00796b; margin-bottom: 6px; }
-  .review-card .r-your { color: #2e7d32; }
-  .review-card .r-your.wrong { color: #c62828; }
-  .review-card .r-correct { color: #2e7d32; }
+/* Annoucement */
+.announcement-bar {
+  background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px;
+  padding: 12px 16px; margin-bottom: 14px; font-size: 14px;
+  line-height: 1.7; color: #e65100; display: none;
+}
+.announcement-bar.has-text { display: block; animation: slideUp 0.3s ease; }
+.announcement-bar .alabel { font-weight: bold; color: #e65100; margin-left: 6px; font-size: 12px; }
 
-  @media (max-width: 600px) {
-    .header h1 { font-size: 20px; }
-    .cat-grid { grid-template-columns: repeat(2, 1fr); }
-    .group-grid { grid-template-columns: repeat(2, 1fr); }
-    .q-nav button { padding: 10px 16px; font-size: 13px; }
-  }
+/* Divider */
+.divider { border: none; height: 1px; background: #e0e0e0; margin: 6px 0; }
 
-  .hidden { display: none !important; }
+/* Footer */
+.footer { text-align: center; padding: 16px; color: #777; font-size: 12px; }
 
-  /* Announcement bar */
-  .announcement-bar {
-    background: #fff3e0;
-    border: 2px solid #ff9800;
-    border-radius: 12px;
-    padding: 14px 18px;
-    margin-bottom: 18px;
-    font-size: 15px;
-    line-height: 1.7;
-    color: #e65100;
-    display: none;
-  }
-  .announcement-bar.has-text { display: block; }
-  .announcement-bar .alabel {
-    font-weight: bold;
-    color: #e65100;
-    margin-left: 8px;
-    font-size: 13px;
-  }
+/* Loading/Error */
+.loading-spinner { text-align: center; padding: 30px; color: #888; font-size: 15px; }
+.loading-msg { text-align: center; padding: 16px; color: #888; }
+.error-msg { text-align: center; padding: 16px; color: #c62828; }
+.review-card { border: 1px solid #e0e0e0; border-radius: 10px; padding: 12px; margin-bottom: 8px; }
+.review-card .r-q { font-weight: bold; color: #00796b; margin-bottom: 4px; }
+.review-card .r-your { color: #2e7d32; }
+.review-card .r-your.wrong { color: #c62828; }
+.review-card .r-correct { color: #2e7d32; }
 
-  /* Image Gallery */
-  .gallery-section { display: none; }
-  .gallery-section.has-images { display: block; }
-  .gallery-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-    gap: 12px;
-  }
-  .gallery-item {
-    border-radius: 12px;
-    overflow: hidden;
-    border: 2px solid #e0e0e0;
-    background: #fafafa;
-  }
-  .gallery-item img {
-    width: 100%;
-    height: 140px;
-    object-fit: cover;
-    display: block;
-  }
-  .gallery-item .gcap {
-    padding: 6px 10px;
-    font-size: 12px;
-    color: #555;
-    text-align: center;
-  }
+/* Speaker button */
+.spk {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; border-radius: 50%;
+  background: #009688; color: white; border: none;
+  cursor: pointer; font-size: 14px; transition: all 0.15s;
+  vertical-align: middle; margin: 0 4px; flex-shrink: 0;
+}
+.spk:hover { background: #00796b; transform: scale(1.1); }
+.spk.muted { background: #bdbdbd; }
+.spk-sm { width: 22px; height: 22px; font-size: 11px; }
+.speak-toggle {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 4px 10px; border-radius: 16px; border: 1px solid #b2dfdb;
+  background: #e0f2f1; cursor: pointer; font-size: 12px;
+  transition: all 0.15s;
+}
+.speak-toggle:hover { background: #009688; color: white; border-color: #009688; }
+.speak-toggle.muted { background: #eee; color: #999; border-color: #ddd; }
 
-  /* Visitor counter */
-  .visitor-count {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: #e0f2f1;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 12px;
-    color: #00796b;
-    direction: ltr;
-    margin-top: 8px;
-  }
+/* Admin panel */
+.admin-tabs { display: flex; gap: 4px; margin-bottom: 10px; flex-wrap: wrap; }
+.admin-tab {
+  padding: 7px 12px; border-radius: 8px; border: none;
+  font-size: 12px; font-weight: bold; cursor: pointer;
+  background: #e0e0e0; color: #333; transition: all 0.15s;
+}
+.admin-tab.active { background: #009688; color: white; }
+.admin-tab:hover { opacity: 0.8; }
+.admin-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.admin-table td { padding: 4px 6px; border-bottom: 1px solid #eee; }
+.admin-table input[type=text], .admin-table input[type=url] {
+  width: 100%; padding: 5px 8px; border: 1px solid #ddd;
+  border-radius: 6px; font-size: 12px; box-sizing: border-box;
+}
+.admin-table textarea {
+  width: 100%; padding: 6px 8px; border: 1px solid #ddd;
+  border-radius: 6px; font-size: 12px; box-sizing: border-box;
+  min-height: 60px; resize: vertical;
+}
+.admin-save-btn {
+  padding: 7px 18px; background: #009688; color: white;
+  border: none; border-radius: 8px; font-size: 12px;
+  font-weight: bold; cursor: pointer; margin-top: 6px; transition: all 0.15s;
+}
+.admin-save-btn:hover { opacity: 0.85; transform: scale(1.03); }
+.admin-img-preview { width: 50px; height: 50px; border-radius: 6px; object-fit: cover; border: 1px solid #ddd; }
 
-  /* Admin tabs */
-  .admin-tabs { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
-  .admin-tab {
-    padding: 8px 14px; border-radius: 8px; border: none;
-    font-size: 13px; font-weight: bold; cursor: pointer;
-    background: #e0e0e0; color: #333; transition: all 0.15s;
-  }
-  .admin-tab.active { background: #009688; color: white; }
-  .admin-tab:hover { opacity: 0.8; }
-  .admin-table { width: 100%; border-collapse: collapse; font-size: 13px; }
-  .admin-table td { padding: 6px 8px; border-bottom: 1px solid #eee; }
-  .admin-table input[type=text] {
-    width: 100%; padding: 6px 10px; border: 1px solid #ddd;
-    border-radius: 6px; font-size: 13px; box-sizing: border-box;
-  }
-  .admin-table textarea {
-    width: 100%; padding: 8px 10px; border: 1px solid #ddd;
-    border-radius: 6px; font-size: 13px; box-sizing: border-box;
-    min-height: 80px; resize: vertical;
-  }
-  .admin-save-btn {
-    padding: 8px 20px; background: #009688; color: white;
-    border: none; border-radius: 8px; font-size: 13px;
-    font-weight: bold; cursor: pointer; margin-top: 8px;
-  }
-  .admin-save-btn:hover { opacity: 0.85; }
-  .admin-img-preview {
-    width: 60px; height: 60px; border-radius: 6px;
-    object-fit: cover; border: 1px solid #ddd;
-  }
+/* WhatsApp floating button */
+.whatsapp-float {
+  position: fixed; bottom: 20px; left: 20px;
+  width: 56px; height: 56px; border-radius: 50%;
+  background: linear-gradient(135deg, #25d366, #128C7E);
+  color: white; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 28px; box-shadow: 0 4px 15px rgba(37,211,102,0.4);
+  transition: all 0.3s; z-index: 999;
+  text-decoration: none;
+}
+.whatsapp-float:hover { transform: scale(1.1); box-shadow: 0 6px 25px rgba(37,211,102,0.5); }
 
-  /* Speaker button */
-  .spk {
-    display: inline-flex; align-items: center; justify-content: center;
-    width: 28px; height: 28px; border-radius: 50%;
-    background: #009688; color: white; border: none;
-    cursor: pointer; font-size: 14px; transition: all 0.15s;
-    vertical-align: middle; margin: 0 4px; flex-shrink: 0;
-  }
-  .spk:hover { background: #00796b; transform: scale(1.1); }
-  .spk.muted { background: #bdbdbd; }
-  .spk-sm {
-    width: 22px; height: 22px; font-size: 11px;
-  }
-  .speak-toggle {
-    display: inline-flex; align-items: center; gap: 4px;
-    padding: 4px 10px; border-radius: 16px; border: 1px solid #b2dfdb;
-    background: #e0f2f1; cursor: pointer; font-size: 12px;
-    transition: all 0.15s;
-  }
-  .speak-toggle:hover { background: #009688; color: white; border-color: #009688; }
-  .speak-toggle.muted { background: #eee; color: #999; border-color: #ddd; }
+/* Back to top button */
+.back-top {
+  position: fixed; bottom: 20px; right: 20px;
+  width: 44px; height: 44px; border-radius: 50%;
+  background: #009688; color: white; border: none; cursor: pointer;
+  display: none; align-items: center; justify-content: center;
+  font-size: 20px; box-shadow: 0 4px 12px rgba(0,150,136,0.3);
+  transition: all 0.3s; z-index: 998;
+}
+.back-top.visible { display: flex; }
+.back-top:hover { transform: scale(1.1); background: #00796b; }
 
+/* Mobile */
+@media (max-width: 600px) {
+  .container { padding: 12px; }
+  .header h1 { font-size: 18px; }
+  .header img { width: 100px; height: 100px; }
+  .action-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .action-btn { padding: 12px 8px; font-size: 12px; }
+  .action-btn .icon { font-size: 22px; }
+  .big-btn { padding: 14px 16px; font-size: 14px; }
+  .big-btn .icon { font-size: 26px; }
+  .result-grid { grid-template-columns: 1fr; }
+  .cat-grid { grid-template-columns: repeat(2, 1fr); }
+  .group-grid { grid-template-columns: repeat(2, 1fr); }
+  .q-nav button { padding: 8px 14px; font-size: 12px; }
+  .section { padding: 14px; }
+  .section h2 { font-size: 16px; }
+  .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-item img { height: 100px; }
+  .whatsapp-float { width: 48px; height: 48px; font-size: 24px; bottom: 14px; left: 14px; }
+  .back-top { width: 38px; height: 38px; font-size: 18px; bottom: 14px; right: 14px; }
+  .video-item { padding: 8px 12px; }
+  .video-item .info h4 { font-size: 13px; }
+}
+
+/* PDF page */
+.pdf-container { width: 100%; height: 85vh; border: none; border-radius: 12px; }
+
+/* Exam page */
+.exam-section-title {
+  background: #009688; color: white; padding: 10px 14px;
+  border-radius: 10px; margin-bottom: 10px; display: flex; align-items: center; gap: 8px;
+}
 </style>
 </head>
 <body>
 
+<a class="whatsapp-float" href="https://wa.me/970568444407" target="_blank" title="تواصل مع المدرب">💬</a>
+<button class="back-top" id="backTopBtn" onclick="scrollToTop()" title="العودة للأعلى">⬆</button>
+
 <div class="container">
 
+  <!-- ===== HEADER ===== -->
   <div class="header" id="mainHeader">
     <img id="profileImg" src="assets/profile.jpeg" alt="مدرب السياقة سمير ابو قبيطة" onerror="this.src='assets/profile.jpeg'">
     <h1 id="mainTitle">🚗 مدرب السياقة سمير ابو قبيطة</h1>
-    <div class="sub">امتحان التؤوريا النظري التجريبي</div>
+    <div class="sub" id="headerSub">امتحان التؤوريا النظري التجريبي</div>
     <div class="phone">📞 0568444407</div>
   </div>
 
+  <!-- ===== ANNOUNCEMENT ===== -->
   <div class="announcement-bar" id="announcementBar">
     <span class="alabel">📢 إعلان:</span>
     <span id="announcementText"></span>
   </div>
 
-  <div class="section gallery-section" id="gallerySection">
-    <h2>📸 إعلانات</h2>
-    <div class="gallery-grid" id="galleryGrid"></div>
-  </div>
+  <!-- ===== MAIN PAGE ===== -->
+  <div id="mainPage" class="page-content">
 
-  <div class="section" id="catsSection">
-    <h2>📋 اختر تصنيف الأسئلة</h2>
-    <p style="margin-bottom:12px;">اختر التصنيف المناسب لبدء الامتحان التجريبي:</p>
-    <div class="cat-grid" id="catGrid"></div>
-  </div>
-
-  <div class="section quiz-section" id="quizSection">
-    <div id="quizArea"></div>
-  </div>
-
-  <div class="section">
-    <h2>🎥 فيديوهات الشرح</h2>
-    <h3>🎓 الإشارات (بالترتيب)</h3>
-    <div class="video-list">
-      <a class="video-item" href="https://youtu.be/baGgU7C-J6s" target="_blank"><div class="num">1</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الأول</h4></div></a>
-      <a class="video-item" href="https://youtu.be/cUwssN_eosw" target="_blank"><div class="num">2</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثاني</h4></div></a>
-      <a class="video-item" href="https://youtu.be/DuZ1ApNXy_o" target="_blank"><div class="num">3</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثالث (تحذير)</h4></div></a>
-      <a class="video-item" href="https://youtu.be/YXXMU6yS75o" target="_blank"><div class="num">4</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الرابع (إرشاد)</h4></div></a>
-      <a class="video-item" href="https://youtu.be/siETNGag3O4" target="_blank"><div class="num">5</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الخامس</h4></div></a>
-      <a class="video-item" href="https://youtu.be/3k2GiBH_ChQ" target="_blank"><div class="num">6</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء السادس</h4></div></a>
-      <a class="video-item" href="https://youtu.be/yExOO3swZkY" target="_blank"><div class="num">7</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء السابع</h4></div></a>
-      <a class="video-item" href="https://youtu.be/jvnGCZHw5BY" target="_blank"><div class="num">8</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثامن</h4></div></a>
-      <a class="video-item" href="https://youtu.be/hFbSdrcrccs" target="_blank"><div class="num">9</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء التاسع</h4></div></a>
-      <a class="video-item" href="https://youtu.be/qUsoP5FchxM" target="_blank"><div class="num">10</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء العاشر</h4></div></a>
-      <a class="video-item" href="https://youtu.be/p1849SdvOPY" target="_blank"><div class="num">11</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الحادي عشر</h4></div></a>
+    <!-- Quick Access Buttons -->
+    <div class="section slide-up">
+      <h2>🔗 وصول سريع</h2>
+      <div class="action-grid">
+        <div class="action-btn whatsapp" onclick="shareSite()">
+          <span class="icon">📤</span>
+          <span>مشاركة الموقع</span>
+        </div>
+        <a class="action-btn share" href="https://wa.me/970568444407" target="_blank">
+          <span class="icon">💬</span>
+          <span>تواصل مع المدرب</span>
+        </a>
+      </div>
     </div>
-    <hr class="divider">
-    <h3>📖 الدوسية</h3>
-    <div class="video-list">
-      <a class="video-item" href="https://youtu.be/9Ezf1P3LlxY" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📘 الجزء الأول</h4></div></a>
-      <a class="video-item" href="https://youtu.be/DVISY_rAlII" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📘 الجزء الثاني</h4></div></a>
-      <a class="video-item" href="https://youtu.be/YITC18yk2zg" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🛑 الوقوف والتوقف</h4></div></a>
-      <a class="video-item" href="https://youtu.be/-5xhg4bJRtI" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>↔️ التجاوز والعبور</h4></div></a>
-      <a class="video-item" href="https://youtu.be/IFYBBlq0frc" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>⚖️ هرم الطاعة وحق الأولوية</h4></div></a>
-      <a class="video-item" href="https://youtu.be/iVf-7n1RNm8" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🔄 الاستدارات</h4></div></a>
-      <a class="video-item" href="https://youtu.be/SSrZtJ4wxP0" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🚗 معرفة المركبة (1)</h4></div></a>
-      <a class="video-item" href="https://youtu.be/TTkzV44FlEw" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🚗 معرفة المركبة (2)</h4></div></a>
+
+    <!-- PDF Dosya -->
+    <div class="section slide-up" style="animation-delay:0.05s;">
+      <button class="big-btn action-pdf" onclick="openPdfPage()">
+        <span class="icon">📖</span>
+        <span class="text">دوسية شرح التؤوريا</span>
+        <span class="arrow">↙</span>
+      </button>
     </div>
-    <hr class="divider">
-    <h3>📝 حل الأسئلة</h3>
-    <div class="video-list">
-      <a class="video-item" href="https://youtu.be/v_lo99ESNH0" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📝 حل الأسئلة</h4></div></a>
+
+    <!-- Video Section -->
+    <div class="section slide-up" style="animation-delay:0.1s;">
+      <button class="big-btn action-videos" onclick="openVideoPage()">
+        <span class="icon">📚</span>
+        <span class="text">شرح التؤوريا</span>
+        <span class="arrow">↙</span>
+      </button>
+    </div>
+
+    <!-- Exam Models -->
+    <div class="section slide-up" style="animation-delay:0.15s;">
+      <button class="big-btn action-exams" onclick="openExamPage()">
+        <span class="icon">📝</span>
+        <span class="text">نماذج امتحانات التؤوريا</span>
+        <span class="arrow">↙</span>
+      </button>
+    </div>
+
+    <!-- Result Check -->
+    <div class="section slide-up" style="animation-delay:0.2s;">
+      <h2>🔍 الاستعلام عن النتائج</h2>
+      <p style="margin-bottom:10px;font-size:13px;">للاستعلام عن نتائج امتحان التؤوريا النظري والعملي في فلسطين:</p>
+      <div class="result-grid">
+        <a class="result-link" href="https://www.mot.gov.ps/theoretical-exam" target="_blank" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">
+          <span class="icon">📄</span>
+          <div style="font-size:14px;">نتائج التؤوريا النظري</div>
+          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
+        </a>
+        <a class="result-link" href="https://www.mot.gov.ps/practical-exam" target="_blank" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);">
+          <span class="icon">🚗</span>
+          <div style="font-size:14px;">نتائج الامتحان العملي</div>
+          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
+        </a>
+      </div>
+    </div>
+
+    <!-- Gallery -->
+    <div class="section gallery-section hidden" id="gallerySection">
+      <h2>📸 إعلانات</h2>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+
+    <!-- Contact -->
+    <div class="section slide-up" style="animation-delay:0.25s;">
+      <h2>📞 تواصل معي</h2>
+      <p style="text-align:center;font-size:15px;">
+        <strong id="contactName">مدرب السياقة سمير ابو قبيطة</strong><br>
+        📞 0568444407<br>
+        🇵🇸 فلسطين
+      </p>
+    </div>
+
+    <div class="footer">
+      <p>© جميع الحقوق محفوظة لـ <strong>مدرب السياقة سمير ابو قبيطة</strong></p>
     </div>
   </div>
 
-  <div class="section">
-    <h2>🔍 الاستعلام عن النتائج</h2>
-    <p style="margin-bottom:12px;">للاستعلام عن نتائج امتحان التؤوريا النظري والعملي في فلسطين:</p>
-    <div class="downloads" style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-      <a class="download-btn" href="https://www.mot.gov.ps/theoretical-exam" target="_blank" style="display:block;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;text-align:center;background:#1565c0;color:white;">
-        <div style="font-size:28px;">📄</div>
-        <div style="font-size:14px;">نتائج التؤوريا النظري</div>
-        <div style="font-size:12px;opacity:0.8;">وزارة النقل والمواصلات - فلسطين</div>
-      </a>
-      <a class="download-btn" href="https://www.mot.gov.ps/practical-exam" target="_blank" style="display:block;padding:14px;border-radius:12px;text-decoration:none;font-weight:bold;text-align:center;background:#1565c0;color:white;">
-        <div style="font-size:28px;">🚗</div>
-        <div style="font-size:14px;">نتائج الامتحان العملي</div>
-        <div style="font-size:12px;opacity:0.8;">وزارة النقل والمواصلات - فلسطين</div>
-      </a>
+  <!-- ===== VIDEO PAGE ===== -->
+  <div id="videoPage" class="page-content hidden">
+    <div class="section">
+      <div class="back-bar">
+        <button class="back-btn" onclick="closeVideoPage()">↩ رجوع للرئيسية</button>
+        <h2 style="margin:0;color:#c62828;">📚 شرح التؤوريا</h2>
+      </div>
+      <div style="font-size:13px;color:#888;margin-bottom:12px;">اختر الفيديو الذي تريد مشاهدته:</div>
+      <h3>🎓 الإشارات (بالترتيب)</h3>
+      <div class="video-list">
+        <a class="video-item" href="https://youtu.be/baGgU7C-J6s" target="_blank"><div class="num">1</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الأول</h4></div></a>
+        <a class="video-item" href="https://youtu.be/cUwssN_eosw" target="_blank"><div class="num">2</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثاني</h4></div></a>
+        <a class="video-item" href="https://youtu.be/DuZ1ApNXy_o" target="_blank"><div class="num">3</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثالث (تحذير)</h4></div></a>
+        <a class="video-item" href="https://youtu.be/YXXMU6yS75o" target="_blank"><div class="num">4</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الرابع (إرشاد)</h4></div></a>
+        <a class="video-item" href="https://youtu.be/siETNGag3O4" target="_blank"><div class="num">5</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الخامس</h4></div></a>
+        <a class="video-item" href="https://youtu.be/3k2GiBH_ChQ" target="_blank"><div class="num">6</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء السادس</h4></div></a>
+        <a class="video-item" href="https://youtu.be/yExOO3swZkY" target="_blank"><div class="num">7</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء السابع</h4></div></a>
+        <a class="video-item" href="https://youtu.be/jvnGCZHw5BY" target="_blank"><div class="num">8</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الثامن</h4></div></a>
+        <a class="video-item" href="https://youtu.be/hFbSdrcrccs" target="_blank"><div class="num">9</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء التاسع</h4></div></a>
+        <a class="video-item" href="https://youtu.be/qUsoP5FchxM" target="_blank"><div class="num">10</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء العاشر</h4></div></a>
+        <a class="video-item" href="https://youtu.be/p1849SdvOPY" target="_blank"><div class="num">11</div><div class="play"><span>▶</span></div><div class="info"><h4>الجزء الحادي عشر</h4></div></a>
+      </div>
+      <hr class="divider">
+      <h3>📖 الدوسية</h3>
+      <div class="video-list">
+        <a class="video-item" href="https://youtu.be/9Ezf1P3LlxY" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📘 الجزء الأول</h4></div></a>
+        <a class="video-item" href="https://youtu.be/DVISY_rAlII" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📘 الجزء الثاني</h4></div></a>
+        <a class="video-item" href="https://youtu.be/YITC18yk2zg" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🛑 الوقوف والتوقف</h4></div></a>
+        <a class="video-item" href="https://youtu.be/-5xhg4bJRtI" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>↔️ التجاوز والعبور</h4></div></a>
+        <a class="video-item" href="https://youtu.be/IFYBBlq0frc" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>⚖️ هرم الطاعة وحق الأولوية</h4></div></a>
+        <a class="video-item" href="https://youtu.be/iVf-7n1RNm8" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🔄 الاستدارات</h4></div></a>
+        <a class="video-item" href="https://youtu.be/SSrZtJ4wxP0" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🚗 معرفة المركبة (1)</h4></div></a>
+        <a class="video-item" href="https://youtu.be/TTkzV44FlEw" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>🚗 معرفة المركبة (2)</h4></div></a>
+      </div>
+      <hr class="divider">
+      <h3>📝 حل الأسئلة</h3>
+      <div class="video-list">
+        <a class="video-item" href="https://youtu.be/v_lo99ESNH0" target="_blank"><div class="play"><span>▶</span></div><div class="info"><h4>📝 حل الأسئلة</h4></div></a>
+      </div>
     </div>
   </div>
 
-  <div class="section">
-    <h2>📞 تواصل معي</h2>
-    <p style="text-align:center;font-size:16px;">
-      <strong id="contactName">مدرب السياقة سمير ابو قبيطة</strong><br>
-      📞 0568444407<br>
-      🇵🇸 فلسطين
-    </p>
+  <!-- ===== EXAM PAGE ===== -->
+  <div id="examPage" class="page-content hidden">
+    <div class="section" id="catsSection">
+      <div class="back-bar">
+        <button class="back-btn" onclick="closeExamPage()">↩ رجوع للرئيسية</button>
+        <h2 style="margin:0;color:#00695c;">📝 نماذج امتحانات التؤوريا</h2>
+      </div>
+      <p style="margin-bottom:10px;font-size:13px;color:#888;">اختر التصنيف المناسب لبدء الامتحان التجريبي:</p>
+      <div class="cat-grid" id="catGrid"></div>
+    </div>
+    <div class="section quiz-section hidden" id="quizSection">
+      <div id="quizArea"></div>
+    </div>
   </div>
 
-  <div class="footer">
-    <p>© جميع الحقوق محفوظة لـ <strong>مدرب السياقة سمير ابو قبيطة</strong></p>
+  <!-- ===== PDF PAGE ===== -->
+  <div id="pdfPage" class="page-content hidden">
+    <div class="section">
+      <div class="back-bar">
+        <button class="back-btn" onclick="closePdfPage()">↩ رجوع للرئيسية</button>
+        <h2 style="margin:0;color:#e65100;">📖 دوسية شرح التؤوريا</h2>
+      </div>
+      <div style="font-size:13px;color:#888;margin-bottom:10px;">دوسية شرح كاملة للتؤوريا:</div>
+      <iframe class="pdf-container" id="pdfFrame" src=""></iframe>
+    </div>
   </div>
 
 </div>
 
-<script>
+  <script>
+// ========== Set default header image to car ==========
+(function() {
+  if (!localStorage.getItem('admin_header_img')) {
+    localStorage.setItem('admin_header_img', 'assets/car.jpeg');
+  }
+})();
+
+// Page navigation
+function hideAllPages() {
+  ['mainPage','videoPage','examPage','pdfPage'].forEach(id => {
+    document.getElementById(id).classList.add('hidden');
+  });
+}
+
+function openVideoPage() {
+  hideAllPages();
+  document.getElementById('videoPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function closeVideoPage() {
+  hideAllPages();
+  document.getElementById('mainPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function openExamPage() {
+  hideAllPages();
+  document.getElementById('examPage').classList.remove('hidden');
+  document.getElementById('quizSection').classList.remove('active');
+  document.getElementById('quizSection').classList.add('hidden');
+  document.getElementById('catsSection').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function closeExamPage() {
+  hideAllPages();
+  document.getElementById('mainPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function openPdfPage() {
+  const pdfUrl = localStorage.getItem('admin_pdf_url') || 'https://www.mot.gov.ps/theoretical-exam';
+  document.getElementById('pdfFrame').src = pdfUrl;
+  hideAllPages();
+  document.getElementById('pdfPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function closePdfPage() {
+  document.getElementById('pdfFrame').src = '';
+  hideAllPages();
+  document.getElementById('mainPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+// Share site
+function shareSite() {
+  const url = window.location.href;
+  const title = 'مدرب السياقة سمير ابو قبيطة - امتحان التؤوريا النظري التجريبي';
+  if (navigator.share) {
+    navigator.share({ title: title, url: url }).catch(() => {});
+  } else {
+    navigator.clipboard.writeText(url).then(() => {
+      alert('✅ تم نسخ الرابط!');
+    }).catch(() => {
+      prompt('انسخ الرابط:', url);
+    });
+  }
+}
+
+// Scroll to top
+function scrollToTop() {
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+window.addEventListener('scroll', function() {
+  const btn = document.getElementById('backTopBtn');
+  if (window.scrollY > 300) {
+    btn.classList.add('visible');
+  } else {
+    btn.classList.remove('visible');
+  }
+});
+
 // Admin - password protection
 let adminUnlocked = false;
 
@@ -453,8 +700,8 @@ function toggleAdminPanel() {
   if (existing) { existing.remove(); return; }
   const panel = document.createElement('div');
   panel.id = 'adminPanel';
-  panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:24px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:500px;width:92%;text-align:center;';
-  panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="profile">🖼️ الصورة</button><button class="admin-tab" data-tab="announce">📢 الإعلان</button><button class="admin-tab" data-tab="stats">📊 الإحصائيات</button></div><div id="adminContent" style="font-size:13px;color:#555;max-height:370px;overflow-y:auto;text-align:right;"></div><div style="margin-top:8px;padding-top:8px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:20px;color:#888;">⏳ جاري التحميل...</div>';
+  panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:480px;width:94%;text-align:center;animation:fadeIn 0.2s ease;';
+  panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="headerImg">🖼️ صورة الهيدر</button><button class="admin-tab" data-tab="announce">📢 الإعلان النصي</button><button class="admin-tab" data-tab="pdf">📖 رابط الدوسية</button><button class="admin-tab" data-tab="stats">📊 الإحصائيات</button></div><div id="adminContent" style="font-size:12px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div style="margin-top:6px;padding-top:6px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:16px;color:#888;">⏳ جاري التحميل...</div>';
   document.body.appendChild(panel);
   document.getElementById('adminTabs').addEventListener('click', function(e) {
     const tab = e.target.closest('.admin-tab');
@@ -466,15 +713,20 @@ function toggleAdminPanel() {
   adminSwitchTab('questions');
 }
 
+function closeAdmin() {
+  const p = document.getElementById('adminPanel');
+  if (p) p.remove();
+}
+
 function adminSwitchTab(tab) {
   if (tab === 'questions') {
     const content = document.getElementById('adminContent');
-    let html = '<p style="margin-bottom:10px;font-size:14px;color:#666;">مرحباً بك يا سمير! 👋</p><div id="adminCats" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px;"></div>';
+    let html = '<p style="margin-bottom:8px;font-size:13px;color:#666;">مرحباً بك يا سمير! 👋</p><div id="adminCats" style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;"></div>';
     content.innerHTML = html;
     const catsDiv = document.getElementById('adminCats');
     for (const cat of CATEGORIES) {
       const btn = document.createElement('div');
-      btn.style.cssText = 'padding:6px 12px;border-radius:8px;background:#e0f2f1;cursor:pointer;font-size:12px;transition:all 0.15s;border:1px solid #b2dfdb;';
+      btn.style.cssText = 'padding:5px 10px;border-radius:8px;background:#e0f2f1;cursor:pointer;font-size:11px;transition:all 0.15s;border:1px solid #b2dfdb;';
       btn.textContent = cat.icon + ' ' + cat.name;
       btn.onmouseover = function() { this.style.background = '#009688'; this.style.color = 'white'; };
       btn.onmouseout = function() { this.style.background = '#e0f2f1'; this.style.color = '#333'; };
@@ -485,110 +737,36 @@ function adminSwitchTab(tab) {
     adminShowImages();
   } else if (tab === 'announce') {
     adminShowAnnounce();
-  } else if (tab === 'profile') {
-    adminShowProfile();
+  } else if (tab === 'headerImg') {
+    adminShowHeaderImage();
+  } else if (tab === 'pdf') {
+    adminShowPdfSettings();
   } else if (tab === 'stats') {
     adminShowStats();
   }
 }
 
-let adminImgData = [];
-
-function adminShowImages() {
+// ========== Admin: Header Image ==========
+function adminShowHeaderImage() {
   const content = document.getElementById('adminContent');
-  adminImgData = JSON.parse(localStorage.getItem('admin_images') || '["","","","",""]');
-  let html = '<p style="font-size:14px;color:#666;margin-bottom:10px;">اختر صور من جهازك أو أضف رابط (5 صور كحد أقصى):</p>';
-  html += '<table class="admin-table">';
-  for (let i = 0; i < 5; i++) {
-    const src = adminImgData[i] || '';
-    html += '<tr><td style="width:40px;color:#888;font-weight:bold;vertical-align:top;padding-top:10px;">' + (i+1) + '</td>';
-    html += '<td style="padding:4px 0;">';
-    html += '<input type="file" accept="image/*" id="imgFile' + i + '" style="font-size:12px;margin-bottom:4px;width:100%;" onchange="adminPreviewFile(' + i + ')">';
-    html += '<input type="text" id="imgUrl' + i + '" value="' + (src && !src.startsWith('data:') ? src : '') + '" placeholder="أو أضف رابط صورة" style="width:100%;padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;box-sizing:border-box;">';
-    html += '</td>';
-    html += '<td style="width:70px;text-align:center;vertical-align:top;padding-top:4px;">';
-    if (src) {
-      html += '<div style="position:relative;display:inline-block;"><img src="' + src + '" class="admin-img-preview" id="preview' + i + '" onerror="this.outerHTML=\'<span style=color:#c62828;font-size:11px;>❌</span>\'"><div style="font-size:10px;color:#888;margin-top:2px;">' + Math.round(src.length * 0.75 / 1024) + 'KB</div></div>';
-    } else {
-      html += '<div id="preview' + i + '"></div>';
-    }
-    html += '</td></tr>';
-  }
-  html += '</table>';
-  html += '<button class="admin-save-btn" onclick="adminSaveImages()">💾 حفظ الصور</button>';
-  html += '<div id="imgStatus" style="margin-top:6px;font-size:12px;color:#888;"></div>';
-  content.innerHTML = html;
-}
-
-function adminPreviewFile(idx) {
-  const fileInput = document.getElementById('imgFile' + idx);
-  const preview = document.getElementById('preview' + idx);
-  const file = fileInput.files[0];
-  if (!file) return;
-  if (file.size > 500 * 1024) {
-    alert('الصورة كبيرة جداً! الحجم الأقصى 500 كيلوبايت.');
-    fileInput.value = '';
-    return;
-  }
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const dataUrl = e.target.result;
-    adminImgData[idx] = dataUrl;
-    preview.innerHTML = '<img src="' + dataUrl + '" class="admin-img-preview" style="border:2px solid #4caf50;"><div style="font-size:10px;color:#888;margin-top:2px;">' + Math.round(dataUrl.length * 0.75 / 1024) + 'KB</div>';
-    document.getElementById('imgUrl' + idx).value = '';
-  };
-  reader.readAsDataURL(file);
-}
-
-function adminSaveImages() {
-  for (let i = 0; i < 5; i++) {
-    const url = document.getElementById('imgUrl' + i).value.trim();
-    if (url && !adminImgData[i]) {
-      adminImgData[i] = url;
-    }
-    if (!url && !adminImgData[i]) {
-      adminImgData[i] = '';
-    }
-  }
-  localStorage.setItem('admin_images', JSON.stringify(adminImgData));
-  document.getElementById('imgStatus').textContent = '✅ تم حفظ الصور بنجاح!';
-  loadGalleryImages();
-}
-
-function adminSaveImages() {
-  const images = [];
-  for (let i = 0; i < 5; i++) {
-    const url = document.getElementById('imgUrl' + i).value.trim();
-    images.push(url);
-  }
-  localStorage.setItem('admin_images', JSON.stringify(images));
-  document.getElementById('imgStatus').textContent = '✅ تم حفظ الصور بنجاح!';
-  loadGalleryImages();
-}
-
-function adminShowProfile() {
-  const content = document.getElementById('adminContent');
-  const current = localStorage.getItem('admin_profile_img') || '';
-  let html = '<p style="font-size:14px;color:#666;margin-bottom:10px;">تغيير الصورة الشخصية (صورة البروفايل):</p>';
-  html += '<div style="text-align:center;margin-bottom:12px;">';
+  const current = localStorage.getItem('admin_header_img') || '';
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">تغيير صورة الهيدر (صورة السيارة أو أي صورة أخرى):</p>';
+  html += '<div style="text-align:center;margin-bottom:10px;">';
+  html += '<img src="' + (current || 'assets/car.jpeg') + '" id="headerImgPreview" style="width:110px;height:110px;border-radius:50%;border:4px solid #bbdefb;object-fit:cover;box-shadow:0 4px 15px rgba(0,0,0,0.3);">';
   if (current) {
-    html += '<img src="' + current + '" style="width:130px;height:130px;border-radius:50%;border:4px solid #bbdefb;object-fit:cover;box-shadow:0 4px 15px rgba(0,0,0,0.3);">';
-    html += '<div style="margin-top:6px;font-size:11px;color:#888;">' + Math.round(current.length * 0.75 / 1024) + 'KB</div>';
-  } else {
-    html += '<img src="assets/profile.jpeg" style="width:130px;height:130px;border-radius:50%;border:4px solid #bbdefb;object-fit:cover;box-shadow:0 4px 15px rgba(0,0,0,0.3);">';
-    html += '<div style="margin-top:6px;font-size:11px;color:#888;">الصورة الحالية (الافتراضية)</div>';
+    html += '<div style="margin-top:4px;font-size:11px;color:#888;">' + Math.round(current.length * 0.75 / 1024) + 'KB</div>';
   }
   html += '</div>';
-  html += '<input type="file" accept="image/*" id="profileFile" onchange="adminPreviewProfile()" style="display:block;margin:0 auto 8px;font-size:13px;">';
-  html += '<div style="font-size:12px;color:#999;margin-bottom:8px;">الحد الأقصى 500 كيلوبايت</div>';
-  html += '<div><button class="admin-save-btn" onclick="adminSaveProfile()">💾 حفظ الصورة</button>';
-  html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminResetProfile()">🗑️ استعادة الافتراضية</button></div>';
-  html += '<div id="profileStatus" style="margin-top:6px;font-size:12px;color:#888;"></div>';
+  html += '<input type="file" accept="image/*" id="headerImgFile" onchange="adminPreviewHeaderImg()" style="display:block;margin:0 auto 6px;font-size:12px;">';
+  html += '<div style="font-size:11px;color:#999;margin-bottom:6px;">الحد الأقصى 500 كيلوبايت</div>';
+  html += '<div><button class="admin-save-btn" onclick="adminSaveHeaderImg()">💾 حفظ الصورة</button>';
+  html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminResetHeaderImg()">🗑️ استعادة الافتراضية</button></div>';
+  html += '<div id="headerImgStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
   content.innerHTML = html;
 }
 
-function adminPreviewProfile() {
-  const fileInput = document.getElementById('profileFile');
+function adminPreviewHeaderImg() {
+  const fileInput = document.getElementById('headerImgFile');
   const file = fileInput.files[0];
   if (!file) return;
   if (file.size > 500 * 1024) {
@@ -599,47 +777,130 @@ function adminPreviewProfile() {
   const reader = new FileReader();
   reader.onload = function(e) {
     const dataUrl = e.target.result;
-    localStorage.setItem('admin_profile_img', dataUrl);
-    document.getElementById('profileStatus').textContent = '✅ تم حفظ الصورة!';
-    loadProfileImage();
+    document.getElementById('headerImgPreview').src = dataUrl;
+    document.getElementById('headerImgStatus').textContent = '✅ اخترت الصورة. اضغط "حفظ" لتأكيد.';
   };
   reader.readAsDataURL(file);
 }
 
-function adminSaveProfile() {
-  const fileInput = document.getElementById('profileFile');
-  if (fileInput.files[0]) {
-    adminPreviewProfile();
+function adminSaveHeaderImg() {
+  const preview = document.getElementById('headerImgPreview');
+  if (preview.src.startsWith('data:')) {
+    localStorage.setItem('admin_header_img', preview.src);
+    document.getElementById('headerImgStatus').textContent = '✅ تم حفظ الصورة!';
+    loadHeaderImage();
   } else {
-    document.getElementById('profileStatus').textContent = '⚠️ لم تختر صورة';
+    document.getElementById('headerImgStatus').textContent = '⚠️ لم تختر صورة جديدة';
   }
 }
 
-function adminResetProfile() {
-  localStorage.removeItem('admin_profile_img');
-  document.getElementById('profileStatus').textContent = '🗑️ تم استعادة الصورة الافتراضية';
-  loadProfileImage();
-  adminShowProfile();
+function adminResetHeaderImg() {
+  localStorage.removeItem('admin_header_img');
+  document.getElementById('headerImgStatus').textContent = '🗑️ تم استعادة الصورة الافتراضية';
+  loadHeaderImage();
+  adminShowHeaderImage();
 }
 
-function loadProfileImage() {
-  const img = document.querySelector('.header img');
-  const custom = localStorage.getItem('admin_profile_img');
-  if (custom) {
-    img.src = custom;
-  } else {
-    img.src = 'assets/profile.jpeg';
+function loadHeaderImage() {
+  const img = document.getElementById('profileImg');
+  const custom = localStorage.getItem('admin_header_img');
+  img.src = custom || 'assets/car.jpeg';
+}
+
+// ========== Admin: PDF Settings ==========
+function adminShowPdfSettings() {
+  const content = document.getElementById('adminContent');
+  const url = localStorage.getItem('admin_pdf_url') || 'https://www.mot.gov.ps/theoretical-exam';
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">تغيير رابط ملف دوسية التؤوريا PDF:</p>';
+  html += '<div style="margin-bottom:8px;padding:10px;background:#f5f5f5;border-radius:8px;word-break:break-all;font-size:11px;color:#888;">الرابط الحالي:<br><strong id="currentPdfUrl">' + url + '</strong></div>';
+  html += '<input type="url" id="pdfUrlInput" value="' + url + '" placeholder="ألصق رابط ملف PDF هنا" style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;box-sizing:border-box;">';
+  html += '<div><button class="admin-save-btn" onclick="adminSavePdfUrl()">💾 حفظ الرابط</button>';
+  html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminResetPdfUrl()">🗑️ استعادة الافتراضي</button></div>';
+  html += '<div id="pdfStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
+  content.innerHTML = html;
+}
+
+function adminSavePdfUrl() {
+  const url = document.getElementById('pdfUrlInput').value.trim();
+  if (!url) { document.getElementById('pdfStatus').textContent = '⚠️ الرابط لا يمكن أن يكون فارغاً'; return; }
+  localStorage.setItem('admin_pdf_url', url);
+  document.getElementById('currentPdfUrl').textContent = url;
+  document.getElementById('pdfStatus').textContent = '✅ تم حفظ الرابط!';
+}
+
+function adminResetPdfUrl() {
+  const url = 'https://www.mot.gov.ps/theoretical-exam';
+  localStorage.setItem('admin_pdf_url', url);
+  document.getElementById('pdfUrlInput').value = url;
+  document.getElementById('currentPdfUrl').textContent = url;
+  document.getElementById('pdfStatus').textContent = '🗑️ تم استعادة الرابط الافتراضي';
+}
+
+// ========== Admin: Images ==========
+let adminImgData = [];
+
+function adminShowImages() {
+  const content = document.getElementById('adminContent');
+  adminImgData = JSON.parse(localStorage.getItem('admin_images') || '["","","","",""]');
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">اختر صور من جهازك أو أضف رابط (5 صور كحد أقصى):</p>';
+  html += '<table class="admin-table">';
+  for (let i = 0; i < 5; i++) {
+    const src = adminImgData[i] || '';
+    html += '<tr><td style="width:30px;color:#888;font-weight:bold;vertical-align:top;padding-top:8px;">' + (i+1) + '</td>';
+    html += '<td style="padding:2px 0;">';
+    html += '<input type="file" accept="image/*" id="imgFile' + i + '" style="font-size:11px;margin-bottom:2px;width:100%;" onchange="adminPreviewFile(' + i + ')">';
+    html += '<input type="text" id="imgUrl' + i + '" value="' + (src && !src.startsWith('data:') ? src : '') + '" placeholder="أو أضف رابط صورة" style="width:100%;padding:4px 6px;border:1px solid #ddd;border-radius:6px;font-size:11px;box-sizing:border-box;">';
+    html += '</td>';
+    html += '<td style="width:60px;text-align:center;vertical-align:top;padding-top:4px;">';
+    if (src) {
+      html += '<div style="position:relative;display:inline-block;"><img src="' + src + '" class="admin-img-preview" id="preview' + i + '" onerror="this.outerHTML=\'<span style=color:#c62828;font-size:11px;>❌</span>\'"></div>';
+    } else {
+      html += '<div id="preview' + i + '"></div>';
+    }
+    html += '</td></tr>';
   }
+  html += '</table>';
+  html += '<button class="admin-save-btn" onclick="adminSaveImages()">💾 حفظ الصور</button>';
+  html += '<div id="imgStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
+  content.innerHTML = html;
 }
 
+function adminPreviewFile(idx) {
+  const fileInput = document.getElementById('imgFile' + idx);
+  const preview = document.getElementById('preview' + idx);
+  const file = fileInput.files[0];
+  if (!file) return;
+  if (file.size > 500 * 1024) { alert('الصورة كبيرة جداً! الحجم الأقصى 500 كيلوبايت.'); fileInput.value = ''; return; }
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const dataUrl = e.target.result;
+    adminImgData[idx] = dataUrl;
+    preview.innerHTML = '<img src="' + dataUrl + '" class="admin-img-preview" style="border:2px solid #4caf50;">';
+    document.getElementById('imgUrl' + idx).value = '';
+  };
+  reader.readAsDataURL(file);
+}
+
+function adminSaveImages() {
+  for (let i = 0; i < 5; i++) {
+    const url = document.getElementById('imgUrl' + i).value.trim();
+    if (url && !adminImgData[i]) { adminImgData[i] = url; }
+    if (!url && !adminImgData[i]) { adminImgData[i] = ''; }
+  }
+  localStorage.setItem('admin_images', JSON.stringify(adminImgData));
+  document.getElementById('imgStatus').textContent = '✅ تم حفظ الصور بنجاح!';
+  loadGalleryImages();
+}
+
+// ========== Admin: Announcement ==========
 function adminShowAnnounce() {
   const content = document.getElementById('adminContent');
   const text = localStorage.getItem('admin_announcement') || '';
-  let html = '<p style="font-size:14px;color:#666;margin-bottom:10px;">اكتب الإعلان أو النشرة التي تريد إظهارها للزوار:</p>';
-  html += '<textarea id="announceText" placeholder="اكتب الإعلان هنا...">' + text + '</textarea>';
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">اكتب الإعلان أو النشرة التي تريد إظهارها للزوار:</p>';
+  html += '<textarea id="announceText" placeholder="اكتب الإعلان هنا..." style="width:100%;padding:8px 10px;border:1px solid #ddd;border-radius:8px;font-size:13px;box-sizing:border-box;min-height:60px;resize:vertical;">' + text + '</textarea>';
   html += '<div><button class="admin-save-btn" onclick="adminSaveAnnounce()">💾 حفظ الإعلان</button>';
   html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminClearAnnounce()">🗑️ حذف الإعلان</button></div>';
-  html += '<div id="announceStatus" style="margin-top:6px;font-size:12px;color:#888;"></div>';
+  html += '<div id="announceStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
   content.innerHTML = html;
 }
 
@@ -657,27 +918,88 @@ function adminClearAnnounce() {
   loadAnnouncement();
 }
 
+// ========== Admin: Stats ==========
 function adminShowStats() {
   const content = document.getElementById('adminContent');
   let visits = parseInt(localStorage.getItem('visit_count_local') || '1');
   let lastVisit = localStorage.getItem('last_visit_date') || 'غير متوفر';
-  let html = '<p style="font-size:14px;color:#666;margin-bottom:12px;">إحصائيات الموقع:</p>';
-  html += '<div style="background:#f9f9f9;padding:16px;border-radius:10px;text-align:center;">';
-  html += '<div id="globalCount" style="font-size:36px;font-weight:bold;color:#009688;">⏳</div>';
-  html += '<div style="font-size:13px;color:#888;margin-top:4px;">إجمالي زوار الموقع</div>';
-  html += '</div>';
-  html += '<div style="margin-top:12px;background:#f0f0f0;padding:12px;border-radius:8px;text-align:center;">';
-  html += '<div style="font-size:14px;color:#555;">عدد زياراتك الشخصية: <strong>' + visits + '</strong></div>';
-  html += '<div style="font-size:12px;color:#999;margin-top:4px;">آخر زيارة: ' + lastVisit + '</div>';
-  html += '</div>';
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:10px;">إحصائيات الموقع:</p>';
+  html += '<div style="background:#f9f9f9;padding:14px;border-radius:10px;text-align:center;">';
+  html += '<div id="globalCount" style="font-size:32px;font-weight:bold;color:#009688;">⏳</div>';
+  html += '<div style="font-size:12px;color:#888;margin-top:4px;">إجمالي زوار الموقع</div></div>';
+  html += '<div style="margin-top:10px;background:#f0f0f0;padding:10px;border-radius:8px;text-align:center;">';
+  html += '<div style="font-size:13px;color:#555;">عدد زياراتك الشخصية: <strong>' + visits + '</strong></div>';
+  html += '<div style="font-size:11px;color:#999;margin-top:4px;">آخر زيارة: ' + lastVisit + '</div></div>';
   content.innerHTML = html;
   fetch('https://api.countapi.xyz/get/samir-teoria/visitors')
-    .then(r => r.json())
-    .then(d => { document.getElementById('globalCount').textContent = d.value; })
+    .then(r => r.json()).then(d => { document.getElementById('globalCount').textContent = d.value; })
     .catch(() => { document.getElementById('globalCount').textContent = visits; });
 }
 
-// Quiz configuration
+// ========== Admin: Questions ==========
+async function adminLoadCategory(cat) {
+  const content = document.getElementById('adminContent');
+  const loading = document.getElementById('adminLoading');
+  if (!content || !loading) return;
+  loading.style.display = 'block'; content.innerHTML = '';
+  try {
+    const url = Q_DIR + '/' + cat.file + '.txt';
+    const res = await fetch(url);
+    if (!res.ok) throw new Error('فشل التحميل');
+    const text = await res.text();
+    const groups = parseQuestions(text);
+    catFileName = cat.file;
+    let html = '<div style="border-bottom:2px solid #009688;padding-bottom:6px;margin-bottom:6px;"><strong style="font-size:14px;">' + cat.icon + ' ' + cat.name + '</strong> <span style="color:#888;font-size:11px;">(' + groups.length + ' مجموعة)</span></div>';
+    const bySub = {};
+    for (const g of groups) { if (!bySub[g.subType]) bySub[g.subType] = []; bySub[g.subType].push(g); }
+    for (const st of ['عادي', 'استكمالي', 'شفوي']) {
+      const grps = bySub[st];
+      if (!grps) continue;
+      html += '<div style="margin:4px 0;padding:4px 8px;background:#f5f5f5;border-radius:6px;"><strong style="color:#00796b;font-size:12px;">' + st + ' (' + grps.length + ' مجموعة)</strong><div style="margin-top:2px;display:flex;flex-wrap:wrap;gap:3px;">';
+      for (const g of grps) {
+        html += '<span style="padding:2px 6px;background:#e0f2f1;border-radius:4px;font-size:10px;cursor:pointer;" onclick="adminShowGroup(' + groups.indexOf(g) + ')">مجموعة ' + g.groupNumber + ' (' + g.questions.length + ')</span>';
+      }
+      html += '</div></div>';
+    }
+    window._adminGroups = groups;
+    content.innerHTML = html;
+  } catch(e) { content.innerHTML = '<div style="color:#c62828;">❌ ' + e.message + '</div>'; }
+  finally { loading.style.display = 'none'; }
+}
+
+function adminShowGroup(gi) {
+  const groups = window._adminGroups;
+  if (!groups || !groups[gi]) return;
+  const g = groups[gi];
+  const content = document.getElementById('adminContent');
+  let html = '<div style="margin-bottom:6px;"><button onclick="adminLoadCategory(CATEGORIES.find(c => c.file === \'' + catFileName + '\') || CATEGORIES[0])" style="padding:3px 8px;border:none;border-radius:6px;background:#e0e0e0;cursor:pointer;font-size:11px;">↩ رجوع</button></div>';
+  html += '<div style="border-bottom:1px solid #eee;padding-bottom:4px;margin-bottom:6px;"><strong>' + g.sectionName + ' - مجموعة ' + g.groupNumber + '</strong> (' + g.questions.length + ' سؤال - نجاح: ' + g.passScore + '/' + g.totalQuestions + ')</div>';
+  for (const q of g.questions) {
+    const correctIdx = q.answers.findIndex(a => a.isCorrect);
+    html += '<div style="border:1px solid #e0e0e0;border-radius:8px;padding:8px;margin-bottom:6px;"><div style="font-weight:bold;color:#00796b;margin-bottom:4px;font-size:12px;">سؤال ' + q.number + ':</div>';
+    let qtext = q.text.replace(/\[SIG:(\w+)\]/g, '<span style="color:#1565c0;font-size:11px;">[$1]</span>');
+    html += '<div style="margin-bottom:4px;line-height:1.6;font-size:12px;">' + qtext + '</div>';
+    if (q.imageCodes.length > 0) {
+      for (const code of q.imageCodes) {
+        const url = getSignUrl(code);
+        if (url) html += '<div><img src="' + url + '" style="max-width:100px;max-height:100px;border-radius:4px;border:1px solid #ddd;"></div>';
+      }
+    }
+    const letters = ['أ', 'ب', 'ج', 'د'];
+    for (let i = 0; i < q.answers.length; i++) {
+      const a = q.answers[i];
+      let atext = a.text.replace(/\[SIG:(\w+)\]/g, '<span style="color:#1565c0;font-size:11px;">[$1]</span>');
+      html += '<div style="padding:3px 6px;margin:1px 0;border-radius:4px;background:' + (a.isCorrect ? '#c8e6c9' : '#fff') + ';border:1px solid ' + (a.isCorrect ? '#2e7d32' : '#eee') + ';font-size:11px;">';
+      html += '<span style="font-weight:bold;color:' + (a.isCorrect ? '#2e7d32' : '#888') + ';">' + letters[i] + ')</span> ' + atext;
+      if (a.isCorrect) html += ' <span style="color:#2e7d32;">✓</span>';
+      html += '</div>';
+    }
+    html += '</div>';
+  }
+  content.innerHTML = html;
+}
+
+// ========== Quiz Engine ==========
 const CATEGORIES = [
   { file: 'alkhososi', name: '🚗 خصوصي', icon: '🚗' },
   { file: 'alshahn_alkhafif', name: '🚚 شحن خفيف', icon: '🚚' },
@@ -703,21 +1025,14 @@ let catFileName = '';
 let quizPassScore = 25;
 let quizTotalQ = 30;
 
-// Load sign map
 async function loadSignMap() {
-  try {
-    const res = await fetch(BASE + '/signs/sign_map.json');
-    signMap = await res.json();
-  } catch(e) {
-    // If sign map fails, just continue without it
-  }
+  try { const res = await fetch(BASE + '/signs/sign_map.json'); signMap = await res.json(); } catch(e) {}
 }
 
 function getSignUrl(code) {
   const num = signMap[code];
   if (!num) return null;
-  const padded = String(num).padStart(3, '0');
-  return S_DIR + '/' + padded + '.jpg';
+  return S_DIR + '/' + String(num).padStart(3, '0') + '.jpg';
 }
 
 function renderSign(code) {
@@ -737,8 +1052,7 @@ function replaceSigns(text) {
 function replaceImageCodes(text) {
   return text.replace(/\[صورة:\s*([^\]]+)\]/g, function(m, codes) {
     return codes.split(',').map(function(c) {
-      c = c.trim();
-      if (!c) return '';
+      c = c.trim(); if (!c) return '';
       const url = getSignUrl(c);
       if (!url) return '[' + c + ']';
       return '<br><img src="' + url + '" alt="' + c + '" style="max-width:200px;max-height:200px;border-radius:8px;border:2px solid #e0e0e0;margin:6px 0;" onerror="this.outerHTML=\'[' + c + ']\'">';
@@ -752,141 +1066,67 @@ function subType(name) {
   return 'عادي';
 }
 
-function mainName(name) {
-  return name.replace(/\s*\([^)]*\)/g, '').trim();
-}
+function mainName(name) { return name.replace(/\s*\([^)]*\)/g, '').trim(); }
 
-// Parse question file
 function parseQuestions(content) {
   const lines = content.split('\n');
-  const sections = [];
-  let currentSection = null;
-
+  const sections = []; let currentSection = null;
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
     const secMatch = line.match(/القسم:\s*(.+)/);
     if (secMatch) {
       if (currentSection) sections.push(currentSection);
-      currentSection = {
-        name: secMatch[1].trim(),
-        passScore: 25,
-        totalQuestions: 30,
-        groups: [],
-        lines: []
-      };
+      currentSection = { name: secMatch[1].trim(), passScore: 25, totalQuestions: 30, groups: [], lines: [] };
       continue;
     }
     const passMatch = line.match(/درجة النجاح:\s*(\d+)\/(\d+)/);
-    if (passMatch && currentSection) {
-      currentSection.passScore = parseInt(passMatch[1]);
-      currentSection.totalQuestions = parseInt(passMatch[2]);
-    }
-    if (currentSection) {
-      currentSection.lines.push(line);
-    }
+    if (passMatch && currentSection) { currentSection.passScore = parseInt(passMatch[1]); currentSection.totalQuestions = parseInt(passMatch[2]); }
+    if (currentSection) currentSection.lines.push(line);
   }
   if (currentSection) sections.push(currentSection);
-
-  // Parse groups from each section
   const allGroups = [];
   for (const sec of sections) {
-    let groups = [];
-    let currentGroup = null;
-
+    let groups = []; let currentGroup = null;
     for (const line of sec.lines) {
       const gm = line.match(/\[\s*مجموعة\s+(\d+)/);
-      if (gm) {
-        if (currentGroup) groups.push(currentGroup);
-        currentGroup = { number: parseInt(gm[1]), lines: [] };
-        continue;
-      }
+      if (gm) { if (currentGroup) groups.push(currentGroup); currentGroup = { number: parseInt(gm[1]), lines: [] }; continue; }
       if (currentGroup) currentGroup.lines.push(line);
     }
     if (currentGroup) groups.push(currentGroup);
-
-    if (groups.length === 0) {
-      groups = [{ number: 1, lines: sec.lines }];
-    }
-
-    const sub = subType(sec.name);
-    const main = mainName(sec.name);
-
+    if (groups.length === 0) groups = [{ number: 1, lines: sec.lines }];
+    const sub = subType(sec.name); const main = mainName(sec.name);
     for (const g of groups) {
       const questions = parseQuestionsFromLines(g.lines);
-      if (questions.length > 0) {
-        allGroups.push({
-          sectionName: sec.name,
-          mainName: main,
-          subType: sub,
-          passScore: sec.passScore,
-          totalQuestions: sec.totalQuestions,
-          groupNumber: g.number,
-          questions: questions
-        });
-      }
+      if (questions.length > 0) allGroups.push({ sectionName: sec.name, mainName: main, subType: sub, passScore: sec.passScore, totalQuestions: sec.totalQuestions, groupNumber: g.number, questions: questions });
     }
   }
-
   return allGroups;
 }
 
 function parseQuestionsFromLines(lines) {
-  const questions = [];
-  let current = null;
-
-  function finalize() {
-    if (!current || current.text === '' || current.answers.length === 0) return;
-    questions.push({
-      number: current.number,
-      text: current.text,
-      imageCodes: current.imageCodes,
-      answers: current.answers
-    });
-  }
-
+  const questions = []; let current = null;
+  function finalize() { if (!current || current.text === '' || current.answers.length === 0) return; questions.push({ number: current.number, text: current.text, imageCodes: current.imageCodes, answers: current.answers }); }
   for (const line of lines) {
     const qm = line.trim().match(/سؤال (\d+):\s*(.*)/);
-    if (qm) {
-      finalize();
-      current = {
-        number: parseInt(qm[1]),
-        text: qm[2].trim(),
-        imageCodes: [],
-        answers: []
-      };
-      continue;
-    }
+    if (qm) { finalize(); current = { number: parseInt(qm[1]), text: qm[2].trim(), imageCodes: [], answers: [] }; continue; }
     if (!current) continue;
-
     const imgMatch = line.match(/\[صورة:\s*(.+?)\]/);
-    if (imgMatch) {
-      const codes = imgMatch[1].split(',').map(c => c.trim()).filter(c => c);
-      current.imageCodes.push(...codes);
-      continue;
-    }
-
+    if (imgMatch) { const codes = imgMatch[1].split(',').map(c => c.trim()).filter(c => c); current.imageCodes.push(...codes); continue; }
     const am = line.trim().match(/^[أ-د]\)/);
     if (am) {
       const isCorrect = line.indexOf('✓') !== -1;
       let clean = line.trim().replace('✓', '').trim();
       const letterMatch = clean.match(/^[أ-د]\)\s*/);
       if (letterMatch) clean = clean.substring(letterMatch[0].length);
-      let sigCode = null;
-      const sigMatch = clean.match(/\[SIG:(\w+)\]/);
+      let sigCode = null; const sigMatch = clean.match(/\[SIG:(\w+)\]/);
       if (sigMatch) sigCode = sigMatch[1];
-      current.answers.push({
-        text: clean,
-        isCorrect: isCorrect,
-        signCode: sigCode
-      });
+      current.answers.push({ text: clean, isCorrect: isCorrect, signCode: sigCode });
     }
   }
   finalize();
-
   return questions;
 }
 
-// UI
 function initCategories() {
   const grid = document.getElementById('catGrid');
   grid.innerHTML = '';
@@ -903,12 +1143,11 @@ async function loadCategory(cat) {
   const grid = document.getElementById('catGrid');
   const buttons = grid.querySelectorAll('.cat-btn');
   for (const b of buttons) b.classList.add('loading');
-
   const quizArea = document.getElementById('quizArea');
   quizArea.innerHTML = '<div class="loading-msg">⏳ جاري تحميل الأسئلة...</div>';
+  document.getElementById('quizSection').classList.remove('hidden');
   document.getElementById('quizSection').classList.add('active');
   document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
-
   try {
     const url = Q_DIR + '/' + cat.file + '.txt';
     const res = await fetch(url);
@@ -916,74 +1155,44 @@ async function loadCategory(cat) {
     const content = await res.text();
     const groups = parseQuestions(content);
     catFileName = cat.file;
-
-    // Track stats
-    let totalQs = 0;
-    for (const g of groups) totalQs += g.questions.length;
-    window.quizData = {
-      loadedQuestions: totalQs,
-      loadedCategories: groups.length
-    };
-
+    let totalQs = 0; for (const g of groups) totalQs += g.questions.length;
+    window.quizData = { loadedQuestions: totalQs, loadedCategories: groups.length };
     if (groups.length === 0) throw new Error('لا توجد أسئلة في هذا التصنيف');
-
     showGroupSelection(groups, cat);
-  } catch(e) {
-    quizArea.innerHTML = '<div class="error-msg">❌ خطأ: ' + e.message + '</div>';
-  } finally {
-    for (const b of buttons) b.classList.remove('loading');
-  }
+  } catch(e) { quizArea.innerHTML = '<div class="error-msg">❌ خطأ: ' + e.message + '</div>'; }
+  finally { for (const b of buttons) b.classList.remove('loading'); }
 }
 
 let pendingGroupQuestions = null;
-let pendingGroupMeta = null;
 
 function showGroupSelection(groups, cat) {
   const quizArea = document.getElementById('quizArea');
-  let html = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:12px;">';
-  html += '<span style="font-size:24px;">' + cat.icon + '</span>';
-  html += '<h3 style="margin:0;color:#00796b;">' + cat.name + '</h3>';
-  html += '<button onclick="backToCategories()" style="margin-right:auto;padding:6px 14px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:13px;">↩ رجوع</button>';
-  html += '</div>';
-
-  // Group by subtype
+  let html = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">';
+  html += '<span style="font-size:22px;">' + cat.icon + '</span>';
+  html += '<h3 style="margin:0;color:#00796b;font-size:16px;">' + cat.name + '</h3>';
+  html += '<button onclick="backToCategories()" style="margin-right:auto;padding:5px 12px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:12px;">↩ رجوع</button></div>';
   const bySub = {};
-  for (const g of groups) {
-    const st = g.subType;
-    if (!bySub[st]) bySub[st] = [];
-    bySub[st].push(g);
-  }
-
+  for (const g of groups) { if (!bySub[g.subType]) bySub[g.subType] = []; bySub[g.subType].push(g); }
   const subOrder = ['عادي', 'استكمالي', 'شفوي'];
   const subColors = { 'عادي': '#2e7d32', 'استكمالي': '#e65100', 'شفوي': '#6a1b9a' };
   const subIcons = { 'عادي': '📝', 'استكمالي': '🔄', 'شفوي': '🎤' };
-
   for (const st of subOrder) {
     const grps = bySub[st];
     if (!grps || grps.length === 0) continue;
     const color = subColors[st] || '#009688';
-    html += '<div style="margin-top:18px;">';
-    html += '<div style="background:' + color + ';color:white;padding:10px 16px;border-radius:10px;margin-bottom:10px;display:flex;align-items:center;gap:8px;">';
-    html += '<span style="font-size:22px;">' + (subIcons[st] || '📋') + '</span>';
-    html += '<span style="font-size:18px;font-weight:bold;">' + grps[0].mainName + ' - ' + st + '</span>';
-    html += '<span style="font-size:13px;opacity:0.8;margin-right:auto;">' + grps.length + ' مجموعة</span>';
-    html += '</div>';
+    html += '<div style="margin-top:14px;"><div style="background:' + color + ';color:white;padding:8px 14px;border-radius:10px;margin-bottom:8px;display:flex;align-items:center;gap:6px;">';
+    html += '<span style="font-size:20px;">' + (subIcons[st] || '📋') + '</span>';
+    html += '<span style="font-size:16px;font-weight:bold;">' + grps[0].mainName + ' - ' + st + '</span>';
+    html += '<span style="font-size:12px;opacity:0.8;margin-right:auto;">' + grps.length + ' مجموعة</span></div>';
     html += '<div class="group-grid">';
     for (const g of grps) {
       html += '<div class="group-btn" onclick="selectGroup(' + groups.indexOf(g) + ')" style="border-color:' + color + ';color:' + color + ';">';
-      html += '<strong>مجموعة ' + g.groupNumber + '</strong>';
-      html += '<div style="font-size:11px;color:#888;margin-top:4px;">' + g.questions.length + ' سؤال</div>';
-      html += '<div style="font-size:11px;color:#888;">نجاح: ' + g.passScore + '/' + g.totalQuestions + '</div>';
-      html += '</div>';
+      html += '<strong>مجموعة ' + g.groupNumber + '</strong><div style="font-size:10px;color:#888;margin-top:2px;">' + g.questions.length + ' سؤال</div><div style="font-size:10px;color:#888;">نجاح: ' + g.passScore + '/' + g.totalQuestions + '</div></div>';
     }
     html += '</div></div>';
   }
-
   quizArea.innerHTML = html;
-
-  // Store groups globally
   pendingGroupQuestions = groups;
-  pendingGroupMeta = null;
 }
 
 function selectGroup(gi) {
@@ -994,30 +1203,20 @@ function selectGroup(gi) {
 
 function backToCategories() {
   document.getElementById('quizSection').classList.remove('active');
+  document.getElementById('quizSection').classList.add('hidden');
   document.getElementById('quizArea').innerHTML = '';
-  currentQuestions = [];
-  userAnswers = {};
-  currentIdx = 0;
-  isReviewMode = false;
+  currentQuestions = []; userAnswers = {}; currentIdx = 0; isReviewMode = false;
   document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
 }
 
 function startQuiz(questions, sectionName, groupNum, passScore, totalQ) {
-  currentQuestions = questions;
-  userAnswers = {};
-  currentIdx = 0;
-  isReviewMode = false;
-  quizPassScore = passScore;
-  quizTotalQ = totalQ;
-
+  currentQuestions = questions; userAnswers = {}; currentIdx = 0; isReviewMode = false;
+  quizPassScore = passScore; quizTotalQ = totalQ;
   const quizArea = document.getElementById('quizArea');
-  quizArea.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="q-header" style="margin:0;">' + sectionName + ' - مجموعة ' + groupNum + '</div><div style="margin-right:auto;"><span class="speak-toggle muted" id="muteBtn" onclick="toggleMute()">🔇 مكتوم</span></div></div>';
-  quizArea.innerHTML += '<div class="q-text" style="font-size:13px;color:#888;margin-bottom:8px;">درجة النجاح: ' + passScore + '/' + totalQ + '</div>';
+  quizArea.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="q-header" style="margin:0;font-size:15px;">' + sectionName + ' - مجموعة ' + groupNum + '</div><div style="margin-right:auto;"><span class="speak-toggle muted" id="muteBtn" onclick="toggleMute()">🔇 مكتوم</span></div></div>';
+  quizArea.innerHTML += '<div style="font-size:12px;color:#888;margin-bottom:6px;">درجة النجاح: ' + passScore + '/' + totalQ + '</div>';
   quizArea.innerHTML += '<div class="progress-bar" id="progressBar"></div>';
-  renderProgress();
-  renderQuestion();
-
-  // Scroll to quiz
+  renderProgress(); renderQuestion();
   document.getElementById('quizSection').scrollIntoView({ behavior: 'smooth' });
 }
 
@@ -1029,324 +1228,127 @@ function renderProgress() {
     let cls = '';
     if (i === currentIdx) cls = 'active';
     if (userAnswers[i] !== undefined) {
-      if (isReviewMode) {
-        cls = userAnswers[i] === currentQuestions[i].answers.findIndex(a => a.isCorrect) ? 'correct' : 'wrong';
-      } else {
-        cls = 'answered';
-      }
+      if (isReviewMode) { cls = userAnswers[i] === currentQuestions[i].answers.findIndex(a => a.isCorrect) ? 'correct' : 'wrong'; }
+      else { cls = 'answered'; }
     }
     html += '<button class="progress-dot ' + cls + '" onclick="goToQuestion(' + i + ')">' + (i + 1) + '</button>';
   }
   bar.innerHTML = html;
 }
 
-// Voice functions
 let isMuted = true;
 
 function toggleMute() {
   isMuted = !isMuted;
   const btn = document.getElementById('muteBtn');
-  if (btn) {
-    btn.innerHTML = isMuted ? '🔇 مكتوم' : '🔊 صوت';
-    btn.classList.toggle('muted', isMuted);
-  }
+  if (btn) { btn.innerHTML = isMuted ? '🔇 مكتوم' : '🔊 صوت'; btn.classList.toggle('muted', isMuted); }
   if (isMuted) window.speechSynthesis.cancel();
 }
 
 function speakText(text) {
   if (isMuted || !text) return;
   window.speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = 'ar-SA';
-  u.rate = 0.9;
-  u.pitch = 1;
+  const u = new SpeechSynthesisUtterance(text); u.lang = 'ar-SA'; u.rate = 0.9; u.pitch = 1;
   window.speechSynthesis.speak(u);
 }
 
 document.addEventListener('click', function(e) {
   const btn = e.target.closest('.spk');
-  if (btn) {
-    e.stopPropagation();
-    const txt = btn.getAttribute('data-t');
-    if (txt) speakText(txt);
-  }
+  if (btn) { e.stopPropagation(); const txt = btn.getAttribute('data-t'); if (txt) speakText(txt); }
 });
 
 function renderQuestion() {
-  const q = currentQuestions[currentIdx];
-  if (!q) return;
+  const q = currentQuestions[currentIdx]; if (!q) return;
   const quizArea = document.getElementById('quizArea');
-
-  // Render images
   let imgHtml = '';
-  for (const code of q.imageCodes) {
-    const url = getSignUrl(code);
-    if (url) imgHtml += '<div class="q-image"><img src="' + url + '" alt="' + code + '" onerror="this.outerHTML=\'\'"></div>';
-  }
-
+  for (const code of q.imageCodes) { const url = getSignUrl(code); if (url) imgHtml += '<div class="q-image"><img src="' + url + '" alt="' + code + '" onerror="this.outerHTML=\'\'"></div>'; }
   const letters = ['أ', 'ب', 'ج', 'د'];
   const selectedIdx = userAnswers[currentIdx];
-
   let optionsHtml = '<div class="options">';
   for (let i = 0; i < q.answers.length; i++) {
     const a = q.answers[i];
     let cls = 'option';
-    let statusHtml = '';
-
     if (isReviewMode) {
       const correctIdx = q.answers.findIndex(x => x.isCorrect);
       if (i === correctIdx) cls += ' correct';
       if (i === selectedIdx && i !== correctIdx) cls += ' wrong';
-      statusHtml = a.isCorrect ? ' ✓' : '';
-    } else if (selectedIdx === i) {
-      cls += ' selected';
-    }
-
+    } else if (selectedIdx === i) { cls += ' selected'; }
     const answerText = replaceSigns(a.text);
     const cleanText = a.text.replace(/\[SIG:\w+\]/g, '').replace(/\[صورة:[^\]]+\]/g, '');
     optionsHtml += '<div class="' + cls + '" onclick="selectAnswer(' + i + ')">';
-    optionsHtml += '<div class="letter">' + letters[i] + '</div>';
-    optionsHtml += '<div>' + answerText + statusHtml + '</div>';
-    optionsHtml += '<button class="spk spk-sm" data-t="' + cleanText.replace(/"/g, '&quot;') + '">🔊</button>';
-    optionsHtml += '</div>';
+    optionsHtml += '<div class="letter">' + letters[i] + '</div><div>' + answerText + '</div>';
+    optionsHtml += '<button class="spk spk-sm" data-t="' + cleanText.replace(/"/g, '&quot;') + '">🔊</button></div>';
   }
   optionsHtml += '</div>';
-
   const qText = replaceSigns(replaceImageCodes(q.text));
   const cleanQText = q.text.replace(/\[SIG:\w+\]/g, '').replace(/\[صورة:[^\]]+\]/g, '').replace(/"/g, '&quot;');
   const total = currentQuestions.length;
   const answered = Object.keys(userAnswers).length;
-
   let navHtml = '<div class="q-nav">';
   navHtml += '<button class="prev" onclick="prevQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + '>‹ السابق</button>';
-  if (currentIdx < total - 1) {
-    navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>';
-  } else {
-    navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>';
-  }
+  if (currentIdx < total - 1) { navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>'; }
+  else { navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>'; }
   navHtml += '</div>';
-
-  const cardHtml =
-    '<div class="question-card">' +
-    '<div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total +
-    '<button class="spk" data-t="' + cleanQText + '" style="margin-right:8px;">🔊</button>' +
-    '</div>' +
-    imgHtml +
-    '<div class="q-text">' + qText + '</div>' +
-    optionsHtml +
-    navHtml +
-    '<div class="q-counter">تمت الإجابة على ' + answered + ' من ' + total + ' أسئلة</div>' +
-    '</div>';
-
-  // Replace content
+  const cardHtml = '<div class="question-card"><div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total + '<button class="spk" data-t="' + cleanQText + '" style="margin-right:6px;">🔊</button></div>' + imgHtml + '<div class="q-text">' + qText + '</div>' + optionsHtml + navHtml + '<div class="q-counter">تمت الإجابة على ' + answered + ' من ' + total + ' أسئلة</div></div>';
   const existing = quizArea.querySelector('.question-card');
-  if (existing) {
-    existing.outerHTML = cardHtml;
-  } else {
-    quizArea.innerHTML += cardHtml;
-  }
-
+  if (existing) { existing.outerHTML = cardHtml; } else { quizArea.innerHTML += cardHtml; }
   renderProgress();
 }
 
 function selectAnswer(idx) {
   if (isReviewMode) return;
-  const q = currentQuestions[currentIdx];
-  if (!q) return;
+  const q = currentQuestions[currentIdx]; if (!q) return;
   userAnswers[currentIdx] = idx;
-
-  // Auto advance if not last question
   renderQuestion();
   if (currentIdx < currentQuestions.length - 1) {
-    // Small delay before advancing so user sees the selection
-    setTimeout(function() {
-      currentIdx++;
-      renderQuestion();
-    }, 200);
+    setTimeout(function() { currentIdx++; renderQuestion(); }, 200);
   }
 }
 
-function prevQuestion() {
-  if (currentIdx > 0) {
-    currentIdx--;
-    renderQuestion();
-  }
-}
-
-function nextQuestion() {
-  if (currentIdx < currentQuestions.length - 1) {
-    currentIdx++;
-    renderQuestion();
-  }
-}
-
-function goToQuestion(idx) {
-  if (idx >= 0 && idx < currentQuestions.length) {
-    currentIdx = idx;
-    renderQuestion();
-  }
-}
+function prevQuestion() { if (currentIdx > 0) { currentIdx--; renderQuestion(); } }
+function nextQuestion() { if (currentIdx < currentQuestions.length - 1) { currentIdx++; renderQuestion(); } }
+function goToQuestion(idx) { if (idx >= 0 && idx < currentQuestions.length) { currentIdx = idx; renderQuestion(); } }
 
 function submitQuiz() {
   isReviewMode = true;
   const total = currentQuestions.length;
   const answered = Object.keys(userAnswers).length;
   let correct = 0;
-  for (let i = 0; i < total; i++) {
-    const correctIdx = currentQuestions[i].answers.findIndex(a => a.isCorrect);
-    if (userAnswers[i] === correctIdx) correct++;
-  }
-
+  for (let i = 0; i < total; i++) { const correctIdx = currentQuestions[i].answers.findIndex(a => a.isCorrect); if (userAnswers[i] === correctIdx) correct++; }
   const passed = correct >= quizPassScore;
   const pct = Math.round(correct / total * 100);
-
   renderQuestion();
-
-  // Show result card after a small delay
   setTimeout(function() {
     const quizArea = document.getElementById('quizArea');
-    const resultHtml =
-      '<div class="result-card">' +
-      '<div class="score ' + (passed ? '' : 'fail') + '">' + correct + '/' + total + '</div>' +
-      '<div class="detail">نسبة الإجابة: ' + pct + '%</div>' +
-      '<div class="status ' + (passed ? 'pass' : 'fail') + '">' + (passed ? '✔️ نجاح! مبروك!' : '❌ للأسف لم تنجح. حاول مرة أخرى') + '</div>' +
-      '<div class="detail" style="font-size:13px;margin-top:4px;">درجة النجاح المطلوبة: ' + quizPassScore + '/' + total + '</div>' +
-      '<button class="back-btn" onclick="backToCategories()">⬅️ العودة لاختيار التصنيفات</button>' +
-      '<br><button onclick="isReviewMode=false;currentIdx=0;userAnswers={};renderQuestion();renderProgress();" style="margin-top:10px;padding:8px 20px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:14px;">🔄 إعادة الامتحان</button>' +
-      '</div>';
-
-    // Remove old content, add result
+    const resultHtml = '<div class="result-card"><div class="score ' + (passed ? '' : 'fail') + '">' + correct + '/' + total + '</div><div class="detail">نسبة الإجابة: ' + pct + '%</div><div class="status ' + (passed ? 'pass' : 'fail') + '">' + (passed ? '✔️ نجاح! مبروك!' : '❌ للأسف لم تنجح. حاول مرة أخرى') + '</div><div class="detail" style="font-size:12px;margin-top:4px;">درجة النجاح المطلوبة: ' + quizPassScore + '/' + total + '</div><button class="back-btn" onclick="backToCategories()">⬅️ العودة لاختيار التصنيفات</button><br><button onclick="isReviewMode=false;currentIdx=0;userAnswers={};renderQuestion();renderProgress();" style="margin-top:8px;padding:6px 18px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:13px;">🔄 إعادة الامتحان</button></div>';
     quizArea.innerHTML = quizArea.innerHTML.replace(/<div class="q-nav">.*?<\/div><div class="q-counter">.*?<\/div>/, '');
     quizArea.innerHTML += resultHtml;
     renderProgress();
   }, 300);
 }
 
-// Admin functions
-function closeAdmin() {
-  const p = document.getElementById('adminPanel');
-  if (p) p.remove();
-}
-
-async function adminLoadCategory(cat) {
-  const content = document.getElementById('adminContent');
-  const loading = document.getElementById('adminLoading');
-  if (!content || !loading) return;
-  loading.style.display = 'block';
-  content.innerHTML = '';
-  try {
-    const url = Q_DIR + '/' + cat.file + '.txt';
-    const res = await fetch(url);
-    if (!res.ok) throw new Error('فشل التحميل');
-    const text = await res.text();
-    const groups = parseQuestions(text);
-    let html = '<div style="border-bottom:2px solid #009688;padding-bottom:8px;margin-bottom:8px;">';
-    html += '<strong style="font-size:15px;">' + cat.icon + ' ' + cat.name + '</strong>';
-    html += ' <span style="color:#888;font-size:12px;">(' + groups.length + ' مجموعة)</span></div>';
-
-    // Group by subtype
-    const bySub = {};
-    for (const g of groups) {
-      if (!bySub[g.subType]) bySub[g.subType] = [];
-      bySub[g.subType].push(g);
-    }
-
-    for (const st of ['عادي', 'استكمالي', 'شفوي']) {
-      const grps = bySub[st];
-      if (!grps) continue;
-      html += '<div style="margin:6px 0;padding:6px 10px;background:#f5f5f5;border-radius:6px;">';
-      html += '<strong style="color:#00796b;font-size:13px;">' + st + ' (' + grps.length + ' مجموعة)</strong>';
-      html += '<div style="margin-top:4px;display:flex;flex-wrap:wrap;gap:4px;">';
-      for (const g of grps) {
-        html += '<span style="padding:3px 8px;background:#e0f2f1;border-radius:4px;font-size:11px;cursor:pointer;" onclick="adminShowGroup(' + groups.indexOf(g) + ')">مجموعة ' + g.groupNumber + ' (' + g.questions.length + ')</span>';
-      }
-      html += '</div></div>';
-    }
-
-    // Store for later use
-    window._adminGroups = groups;
-
-    content.innerHTML = html;
-  } catch(e) {
-    content.innerHTML = '<div style="color:#c62828;">❌ ' + e.message + '</div>';
-  } finally {
-    loading.style.display = 'none';
-  }
-}
-
-function adminShowGroup(gi) {
-  const groups = window._adminGroups;
-  if (!groups || !groups[gi]) return;
-  const g = groups[gi];
-  const content = document.getElementById('adminContent');
-  let html = '<div style="margin-bottom:8px;"><button onclick="adminLoadCategory(CATEGORIES.find(c => c.file === \'' + catFileName + '\') || CATEGORIES[0])" style="padding:4px 10px;border:none;border-radius:6px;background:#e0e0e0;cursor:pointer;font-size:12px;">↩ رجوع</button></div>';
-  html += '<div style="border-bottom:1px solid #eee;padding-bottom:6px;margin-bottom:8px;">';
-  html += '<strong>' + g.sectionName + ' - مجموعة ' + g.groupNumber + '</strong>';
-  html += ' (' + g.questions.length + ' سؤال - نجاح: ' + g.passScore + '/' + g.totalQuestions + ')</div>';
-
-  for (const q of g.questions) {
-    const correctIdx = q.answers.findIndex(a => a.isCorrect);
-    html += '<div style="border:1px solid #e0e0e0;border-radius:8px;padding:10px;margin-bottom:8px;">';
-    html += '<div style="font-weight:bold;color:#00796b;margin-bottom:4px;">سؤال ' + q.number + ':</div>';
-    let qtext = q.text;
-    // Replace sign references
-    qtext = qtext.replace(/\[SIG:(\w+)\]/g, '<span style="color:#1565c0;font-size:12px;">[$1]</span>');
-    html += '<div style="margin-bottom:6px;line-height:1.6;">' + qtext + '</div>';
-    if (q.imageCodes.length > 0) {
-      for (const code of q.imageCodes) {
-        const url = getSignUrl(code);
-        if (url) html += '<div><img src="' + url + '" style="max-width:120px;max-height:120px;border-radius:4px;border:1px solid #ddd;" onerror="this.outerHTML=\'\'"></div>';
-      }
-    }
-    const letters = ['أ', 'ب', 'ج', 'د'];
-    for (let i = 0; i < q.answers.length; i++) {
-      const a = q.answers[i];
-      const isCor = a.isCorrect;
-      let atext = a.text.replace(/\[SIG:(\w+)\]/g, '<span style="color:#1565c0;font-size:12px;">[$1]</span>');
-      html += '<div style="padding:4px 8px;margin:2px 0;border-radius:4px;background:' + (isCor ? '#c8e6c9' : '#fff') + ';border:1px solid ' + (isCor ? '#2e7d32' : '#eee') + ';">';
-      html += '<span style="font-weight:bold;color:' + (isCor ? '#2e7d32' : '#888') + ';">' + letters[i] + ')</span> ' + atext;
-      if (isCor) html += ' <span style="color:#2e7d32;">✓</span>';
-      html += '</div>';
-    }
-    html += '</div>';
-  }
-  content.innerHTML = html;
-}
-
-// Load gallery images from localStorage
+// ========== Gallery ==========
 function loadGalleryImages() {
   const section = document.getElementById('gallerySection');
   const grid = document.getElementById('galleryGrid');
   const images = JSON.parse(localStorage.getItem('admin_images') || '["","","","",""]');
   const valid = images.filter(u => u && u.trim());
-  if (valid.length === 0) {
-    section.classList.remove('has-images');
-    return;
-  }
-  section.classList.add('has-images');
-  grid.innerHTML = valid.map(url =>
-    '<div class="gallery-item"><img src="' + url + '" alt="إعلان" onerror="this.parentElement.style.display=\'none\'"></div>'
-  ).join('');
+  if (valid.length === 0) { section.classList.add('hidden'); return; }
+  section.classList.remove('hidden');
+  grid.innerHTML = valid.map(url => '<div class="gallery-item"><img src="' + url + '" alt="إعلان" onerror="this.parentElement.style.display=\'none\'"></div>').join('');
 }
 
-// Load announcement from localStorage
 function loadAnnouncement() {
   const bar = document.getElementById('announcementBar');
   const text = document.getElementById('announcementText');
   const val = localStorage.getItem('admin_announcement') || '';
-  if (val.trim()) {
-    text.textContent = val;
-    bar.classList.add('has-text');
-  } else {
-    bar.classList.remove('has-text');
-  }
+  if (val.trim()) { text.textContent = val; bar.classList.add('has-text'); }
+  else { bar.classList.remove('has-text'); }
 }
 
-// Track visits
 function trackVisit() {
   let count = parseInt(localStorage.getItem('visit_count_local') || '0');
-  count++;
-  localStorage.setItem('visit_count_local', count.toString());
+  count++; localStorage.setItem('visit_count_local', count.toString());
   localStorage.setItem('last_visit_date', new Date().toLocaleDateString('ar-PS'));
   fetch('https://api.countapi.xyz/create?namespace=samir-teoria&key=visitors&value=0').catch(()=>{});
   fetch('https://api.countapi.xyz/hit/samir-teoria/visitors').catch(()=>{});
@@ -1357,7 +1359,7 @@ loadSignMap();
 initCategories();
 loadGalleryImages();
 loadAnnouncement();
-loadProfileImage();
+loadHeaderImage();
 trackVisit();
 </script>
 
