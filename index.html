@@ -626,12 +626,12 @@ body {
       <p style="font-size:13px;color:#888;margin-bottom:14px;">خدمة الاستعلام عن نتائج الامتحان - مقدمة من <strong>مدرب السياقة سمير ابو قبيطة</strong></p>
 
       <div id="resultTypeSelector" style="display:flex;gap:8px;margin-bottom:14px;">
-        <button id="resultTypeBtn_نظري" onclick="setResultType('نظري')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #1565c0;background:#1565c0;color:white;font-size:14px;font-weight:bold;cursor:pointer;transition:all 0.2s;">📄 التؤوريا النظري</button>
-        <button id="resultTypeBtn_عملي" onclick="setResultType('عملي')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #2e7d32;background:#e8f5e9;color:#2e7d32;font-size:14px;font-weight:bold;cursor:pointer;transition:all 0.2s;">🚗 الامتحان العملي</button>
+        <button id="resultTypeBtn_نظري" onclick="setResultType('نظري')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #1565c0;background:#1565c0;color:white;font-size:14px;font-weight:bold;cursor:pointer;">📄 التؤوريا النظري</button>
+        <button id="resultTypeBtn_عملي" onclick="setResultType('عملي')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #2e7d32;background:#e8f5e9;color:#2e7d32;font-size:14px;font-weight:bold;cursor:pointer;">🚗 الامتحان العملي</button>
       </div>
 
       <div id="resultFormArea" style="text-align:center;padding:10px 0;">
-        <h3 style="font-size:16px;color:#333;margin-bottom:4px;">الاستعلام عن نتيجة <span id="resultTypeLabel">التؤوريا النظري</span></h3>
+        <h3 style="font-size:16px;color:#333;margin-bottom:4px;">الاستعلام عن نتائج <span id="resultTypeLabel">التؤوريا النظري</span></h3>
         <p style="font-size:13px;color:#888;margin-bottom:12px;">أدخل رقم الهوية للاستعلام:</p>
         <input type="text" id="resultIdInput" placeholder="أدخل رقم الهوية..." maxlength="10" style="width:100%;max-width:280px;padding:12px 16px;border:2px solid #e0e0e0;border-radius:10px;font-size:16px;text-align:center;box-sizing:border-box;outline:none;" onkeydown="if(event.key==='Enter') startResultCheck()">
         <div style="margin-top:12px;">
@@ -639,11 +639,22 @@ body {
         </div>
       </div>
 
-      <!-- Loading -->
+      <!-- Loading & Ministry redirect -->
       <div id="resultLoading" class="hidden" style="text-align:center;padding:30px 10px;">
         <div style="font-size:48px;margin-bottom:12px;animation:pulse 0.8s infinite;">⏳</div>
-        <p style="font-size:15px;color:#1565c0;font-weight:bold;">جاري الاستعلام عن النتيجة...</p>
-        <p style="font-size:12px;color:#aaa;margin-top:4px;">يرجى الانتظار</p>
+        <p style="font-size:15px;color:#1565c0;font-weight:bold;">جاري تحويلك إلى موقع وزارة النقل...</p>
+        <p style="font-size:12px;color:#aaa;margin-top:4px;">سيتم فتح صفحة الفحص الرسمية</p>
+      </div>
+
+      <!-- Self-report -->
+      <div id="resultSelfReport" class="hidden" style="text-align:center;padding:16px 10px 6px;border-top:2px solid #e0e0e0;margin-top:10px;">
+        <div style="font-size:40px;margin-bottom:8px;">👋</div>
+        <p style="font-size:16px;color:#333;font-weight:bold;margin-bottom:4px;">هل عرفت نتيجتك؟</p>
+        <p style="font-size:13px;color:#888;margin-bottom:12px;">اختر حالتك:</p>
+        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
+          <button onclick="showResultCelebration(true)" style="min-width:140px;padding:14px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,#43a047,#2e7d32);color:white;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(67,160,71,0.3);transition:all 0.2s;">🎉 نجحت</button>
+          <button onclick="showResultCelebration(false)" style="min-width:140px;padding:14px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,#e53935,#c62828);color:white;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(229,57,53,0.3);transition:all 0.2s;">😢 لم أنجح</button>
+        </div>
       </div>
     </div>
   </div>
@@ -726,12 +737,7 @@ let resultCheckType = 'نظري';
 function setResultType(type) {
   resultCheckType = type;
   document.getElementById('resultTypeLabel').textContent = type === 'نظري' ? 'التؤوريا النظري' : 'الامتحان العملي';
-  const btn1 = document.getElementById('resultTypeBtn_نظري');
-  const btn2 = document.getElementById('resultTypeBtn_عملي');
-  btn1.style.background = type === 'نظري' ? '#1565c0' : '#e3f2fd';
-  btn1.style.color = type === 'نظري' ? 'white' : '#1565c0';
-  btn2.style.background = type === 'عملي' ? '#2e7d32' : '#e8f5e9';
-  btn2.style.color = type === 'عملي' ? 'white' : '#2e7d32';
+  document.getElementById('resultCheckBtn').setAttribute('data-type', type);
 }
 
 function openResultPage(type) {
@@ -739,11 +745,9 @@ function openResultPage(type) {
   document.getElementById('resultIdInput').value = '';
   document.getElementById('resultFormArea').classList.remove('hidden');
   document.getElementById('resultLoading').classList.add('hidden');
+  document.getElementById('resultSelfReport').classList.add('hidden');
   document.getElementById('resultCheckBtn').disabled = false;
   document.getElementById('resultCheckBtn').textContent = '🔍 استعلام';
-  // Remove any dynamic result elements
-  const existing = document.querySelectorAll('#resultNotFound, #resultFetchError');
-  existing.forEach(el => el.remove());
   hideAllPages();
   document.getElementById('resultPage').classList.remove('hidden');
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -759,54 +763,19 @@ function closeResultPage() {
 function startResultCheck() {
   const id = document.getElementById('resultIdInput').value.trim();
   if (!id || id.length < 4) { alert('❌ الرجاء إدخال رقم هوية صحيح'); return; }
-  
+
   document.getElementById('resultFormArea').classList.add('hidden');
   document.getElementById('resultLoading').classList.remove('hidden');
   document.getElementById('resultCheckBtn').disabled = true;
 
-  const file = resultCheckType === 'نظري' ? 'nathari' : 'amali';
-  const url = RESULTS_CDN + file + '.json?t=' + Date.now();
+  const type = document.getElementById('resultCheckBtn').getAttribute('data-type') || 'نظري';
+  const url = 'https://www.mot.gov.ps/' + (type === 'نظري' ? 'theoretical-exam' : 'practical-exam');
+  window.open(url, '_blank');
 
-  fetch(url)
-    .then(r => {
-      if (!r.ok) throw new Error('لا توجد نتائج');
-      return r.json();
-    })
-    .then(data => {
-      document.getElementById('resultLoading').classList.add('hidden');
-      if (data[id] !== undefined) {
-        if (data[id]) {
-          showResultCelebration(true);
-        } else {
-          showResultCelebration(false);
-        }
-      } else {
-        // ID not found - show not found message
-        document.getElementById('resultFormArea').classList.add('hidden');
-        document.getElementById('resultLoading').classList.add('hidden');
-        const content = document.querySelector('#resultPage .section');
-        const notFound = document.createElement('div');
-        notFound.id = 'resultNotFound';
-        notFound.style.cssText = 'text-align:center;padding:20px;';
-        notFound.innerHTML = '<div style="font-size:48px;margin-bottom:10px;">🔍</div>' +
-          '<p style="font-size:15px;color:#c62828;font-weight:bold;margin-bottom:6px;">رقم الهوية غير موجود في قاعدة البيانات</p>' +
-          '<p style="font-size:13px;color:#888;margin-bottom:14px;">تأكد من رقم الهوية أو تواصل مع المدرب</p>' +
-          '<button onclick="this.closest(\'#resultNotFound\').remove();openResultPage(resultCheckType);" style="padding:8px 24px;border:none;border-radius:8px;background:#1565c0;color:white;cursor:pointer;font-size:13px;">🔄 إعادة المحاولة</button>';
-        content.appendChild(notFound);
-      }
-    })
-    .catch(e => {
-      document.getElementById('resultLoading').classList.add('hidden');
-      const content = document.querySelector('#resultPage .section');
-      const errDiv = document.createElement('div');
-      errDiv.id = 'resultFetchError';
-      errDiv.style.cssText = 'text-align:center;padding:20px;';
-      errDiv.innerHTML = '<div style="font-size:48px;margin-bottom:10px;">⚠️</div>' +
-        '<p style="font-size:15px;color:#c62828;font-weight:bold;margin-bottom:6px;">تعذر تحميل النتائج</p>' +
-        '<p style="font-size:13px;color:#888;margin-bottom:14px;">' + e.message + '</p>' +
-        '<button onclick="this.closest(\'#resultFetchError\').remove();openResultPage(resultCheckType);" style="padding:8px 24px;border:none;border-radius:8px;background:#1565c0;color:white;cursor:pointer;font-size:13px;">🔄 إعادة المحاولة</button>';
-      content.appendChild(errDiv);
-    });
+  setTimeout(() => {
+    document.getElementById('resultLoading').classList.add('hidden');
+    document.getElementById('resultSelfReport').classList.remove('hidden');
+  }, 1500);
 }
 
 function showResultCelebration(passed) {
@@ -945,7 +914,7 @@ function toggleAdminPanel() {
   const panel = document.createElement('div');
   panel.id = 'adminPanel';
   panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:480px;width:94%;text-align:center;animation:fadeIn 0.2s ease;';
-     panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="headerImg">🖼️ صورة الهيدر</button><button class="admin-tab" data-tab="announce">📢 الإعلان النصي</button><button class="admin-tab" data-tab="pdf">📖 رابط الدوسية</button><button class="admin-tab" data-tab="results">📊 النتائج</button><button class="admin-tab" data-tab="stats">📈 الإحصائيات</button></div><div id="adminContent" style="font-size:12px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div style="margin-top:6px;padding-top:6px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:16px;color:#888;">⏳ جاري التحميل...</div>';
+     panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="headerImg">🖼️ صورة الهيدر</button><button class="admin-tab" data-tab="announce">📢 الإعلان النصي</button><button class="admin-tab" data-tab="pdf">📖 رابط الدوسية</button><button class="admin-tab" data-tab="stats">📈 الإحصائيات</button></div><div id="adminContent" style="font-size:12px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div style="margin-top:6px;padding-top:6px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:16px;color:#888;">⏳ جاري التحميل...</div>';
   document.body.appendChild(panel);
   document.getElementById('adminTabs').addEventListener('click', function(e) {
     const tab = e.target.closest('.admin-tab');
@@ -985,8 +954,6 @@ function adminSwitchTab(tab) {
     adminShowHeaderImage();
   } else if (tab === 'pdf') {
     adminShowPdfSettings();
-  } else if (tab === 'results') {
-    adminShowResults();
   } else if (tab === 'stats') {
     adminShowStats();
   }
@@ -1185,148 +1152,6 @@ function adminShowStats() {
   fetch('https://api.countapi.xyz/get/samir-teoria/visitors')
     .then(r => r.json()).then(d => { document.getElementById('globalCount').textContent = d.value; })
     .catch(() => { document.getElementById('globalCount').textContent = visits; });
-}
-
-// ========== Admin: Results ==========
-const GITHUB_OWNER = 'nbn40n-cpu';
-const GITHUB_REPO = 'samir-teoria.github.io';
-const RESULTS_CDN = 'https://cdn.jsdelivr.net/gh/' + GITHUB_OWNER + '/' + GITHUB_REPO + '@main/data/';
-const RESULTS_API = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/data/';
-
-async function getGithubToken() {
-  let token = localStorage.getItem('github_token') || '';
-  if (!token) {
-    try {
-      const res = await fetch('data/config.local.json?t=' + Date.now());
-      if (res.ok) {
-        const cfg = await res.json();
-        if (cfg.github_token && cfg.github_token.length > 10) token = cfg.github_token;
-      }
-    } catch(e) {}
-  }
-  return token;
-}
-
-async function adminShowResults() {
-  const content = document.getElementById('adminContent');
-  const token = await getGithubToken();
-  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">📊 إدارة نتائج الامتحانات</p>';
-  html += '<p style="font-size:11px;color:#999;margin-bottom:10px;">أدخل رقم الهوية والنتيجة. كل سطر: <code>رقم الهوية=ناجح</code> أو <code>رقم الهوية=راسب</code></p>';
-
-  html += '<div style="background:#f5f5f5;padding:8px;border-radius:8px;margin-bottom:8px;">';
-  html += '<label style="font-size:11px;color:#555;display:block;margin-bottom:4px;">🔑 توكن GitHub (يحتاج صلاحية repo):</label>';
-  html += '<input type="password" id="githubTokenInput" value="' + token + '" placeholder="github_pat_..." style="width:100%;padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:11px;box-sizing:border-box;">';
-  html += '<p style="font-size:10px;color:#aaa;margin-top:3px;">الاسم: <code>samir-teoria</code> | الرمز يبدأ بـ <code>github_pat_</code></p>';
-  html += '</div>';
-
-  html += '<div style="margin-bottom:8px;">';
-  html += '<select id="resultTypeSelect" style="padding:6px;border-radius:6px;border:1px solid #ddd;font-size:12px;">';
-  html += '<option value="nathari">📄 التؤوريا النظري</option>';
-  html += '<option value="amali">🚗 الامتحان العملي</option>';
-  html += '</select>';
-  html += '</div>';
-
-  html += '<textarea id="resultsTextarea" rows="6" placeholder="1234567890=ناجح&#10;0987654321=راسب" style="width:100%;padding:10px;border:2px solid #e0e0e0;border-radius:8px;font-size:12px;box-sizing:border-box;direction:ltr;text-align:left;"></textarea>';
-  html += '<div style="margin-top:6px;display:flex;gap:4px;">';
-  html += '<button class="admin-save-btn" onclick="adminLoadResults()" style="flex:1;">📥 تحميل النتائج الحالية</button>';
-  html += '<button class="admin-save-btn" onclick="adminSaveResults()" style="flex:1;">💾 حفظ النتائج</button>';
-  html += '</div>';
-  html += '<div id="resultsStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
-
-  content.innerHTML = html;
-  adminLoadResults();
-}
-
-async function adminLoadResults() {
-  const type = document.getElementById('resultTypeSelect').value;
-  const file = type + '.json';
-  const status = document.getElementById('resultsStatus');
-  status.textContent = '⏳ جاري تحميل النتائج...';
-  try {
-    let data = {};
-    // Try GitHub API first (with token), fallback to CDN
-    const token = await getGithubToken();
-    if (token) {
-      const headers = { Authorization: 'token ' + token };
-      const res = await fetch(RESULTS_API + file, { headers });
-      if (res.ok) {
-        const apiData = await res.json();
-        data = JSON.parse(atob(apiData.content));
-      }
-    } else {
-      const res = await fetch(RESULTS_CDN + file + '?t=' + Date.now());
-      if (res.ok) data = await res.json();
-    }
-    const lines = Object.entries(data).map(([id, result]) => id + '=' + (result ? 'ناجح' : 'راسب')).join('\n');
-    document.getElementById('resultsTextarea').value = lines;
-    const count = Object.keys(data).length;
-    status.textContent = '✅ تم تحميل ' + count + ' نتيجة';
-  } catch(e) {
-    status.textContent = 'ℹ️ لا توجد نتائج محفوظة بعد';
-  }
-}
-
-async function adminSaveResults() {
-  const type = document.getElementById('resultTypeSelect').value;
-  const token = document.getElementById('githubTokenInput').value.trim();
-  if (!token) { alert('❌ الرجاء إدخال توكن GitHub'); return; }
-  localStorage.setItem('github_token', token);
-
-  const text = document.getElementById('resultsTextarea').value.trim();
-  const lines = text.split('\n').filter(l => l.trim());
-  const data = {};
-  for (const line of lines) {
-    const parts = line.split('=');
-    if (parts.length !== 2) continue;
-    const id = parts[0].trim();
-    const result = parts[1].trim();
-    if (result === 'ناجح') data[id] = true;
-    else if (result === 'راسب') data[id] = false;
-  }
-
-  const status = document.getElementById('resultsStatus');
-  status.textContent = '⏳ جاري حفظ ' + Object.keys(data).length + ' نتيجة...';
-  status.style.color = '#888';
-
-  try {
-    const file = type + '.json';
-    const path = 'data/' + file;
-    const url = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + path;
-    const jsonContent = JSON.stringify(data, null, 2);
-
-    // Get existing file SHA if it exists
-    let sha = null;
-    const getRes = await fetch(url, { headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json' } });
-    if (getRes.ok) { const existing = await getRes.json(); sha = existing.sha; }
-
-    // Encode content to base64
-    const encoder = new TextEncoder();
-    const bytes = encoder.encode(jsonContent);
-    let binary = '';
-    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
-    const base64 = btoa(binary);
-
-    const body = { message: 'تحديث نتائج ' + type, content: base64, branch: 'main' };
-    if (sha) body.sha = sha;
-
-    const putRes = await fetch(url, {
-      method: 'PUT',
-      headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
-
-    if (putRes.ok) {
-      status.textContent = '✅ تم حفظ ' + Object.keys(data).length + ' نتيجة بنجاح!';
-      status.style.color = '#2e7d32';
-    } else {
-      const err = await putRes.json();
-      status.textContent = '❌ فشل الحفظ: ' + (err.message || 'خطأ غير معروف');
-      status.style.color = '#c62828';
-    }
-  } catch(e) {
-    status.textContent = '❌ خطأ: ' + e.message;
-    status.style.color = '#c62828';
-  }
 }
 
 // ========== Admin: Questions ==========
