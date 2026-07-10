@@ -491,18 +491,18 @@ body {
     <!-- Result Check -->
     <div class="section slide-up" style="animation-delay:0.2s;">
       <h2>🔍 الاستعلام عن النتائج</h2>
-      <p style="margin-bottom:10px;font-size:13px;color:#888;">خدمة الاستعلام عن نتائج الامتحان - مقدمة من مدرب السياقة سمير ابو قبيطة:</p>
+      <p style="margin-bottom:10px;font-size:13px;color:#888;">للاستعلام عن نتائج امتحان التؤوريا النظري والعملي في فلسطين:</p>
       <div class="result-grid">
-        <button class="result-link" onclick="openResultPage('نظري')" style="background:linear-gradient(135deg,#1565c0,#0d47a1);border:none;cursor:pointer;">
+        <a class="result-link" href="https://www.mot.gov.ps/theoretical-exam" target="_blank" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">
           <span class="icon">📄</span>
           <div style="font-size:14px;">نتائج التؤوريا النظري</div>
-          <div style="font-size:11px;opacity:0.8;">اضغط للاستعلام</div>
-        </button>
-        <button class="result-link" onclick="openResultPage('عملي')" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);border:none;cursor:pointer;">
+          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
+        </a>
+        <a class="result-link" href="https://www.mot.gov.ps/practical-exam" target="_blank" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);">
           <span class="icon">🚗</span>
           <div style="font-size:14px;">نتائج الامتحان العملي</div>
-          <div style="font-size:11px;opacity:0.8;">اضغط للاستعلام</div>
-        </button>
+          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
+        </a>
       </div>
     </div>
 
@@ -616,53 +616,12 @@ body {
     </div>
   </div>
 
-  <!-- ===== RESULT PAGE ===== -->
-  <div id="resultPage" class="page-content hidden">
-    <div class="section">
-      <div class="back-bar">
-        <button class="back-btn" onclick="closeResultPage()">↩ رجوع للرئيسية</button>
-        <h2 style="margin:0;color:#1565c0;">🔍 الاستعلام عن النتائج</h2>
-      </div>
-      <p style="font-size:13px;color:#888;margin-bottom:14px;">خدمة الاستعلام عن نتائج الامتحان - مقدمة من <strong>مدرب السياقة سمير ابو قبيطة</strong></p>
 
-      <div id="resultTypeSelector" style="display:flex;gap:8px;margin-bottom:14px;">
-        <button id="resultTypeBtn_نظري" onclick="setResultType('نظري')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #1565c0;background:#1565c0;color:white;font-size:14px;font-weight:bold;cursor:pointer;">📄 التؤوريا النظري</button>
-        <button id="resultTypeBtn_عملي" onclick="setResultType('عملي')" style="flex:1;padding:12px;border-radius:10px;border:2px solid #2e7d32;background:#e8f5e9;color:#2e7d32;font-size:14px;font-weight:bold;cursor:pointer;">🚗 الامتحان العملي</button>
-      </div>
-
-      <div id="resultFormArea" style="text-align:center;padding:10px 0;">
-        <h3 style="font-size:16px;color:#333;margin-bottom:4px;">الاستعلام عن نتائج <span id="resultTypeLabel">التؤوريا النظري</span></h3>
-        <p style="font-size:13px;color:#888;margin-bottom:12px;">أدخل رقم الهوية للاستعلام:</p>
-        <input type="text" id="resultIdInput" placeholder="أدخل رقم الهوية..." maxlength="10" style="width:100%;max-width:280px;padding:12px 16px;border:2px solid #e0e0e0;border-radius:10px;font-size:16px;text-align:center;box-sizing:border-box;outline:none;" onkeydown="if(event.key==='Enter') startResultCheck()">
-        <div style="margin-top:12px;">
-          <button id="resultCheckBtn" onclick="startResultCheck()" style="padding:12px 48px;border:none;border-radius:12px;background:linear-gradient(135deg,#1565c0,#0d47a1);color:white;font-size:16px;font-weight:bold;cursor:pointer;transition:all 0.2s;">🔍 استعلام</button>
-        </div>
-      </div>
-
-      <!-- Loading & Ministry redirect -->
-      <div id="resultLoading" class="hidden" style="text-align:center;padding:30px 10px;">
-        <div style="font-size:48px;margin-bottom:12px;animation:pulse 0.8s infinite;">⏳</div>
-        <p style="font-size:15px;color:#1565c0;font-weight:bold;">جاري تحويلك إلى موقع وزارة النقل...</p>
-        <p style="font-size:12px;color:#aaa;margin-top:4px;">سيتم فتح صفحة الفحص الرسمية</p>
-      </div>
-
-      <!-- Self-report -->
-      <div id="resultSelfReport" class="hidden" style="text-align:center;padding:16px 10px 6px;border-top:2px solid #e0e0e0;margin-top:10px;">
-        <div style="font-size:40px;margin-bottom:8px;">👋</div>
-        <p style="font-size:16px;color:#333;font-weight:bold;margin-bottom:4px;">هل عرفت نتيجتك؟</p>
-        <p style="font-size:13px;color:#888;margin-bottom:12px;">اختر حالتك:</p>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-          <button onclick="showResultCelebration(true)" style="min-width:140px;padding:14px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,#43a047,#2e7d32);color:white;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(67,160,71,0.3);transition:all 0.2s;">🎉 نجحت</button>
-          <button onclick="showResultCelebration(false)" style="min-width:140px;padding:14px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,#e53935,#c62828);color:white;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(229,57,53,0.3);transition:all 0.2s;">😢 لم أنجح</button>
-        </div>
-      </div>
-    </div>
-  </div>
 
   <script>
 // Page navigation
 function hideAllPages() {
-  ['mainPage','videoPage','examPage','pdfPage','resultPage'].forEach(id => {
+  ['mainPage','videoPage','examPage','pdfPage'].forEach(id => {
     document.getElementById(id).classList.add('hidden');
   });
 }
@@ -730,103 +689,6 @@ function closePdfPage() {
   hideAllPages();
   document.getElementById('mainPage').classList.remove('hidden');
   window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-let resultCheckType = 'نظري';
-
-function setResultType(type) {
-  resultCheckType = type;
-  document.getElementById('resultTypeLabel').textContent = type === 'نظري' ? 'التؤوريا النظري' : 'الامتحان العملي';
-  document.getElementById('resultCheckBtn').setAttribute('data-type', type);
-}
-
-function openResultPage(type) {
-  setResultType(type);
-  document.getElementById('resultIdInput').value = '';
-  document.getElementById('resultFormArea').classList.remove('hidden');
-  document.getElementById('resultLoading').classList.add('hidden');
-  document.getElementById('resultSelfReport').classList.add('hidden');
-  document.getElementById('resultCheckBtn').disabled = false;
-  document.getElementById('resultCheckBtn').textContent = '🔍 استعلام';
-  hideAllPages();
-  document.getElementById('resultPage').classList.remove('hidden');
-  window.scrollTo({top: 0, behavior: 'smooth'});
-  setTimeout(() => document.getElementById('resultIdInput').focus(), 300);
-}
-
-function closeResultPage() {
-  hideAllPages();
-  document.getElementById('mainPage').classList.remove('hidden');
-  window.scrollTo({top: 0, behavior: 'smooth'});
-}
-
-function startResultCheck() {
-  const id = document.getElementById('resultIdInput').value.trim();
-  if (!id || id.length < 4) { alert('❌ الرجاء إدخال رقم هوية صحيح'); return; }
-
-  document.getElementById('resultFormArea').classList.add('hidden');
-  document.getElementById('resultLoading').classList.remove('hidden');
-  document.getElementById('resultCheckBtn').disabled = true;
-
-  const type = document.getElementById('resultCheckBtn').getAttribute('data-type') || 'نظري';
-  const url = 'https://www.mot.gov.ps/' + (type === 'نظري' ? 'theoretical-exam' : 'practical-exam');
-  window.open(url, '_blank');
-
-  setTimeout(() => {
-    document.getElementById('resultLoading').classList.add('hidden');
-    document.getElementById('resultSelfReport').classList.remove('hidden');
-  }, 1500);
-}
-
-function showResultCelebration(passed) {
-  const overlay = document.createElement('div');
-  overlay.className = 'celebration-overlay';
-  if (passed) {
-    overlay.innerHTML = '<div class="celebration-box">' +
-      '<div style="font-size:64px;">🎉</div>' +
-      '<h2 style="font-size:22px;">🎊 مبروك النجاح! 🎊</h2>' +
-      '<div class="sub-text" style="font-size:16px;">تهنئة مقدمة من</div>' +
-      '<div class="sub-text" style="font-size:15px;color:#009688;font-weight:bold;">مدرب السياقة سمير ابو قبيطة</div>' +
-      '<button class="close-celeb" onclick="this.closest(\'.celebration-overlay\').remove();closeResultPage();">✕ العودة للرئيسية</button>' +
-      '</div>';
-    document.body.appendChild(overlay);
-    const colors = ['#e53935','#43a047','#1e88e5','#fb8c00','#8e24aa','#ffeb3b','#00acc1','#d81b60'];
-    for (let i = 0; i < 80; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      const size = 6 + Math.random() * 10;
-      piece.style.cssText = 'left:' + (Math.random() * 100) + 'vw;top:-20px;width:' + size + 'px;height:' + size + 'px;background:' + colors[Math.floor(Math.random() * colors.length)] + ';animation-duration:' + (2 + Math.random() * 3) + 's;animation-delay:' + (Math.random() * 2) + 's;border-radius:' + (Math.random() > 0.5 ? '50%' : '2px') + ';';
-      document.body.appendChild(piece);
-      setTimeout(() => piece.remove(), 5000);
-    }
-    try {
-      const ctx = new (window.AudioContext || window.webkitAudioContext)();
-      const duration = 2;
-      const sampleRate = ctx.sampleRate;
-      const buffer = ctx.createBuffer(1, sampleRate * duration, sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < sampleRate * duration; i++) {
-        const t = i / sampleRate;
-        const noise = Math.random() * 2 - 1;
-        const envelope = Math.exp(-t * 3) * 0.3;
-        const clap = Math.sin(i * 0.1) > 0.5 ? 1 : 0;
-        data[i] = noise * envelope * (1 + clap * 2);
-      }
-      const source = ctx.createBufferSource();
-      source.buffer = buffer;
-      source.connect(ctx.destination);
-      source.start();
-    } catch(e) {}
-  } else {
-    overlay.innerHTML = '<div class="celebration-box">' +
-      '<div style="font-size:64px;">😢</div>' +
-      '<h2 style="color:#c62828;font-size:20px;">للأسف، لم تنجح هذه المرة</h2>' +
-      '<div class="sub-text" style="font-size:16px;">حظاً أوفر! نتمنى لك النجاح المرة القادمة 🍀</div>' +
-      '<div class="sub-text" style="font-size:14px;color:#888;margin-top:8px;">مع <strong style="color:#009688;">مدرب السياقة سمير ابو قبيطة</strong> راح تضبطها 💪</div>' +
-      '<button class="close-celeb" onclick="this.closest(\'.celebration-overlay\').remove();closeResultPage();">✕ العودة للرئيسية</button>' +
-      '</div>';
-    document.body.appendChild(overlay);
-  }
 }
 
 // Share site
