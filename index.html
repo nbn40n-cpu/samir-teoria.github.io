@@ -765,18 +765,13 @@ function startResultCheck() {
   document.getElementById('resultCheckBtn').disabled = true;
 
   const file = resultCheckType === 'نظري' ? 'nathari' : 'amali';
-  const url = RESULTS_API + file + '.json?t=' + Date.now();
+  const url = RESULTS_CDN + file + '.json?t=' + Date.now();
 
-  getGithubToken().then(token => {
-    const headers = token ? { Authorization: 'token ' + token } : {};
-    return fetch(url, { headers }).then(r => {
+  fetch(url)
+    .then(r => {
       if (!r.ok) throw new Error('لا توجد نتائج');
       return r.json();
-    }).then(apiData => {
-      const jsonStr = atob(apiData.content);
-      return JSON.parse(jsonStr);
-    });
-  })
+    })
     .then(data => {
       document.getElementById('resultLoading').classList.add('hidden');
       if (data[id] !== undefined) {
@@ -1195,8 +1190,8 @@ function adminShowStats() {
 // ========== Admin: Results ==========
 const GITHUB_OWNER = 'nbn40n-cpu';
 const GITHUB_REPO = 'samir-teoria.github.io';
+const RESULTS_CDN = 'https://cdn.jsdelivr.net/gh/' + GITHUB_OWNER + '/' + GITHUB_REPO + '@main/data/';
 const RESULTS_API = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/data/';
-const RESULTS_RAW = 'https://raw.githubusercontent.com/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/main/data/';
 
 async function getGithubToken() {
   let token = localStorage.getItem('github_token') || '';
@@ -1248,13 +1243,20 @@ async function adminLoadResults() {
   const status = document.getElementById('resultsStatus');
   status.textContent = '⏳ جاري تحميل النتائج...';
   try {
+    let data = {};
+    // Try GitHub API first (with token), fallback to CDN
     const token = await getGithubToken();
-    const headers = token ? { Authorization: 'token ' + token } : {};
-    const res = await fetch(RESULTS_API + file + '?t=' + Date.now(), { headers });
-    if (!res.ok) throw new Error('لا توجد نتائج');
-    const apiData = await res.json();
-    const jsonStr = atob(apiData.content);
-    const data = JSON.parse(jsonStr);
+    if (token) {
+      const headers = { Authorization: 'token ' + token };
+      const res = await fetch(RESULTS_API + file, { headers });
+      if (res.ok) {
+        const apiData = await res.json();
+        data = JSON.parse(atob(apiData.content));
+      }
+    } else {
+      const res = await fetch(RESULTS_CDN + file + '?t=' + Date.now());
+      if (res.ok) data = await res.json();
+    }
     const lines = Object.entries(data).map(([id, result]) => id + '=' + (result ? 'ناجح' : 'راسب')).join('\n');
     document.getElementById('resultsTextarea').value = lines;
     const count = Object.keys(data).length;
