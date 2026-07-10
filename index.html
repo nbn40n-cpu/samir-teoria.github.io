@@ -490,20 +490,11 @@ body {
 
     <!-- Result Check -->
     <div class="section slide-up" style="animation-delay:0.2s;">
-      <h2>🔍 الاستعلام عن النتائج</h2>
-      <p style="margin-bottom:10px;font-size:13px;">للاستعلام عن نتائج امتحان التؤوريا النظري والعملي في فلسطين:</p>
-      <div class="result-grid">
-        <a class="result-link" href="https://www.mot.gov.ps/theoretical-exam" target="_blank" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">
-          <span class="icon">📄</span>
-          <div style="font-size:14px;">نتائج التؤوريا النظري</div>
-          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
-        </a>
-        <a class="result-link" href="https://www.mot.gov.ps/practical-exam" target="_blank" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);">
-          <span class="icon">🚗</span>
-          <div style="font-size:14px;">نتائج الامتحان العملي</div>
-          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
-        </a>
-      </div>
+      <button class="big-btn action-videos" onclick="openResultPage()" style="background:linear-gradient(135deg,#1565c0,#0d47a1);">
+        <span class="icon">🔍</span>
+        <span class="text">الاستعلام عن نتائج الامتحانات</span>
+        <span class="arrow">↙</span>
+      </button>
     </div>
 
     <!-- Gallery -->
@@ -591,13 +582,61 @@ body {
 
   <!-- ===== PDF PAGE ===== -->
   <div id="pdfPage" class="page-content hidden">
-    <div class="section">
+    <div class="section" id="pdfSelectSection">
       <div class="back-bar">
         <button class="back-btn" onclick="closePdfPage()">↩ رجوع للرئيسية</button>
-        <h2 style="margin:0;color:#e65100;">📖 دوسية شرح التؤوريا</h2>
+        <h2 style="margin:0;color:#e65100;">📖 دوسية التؤوريا</h2>
       </div>
-      <div style="font-size:13px;color:#888;margin-bottom:10px;">دوسية شرح كاملة للتؤوريا:</div>
+      <p style="font-size:13px;color:#888;margin-bottom:12px;">اختر الدوسية المناسبة لفئة رخصتك:</p>
+      <button class="big-btn action-pdf" onclick="openPdf('tractor')" style="margin-bottom:8px;background:linear-gradient(135deg,#5d4037,#3e2723);">
+        <span class="icon">🚜</span><span class="text">دوسية تراكتور</span><span class="arrow">↙</span>
+      </button>
+      <button class="big-btn action-pdf" onclick="openPdf('private')" style="margin-bottom:8px;background:linear-gradient(135deg,#009688,#00695c);">
+        <span class="icon">🚗</span><span class="text">دوسية خصوصي</span><span class="arrow">↙</span>
+      </button>
+      <button class="big-btn action-pdf" onclick="openPdf('light')" style="margin-bottom:8px;background:linear-gradient(135deg,#1565c0,#0d47a1);">
+        <span class="icon">🚚</span><span class="text">دوسية شحن خفيف</span><span class="arrow">↙</span>
+      </button>
+    </div>
+    <div class="section hidden" id="pdfViewSection">
+      <div class="back-bar">
+        <button class="back-btn" onclick="backPdfSelect()">↩ رجوع لاختيار الدوسية</button>
+        <h2 style="margin:0;color:#e65100;" id="pdfViewTitle">📖 دوسية التؤوريا</h2>
+      </div>
       <iframe class="pdf-container" id="pdfFrame" src=""></iframe>
+    </div>
+  </div>
+
+  <!-- ===== RESULT PAGE ===== -->
+  <div id="resultPage" class="page-content hidden">
+    <div class="section">
+      <div class="back-bar">
+        <button class="back-btn" onclick="closeResultPage()">↩ رجوع للرئيسية</button>
+        <h2 style="margin:0;color:#1565c0;">🔍 الاستعلام عن النتائج</h2>
+      </div>
+      <p style="font-size:14px;color:#555;margin-bottom:12px;">الاستعلام عن نتائج الامتحانات - تهنئة مقدمة من <strong>مدرب السياقة سمير ابو قبيطة</strong></p>
+      <div style="margin-bottom:14px;">
+        <label style="font-size:13px;font-weight:bold;color:#555;display:block;margin-bottom:4px;">👤 اسم الطالب:</label>
+        <input type="text" id="studentNameInput" placeholder="أدخل اسمك..." style="width:100%;padding:10px 14px;border:2px solid #e0e0e0;border-radius:10px;font-size:15px;box-sizing:border-box;" oninput="updateResultName()">
+      </div>
+      <div id="resultNameDisplay" style="display:none;text-align:center;font-size:18px;color:#009688;font-weight:bold;margin-bottom:12px;">👋 أهلاً <span id="studentNameSpan"></span>!</div>
+      <p style="font-size:13px;color:#888;margin-bottom:10px;">للاستعلام عن نتيجتك، اختر نوع الامتحان:</p>
+      <div class="result-grid" style="margin-bottom:14px;">
+        <a class="result-link" href="https://www.mot.gov.ps/theoretical-exam" target="_blank" style="background:linear-gradient(135deg,#1565c0,#0d47a1);" onclick="trackResultClick('نظري')">
+          <span class="icon">📄</span>
+          <div>نتيجة التؤوريا النظري</div>
+          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
+        </a>
+        <a class="result-link" href="https://www.mot.gov.ps/practical-exam" target="_blank" style="background:linear-gradient(135deg,#2e7d32,#1b5e20);" onclick="trackResultClick('عملي')">
+          <span class="icon">🚗</span>
+          <div>نتيجة الامتحان العملي</div>
+          <div style="font-size:11px;opacity:0.8;">وزارة النقل والمواصلات</div>
+        </a>
+      </div>
+      <div style="text-align:center;margin-top:10px;padding-top:14px;border-top:2px solid #e0e0e0;">
+        <p style="font-size:14px;color:#555;margin-bottom:10px;">🎯 هل نجحت؟ اضغط هنا للاحتفال!</p>
+        <button onclick="celebrateFromResult()" style="padding:14px 36px;border:none;border-radius:14px;background:linear-gradient(135deg,#43a047,#2e7d32);color:white;font-size:18px;font-weight:bold;cursor:pointer;transition:all 0.2s;">🎉 أنا نجحت!</button>
+      </div>
     </div>
   </div>
 
@@ -606,7 +645,7 @@ body {
   <script>
 // Page navigation
 function hideAllPages() {
-  ['mainPage','videoPage','examPage','pdfPage'].forEach(id => {
+  ['mainPage','videoPage','examPage','pdfPage','resultPage'].forEach(id => {
     document.getElementById(id).classList.add('hidden');
   });
 }
@@ -638,12 +677,35 @@ function closeExamPage() {
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
+const PDF_URLS = {
+  tractor: 'https://info.wafa.ps/userfiles/server/pdf/t_t_2015.pdf',
+  private: 'https://info.wafa.ps/userfiles/server/pdf/p_t_2015.pdf',
+  light: 'https://info.wafa.ps/userfiles/server/pdf/l_t_2015.pdf',
+};
+const PDF_NAMES = { tractor: 'دوسية تراكتور', private: 'دوسية خصوصي', light: 'دوسية شحن خفيف' };
+
 function openPdfPage() {
-  const pdfUrl = localStorage.getItem('admin_pdf_url') || 'https://info.wafa.ps/userfiles/server/pdf/p_t_2015.pdf';
-  document.getElementById('pdfFrame').src = pdfUrl;
+  document.getElementById('pdfFrame').src = '';
+  document.getElementById('pdfSelectSection').classList.remove('hidden');
+  document.getElementById('pdfViewSection').classList.add('hidden');
   hideAllPages();
   document.getElementById('pdfPage').classList.remove('hidden');
   window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function openPdf(type) {
+  const url = PDF_URLS[type];
+  document.getElementById('pdfFrame').src = url;
+  document.getElementById('pdfViewTitle').textContent = '📖 ' + PDF_NAMES[type];
+  document.getElementById('pdfSelectSection').classList.add('hidden');
+  document.getElementById('pdfViewSection').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function backPdfSelect() {
+  document.getElementById('pdfFrame').src = '';
+  document.getElementById('pdfSelectSection').classList.remove('hidden');
+  document.getElementById('pdfViewSection').classList.add('hidden');
 }
 
 function closePdfPage() {
@@ -651,6 +713,44 @@ function closePdfPage() {
   hideAllPages();
   document.getElementById('mainPage').classList.remove('hidden');
   window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function openResultPage() {
+  document.getElementById('studentNameInput').value = '';
+  document.getElementById('resultNameDisplay').style.display = 'none';
+  hideAllPages();
+  document.getElementById('resultPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function closeResultPage() {
+  hideAllPages();
+  document.getElementById('mainPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function updateResultName() {
+  const name = document.getElementById('studentNameInput').value.trim();
+  const display = document.getElementById('resultNameDisplay');
+  const span = document.getElementById('studentNameSpan');
+  if (name) {
+    span.textContent = name;
+    display.style.display = 'block';
+  } else {
+    display.style.display = 'none';
+  }
+}
+
+function trackResultClick(type) {
+  const name = document.getElementById('studentNameInput').value.trim();
+  if (name) {
+    localStorage.setItem('last_student_name', name);
+  }
+}
+
+function celebrateFromResult() {
+  const name = document.getElementById('studentNameInput').value.trim() || localStorage.getItem('last_student_name') || 'الطالب';
+  showCelebration(name);
 }
 
 // Share site
@@ -1361,13 +1461,13 @@ function prevQuestion() { if (currentIdx > 0) { currentIdx--; renderQuestion(); 
 function nextQuestion() { if (currentIdx < currentQuestions.length - 1) { currentIdx++; renderQuestion(); } }
 function goToQuestion(idx) { if (idx >= 0 && idx < currentQuestions.length) { currentIdx = idx; renderQuestion(); } }
 
-function showCelebration() {
-  // Create overlay
+function showCelebration(studentName) {
+  const name = studentName || 'الطالب';
   const overlay = document.createElement('div');
   overlay.className = 'celebration-overlay';
   overlay.innerHTML = '<div class="celebration-box">' +
     '<div style="font-size:64px;">🎉</div>' +
-    '<h2>الف مبروك النجاح! 🎊</h2>' +
+    '<h2 style="font-size:20px;">الف مبروك النجاح يا <span style="color:#e65100;">' + name + '</span>! 🎊</h2>' +
     '<div class="sub-text">تهنئة مقدمة من<br><strong>مدرب السياقة سمير ابو قبيطة</strong></div>' +
     '<button class="close-celeb" onclick="this.closest(\'.celebration-overlay\').remove()">✕ إغلاق</button>' +
     '</div>';
@@ -1420,7 +1520,7 @@ function submitQuiz() {
     quizArea.innerHTML = quizArea.innerHTML.replace(/<div class="q-nav">.*?<\/div><div class="q-counter">.*?<\/div>/, '');
     quizArea.innerHTML += resultHtml;
     renderProgress();
-    if (passed) showCelebration();
+    if (passed) showCelebration(localStorage.getItem('last_student_name') || '');
   }, 300);
 }
 
