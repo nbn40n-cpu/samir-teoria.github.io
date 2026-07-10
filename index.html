@@ -483,11 +483,9 @@ body {
 
     <!-- Exam Models -->
     <div class="section slide-up" style="animation-delay:0.15s;">
-      <button class="big-btn action-exams" onclick="openExamPage()">
-        <span class="icon">📝</span>
-        <span class="text">نماذج امتحانات التؤوريا</span>
-        <span class="arrow">↙</span>
-      </button>
+      <h2 style="margin-bottom:12px;">📝 نماذج امتحانات التؤوريا</h2>
+      <p style="margin-bottom:12px;font-size:13px;color:#888;">اختر التصنيف المناسب لبدء الامتحان التجريبي:</p>
+      <div class="cat-grid" id="mainCatGrid"></div>
     </div>
 
     <!-- Result Check -->
@@ -1167,18 +1165,25 @@ function parseQuestionsFromLines(lines) {
 }
 
 function initCategories() {
-  const grid = document.getElementById('catGrid');
-  grid.innerHTML = '';
-  for (const cat of CATEGORIES) {
-    const btn = document.createElement('div');
-    btn.className = 'cat-btn';
-    btn.innerHTML = '<span class="icon">' + cat.icon + '</span><span>' + cat.name + '</span>';
-    btn.addEventListener('click', function() { loadCategory(cat); });
-    grid.appendChild(btn);
-  }
+  ['catGrid', 'mainCatGrid'].forEach(id => {
+    const grid = document.getElementById(id);
+    if (!grid) return;
+    grid.innerHTML = '';
+    for (const cat of CATEGORIES) {
+      const btn = document.createElement('div');
+      btn.className = 'cat-btn';
+      btn.innerHTML = '<span class="icon">' + cat.icon + '</span><span>' + cat.name + '</span>';
+      btn.addEventListener('click', function() { loadCategory(cat); });
+      grid.appendChild(btn);
+    }
+  });
 }
 
 async function loadCategory(cat) {
+  // Switch to exam page
+  hideAllPages();
+  document.getElementById('examPage').classList.remove('hidden');
+
   const grid = document.getElementById('catGrid');
   const buttons = grid.querySelectorAll('.cat-btn');
   for (const b of buttons) b.classList.add('loading');
@@ -1186,6 +1191,7 @@ async function loadCategory(cat) {
   quizArea.innerHTML = '<div class="loading-msg">⏳ جاري تحميل الأسئلة...</div>';
   document.getElementById('quizSection').classList.remove('hidden');
   document.getElementById('quizSection').classList.add('active');
+  document.getElementById('catsSection').classList.add('hidden');
   document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
   try {
     const url = Q_DIR + '/' + cat.file + '.txt';
@@ -1245,7 +1251,9 @@ function backToCategories() {
   document.getElementById('quizSection').classList.add('hidden');
   document.getElementById('quizArea').innerHTML = '';
   currentQuestions = []; userAnswers = {}; currentIdx = 0; isReviewMode = false;
-  document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
+  hideAllPages();
+  document.getElementById('mainPage').classList.remove('hidden');
+  window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 function startQuiz(questions, sectionName, groupNum, passScore, totalQ) {
