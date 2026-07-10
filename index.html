@@ -1192,15 +1192,30 @@ const GITHUB_OWNER = 'nbn40n-cpu';
 const GITHUB_REPO = 'samir-teoria.github.io';
 const RESULTS_API = 'https://raw.githubusercontent.com/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/main/data/';
 
-function adminShowResults() {
+async function getGithubToken() {
+  let token = localStorage.getItem('github_token') || '';
+  if (!token) {
+    try {
+      const res = await fetch('data/config.local.json?t=' + Date.now());
+      if (res.ok) {
+        const cfg = await res.json();
+        if (cfg.github_token && cfg.github_token.length > 10) token = cfg.github_token;
+      }
+    } catch(e) {}
+  }
+  return token;
+}
+
+async function adminShowResults() {
   const content = document.getElementById('adminContent');
-  const token = localStorage.getItem('github_token') || '';
+  const token = await getGithubToken();
   let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">📊 إدارة نتائج الامتحانات</p>';
   html += '<p style="font-size:11px;color:#999;margin-bottom:10px;">أدخل رقم الهوية والنتيجة. كل سطر: <code>رقم الهوية=ناجح</code> أو <code>رقم الهوية=راسب</code></p>';
 
   html += '<div style="background:#f5f5f5;padding:8px;border-radius:8px;margin-bottom:8px;">';
   html += '<label style="font-size:11px;color:#555;display:block;margin-bottom:4px;">🔑 توكن GitHub (يحتاج صلاحية repo):</label>';
-  html += '<input type="password" id="githubTokenInput" value="' + token + '" placeholder="ghp_..." style="width:100%;padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:11px;box-sizing:border-box;">';
+  html += '<input type="password" id="githubTokenInput" value="' + token + '" placeholder="github_pat_..." style="width:100%;padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:11px;box-sizing:border-box;">';
+  html += '<p style="font-size:10px;color:#aaa;margin-top:3px;">الاسم: <code>samir-teoria</code> | الرمز يبدأ بـ <code>github_pat_</code></p>';
   html += '</div>';
 
   html += '<div style="margin-bottom:8px;">';
