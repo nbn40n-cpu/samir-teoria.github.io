@@ -645,25 +645,6 @@ body {
         <p style="font-size:15px;color:#1565c0;font-weight:bold;">جاري الاستعلام عن النتيجة...</p>
         <p style="font-size:12px;color:#aaa;margin-top:4px;">يرجى الانتظار</p>
       </div>
-
-      <!-- Ministry Link -->
-      <div id="resultMinistryLink" class="hidden" style="text-align:center;padding:20px 10px;">
-        <div style="font-size:36px;margin-bottom:10px;">🔗</div>
-        <p style="font-size:14px;color:#555;margin-bottom:8px;">سيتم تحويلك إلى موقع وزارة النقل للاستعلام الرسمي</p>
-        <button id="resultOpenMinistryBtn" onclick="openMinistryResult()" style="padding:12px 32px;border:none;border-radius:10px;background:linear-gradient(135deg,#1565c0,#0d47a1);color:white;font-size:15px;font-weight:bold;cursor:pointer;">🔗 فتح موقع وزارة النقل</button>
-        <p style="font-size:12px;color:#aaa;margin-top:8px;">بعد معرفة نتيجتك، اختر أدناه 👇</p>
-      </div>
-
-      <!-- Self-report -->
-      <div id="resultSelfReport" class="hidden" style="text-align:center;padding:16px 10px 6px;border-top:2px solid #e0e0e0;margin-top:10px;">
-        <div style="font-size:32px;margin-bottom:8px;">👋</div>
-        <p style="font-size:15px;color:#333;font-weight:bold;margin-bottom:4px;">هل عرفت نتيجتك؟</p>
-        <p style="font-size:13px;color:#888;margin-bottom:12px;">اختر حالة نتيجتك:</p>
-        <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap;">
-          <button onclick="reportResult(true)" style="min-width:140px;padding:14px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,#43a047,#2e7d32);color:white;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(67,160,71,0.3);transition:all 0.2s;">🎉 نجحت</button>
-          <button onclick="reportResult(false)" style="min-width:140px;padding:14px 24px;border:none;border-radius:14px;background:linear-gradient(135deg,#e53935,#c62828);color:white;font-size:17px;font-weight:bold;cursor:pointer;box-shadow:0 4px 15px rgba(229,57,53,0.3);transition:all 0.2s;">😢 لم أنجح</button>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -758,10 +739,11 @@ function openResultPage(type) {
   document.getElementById('resultIdInput').value = '';
   document.getElementById('resultFormArea').classList.remove('hidden');
   document.getElementById('resultLoading').classList.add('hidden');
-  document.getElementById('resultMinistryLink').classList.add('hidden');
-  document.getElementById('resultSelfReport').classList.add('hidden');
   document.getElementById('resultCheckBtn').disabled = false;
   document.getElementById('resultCheckBtn').textContent = '🔍 استعلام';
+  // Remove any dynamic result elements
+  const existing = document.querySelectorAll('#resultNotFound, #resultFetchError');
+  existing.forEach(el => el.remove());
   hideAllPages();
   document.getElementById('resultPage').classList.remove('hidden');
   window.scrollTo({top: 0, behavior: 'smooth'});
@@ -782,32 +764,63 @@ function startResultCheck() {
   document.getElementById('resultLoading').classList.remove('hidden');
   document.getElementById('resultCheckBtn').disabled = true;
 
-  // Show loading for 2 seconds, then show self-report
-  setTimeout(() => {
-    document.getElementById('resultLoading').classList.add('hidden');
-    document.getElementById('resultSelfReport').classList.remove('hidden');
-  }, 2000);
+  const file = resultCheckType === 'نظري' ? 'nathari' : 'amali';
+  const url = 'https://raw.githubusercontent.com/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/main/data/' + file + '.json?t=' + Date.now();
+
+  fetch(url)
+    .then(r => {
+      if (!r.ok) throw new Error('لا توجد نتائج');
+      return r.json();
+    })
+    .then(data => {
+      document.getElementById('resultLoading').classList.add('hidden');
+      if (data[id] !== undefined) {
+        if (data[id]) {
+          showResultCelebration(true);
+        } else {
+          showResultCelebration(false);
+        }
+      } else {
+        // ID not found - show not found message
+        document.getElementById('resultFormArea').classList.add('hidden');
+        document.getElementById('resultLoading').classList.add('hidden');
+        const content = document.querySelector('#resultPage .section');
+        const notFound = document.createElement('div');
+        notFound.id = 'resultNotFound';
+        notFound.style.cssText = 'text-align:center;padding:20px;';
+        notFound.innerHTML = '<div style="font-size:48px;margin-bottom:10px;">🔍</div>' +
+          '<p style="font-size:15px;color:#c62828;font-weight:bold;margin-bottom:6px;">رقم الهوية غير موجود في قاعدة البيانات</p>' +
+          '<p style="font-size:13px;color:#888;margin-bottom:14px;">تأكد من رقم الهوية أو تواصل مع المدرب</p>' +
+          '<button onclick="this.closest(\'#resultNotFound\').remove();openResultPage(resultCheckType);" style="padding:8px 24px;border:none;border-radius:8px;background:#1565c0;color:white;cursor:pointer;font-size:13px;">🔄 إعادة المحاولة</button>';
+        content.appendChild(notFound);
+      }
+    })
+    .catch(e => {
+      document.getElementById('resultLoading').classList.add('hidden');
+      const content = document.querySelector('#resultPage .section');
+      const errDiv = document.createElement('div');
+      errDiv.id = 'resultFetchError';
+      errDiv.style.cssText = 'text-align:center;padding:20px;';
+      errDiv.innerHTML = '<div style="font-size:48px;margin-bottom:10px;">⚠️</div>' +
+        '<p style="font-size:15px;color:#c62828;font-weight:bold;margin-bottom:6px;">تعذر تحميل النتائج</p>' +
+        '<p style="font-size:13px;color:#888;margin-bottom:14px;">' + e.message + '</p>' +
+        '<button onclick="this.closest(\'#resultFetchError\').remove();openResultPage(resultCheckType);" style="padding:8px 24px;border:none;border-radius:8px;background:#1565c0;color:white;cursor:pointer;font-size:13px;">🔄 إعادة المحاولة</button>';
+      content.appendChild(errDiv);
+    });
 }
 
-function openMinistryResult() {
-  const url = resultCheckType === 'نظري' ? 'https://www.mot.gov.ps/theoretical-exam' : 'https://www.mot.gov.ps/practical-exam';
-  window.open(url, '_blank');
-  document.getElementById('resultOpenMinistryBtn').textContent = '✅ تم الفتح';
-  document.getElementById('resultOpenMinistryBtn').disabled = true;
-}
-
-function reportResult(passed) {
+function showResultCelebration(passed) {
   const overlay = document.createElement('div');
   overlay.className = 'celebration-overlay';
   if (passed) {
     overlay.innerHTML = '<div class="celebration-box">' +
       '<div style="font-size:64px;">🎉</div>' +
-      '<h2 style="font-size:20px;">الف مبروك النجاح! 🎊</h2>' +
-      '<div class="sub-text">تهنئة مقدمة من<br><strong>مدرب السياقة سمير ابو قبيطة</strong></div>' +
-      '<button class="close-celeb" onclick="this.closest(\'.celebration-overlay\').remove()">✕ إغلاق</button>' +
+      '<h2 style="font-size:22px;">🎊 مبروك النجاح! 🎊</h2>' +
+      '<div class="sub-text" style="font-size:16px;">تهنئة مقدمة من</div>' +
+      '<div class="sub-text" style="font-size:15px;color:#009688;font-weight:bold;">مدرب السياقة سمير ابو قبيطة</div>' +
+      '<button class="close-celeb" onclick="this.closest(\'.celebration-overlay\').remove();closeResultPage();">✕ العودة للرئيسية</button>' +
       '</div>';
     document.body.appendChild(overlay);
-    // Confetti + applause
     const colors = ['#e53935','#43a047','#1e88e5','#fb8c00','#8e24aa','#ffeb3b','#00acc1','#d81b60'];
     for (let i = 0; i < 80; i++) {
       const piece = document.createElement('div');
@@ -838,10 +851,10 @@ function reportResult(passed) {
   } else {
     overlay.innerHTML = '<div class="celebration-box">' +
       '<div style="font-size:64px;">😢</div>' +
-      '<h2 style="color:#c62828;font-size:20px;">حظاً أوفر!</h2>' +
-      '<div class="sub-text" style="font-size:15px;">نتمنى لك النجاح المرة القادمة 🍀</div>' +
-      '<div class="sub-text" style="font-size:13px;color:#888;margin-top:6px;">مع <strong>مدرب السياقة سمير ابو قبيطة</strong> راح تضبطها 💪</div>' +
-      '<button class="close-celeb" onclick="this.closest(\'.celebration-overlay\').remove()">✕ إغلاق</button>' +
+      '<h2 style="color:#c62828;font-size:20px;">للأسف، لم تنجح هذه المرة</h2>' +
+      '<div class="sub-text" style="font-size:16px;">حظاً أوفر! نتمنى لك النجاح المرة القادمة 🍀</div>' +
+      '<div class="sub-text" style="font-size:14px;color:#888;margin-top:8px;">مع <strong style="color:#009688;">مدرب السياقة سمير ابو قبيطة</strong> راح تضبطها 💪</div>' +
+      '<button class="close-celeb" onclick="this.closest(\'.celebration-overlay\').remove();closeResultPage();">✕ العودة للرئيسية</button>' +
       '</div>';
     document.body.appendChild(overlay);
   }
@@ -932,7 +945,7 @@ function toggleAdminPanel() {
   const panel = document.createElement('div');
   panel.id = 'adminPanel';
   panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:480px;width:94%;text-align:center;animation:fadeIn 0.2s ease;';
-  panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="headerImg">🖼️ صورة الهيدر</button><button class="admin-tab" data-tab="announce">📢 الإعلان النصي</button><button class="admin-tab" data-tab="pdf">📖 رابط الدوسية</button><button class="admin-tab" data-tab="stats">📊 الإحصائيات</button></div><div id="adminContent" style="font-size:12px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div style="margin-top:6px;padding-top:6px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:16px;color:#888;">⏳ جاري التحميل...</div>';
+     panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="headerImg">🖼️ صورة الهيدر</button><button class="admin-tab" data-tab="announce">📢 الإعلان النصي</button><button class="admin-tab" data-tab="pdf">📖 رابط الدوسية</button><button class="admin-tab" data-tab="results">📊 النتائج</button><button class="admin-tab" data-tab="stats">📈 الإحصائيات</button></div><div id="adminContent" style="font-size:12px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div style="margin-top:6px;padding-top:6px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:16px;color:#888;">⏳ جاري التحميل...</div>';
   document.body.appendChild(panel);
   document.getElementById('adminTabs').addEventListener('click', function(e) {
     const tab = e.target.closest('.admin-tab');
@@ -972,6 +985,8 @@ function adminSwitchTab(tab) {
     adminShowHeaderImage();
   } else if (tab === 'pdf') {
     adminShowPdfSettings();
+  } else if (tab === 'results') {
+    adminShowResults();
   } else if (tab === 'stats') {
     adminShowStats();
   }
@@ -1170,6 +1185,121 @@ function adminShowStats() {
   fetch('https://api.countapi.xyz/get/samir-teoria/visitors')
     .then(r => r.json()).then(d => { document.getElementById('globalCount').textContent = d.value; })
     .catch(() => { document.getElementById('globalCount').textContent = visits; });
+}
+
+// ========== Admin: Results ==========
+const GITHUB_OWNER = 'nbn40n-cpu';
+const GITHUB_REPO = 'samir-teoria.github.io';
+const RESULTS_API = 'https://raw.githubusercontent.com/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/main/data/';
+
+function adminShowResults() {
+  const content = document.getElementById('adminContent');
+  const token = localStorage.getItem('github_token') || '';
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">📊 إدارة نتائج الامتحانات</p>';
+  html += '<p style="font-size:11px;color:#999;margin-bottom:10px;">أدخل رقم الهوية والنتيجة. كل سطر: <code>رقم الهوية=ناجح</code> أو <code>رقم الهوية=راسب</code></p>';
+
+  html += '<div style="background:#f5f5f5;padding:8px;border-radius:8px;margin-bottom:8px;">';
+  html += '<label style="font-size:11px;color:#555;display:block;margin-bottom:4px;">🔑 توكن GitHub (يحتاج صلاحية repo):</label>';
+  html += '<input type="password" id="githubTokenInput" value="' + token + '" placeholder="ghp_..." style="width:100%;padding:6px 10px;border:1px solid #ddd;border-radius:6px;font-size:11px;box-sizing:border-box;">';
+  html += '</div>';
+
+  html += '<div style="margin-bottom:8px;">';
+  html += '<select id="resultTypeSelect" style="padding:6px;border-radius:6px;border:1px solid #ddd;font-size:12px;">';
+  html += '<option value="nathari">📄 التؤوريا النظري</option>';
+  html += '<option value="amali">🚗 الامتحان العملي</option>';
+  html += '</select>';
+  html += '</div>';
+
+  html += '<textarea id="resultsTextarea" rows="6" placeholder="1234567890=ناجح&#10;0987654321=راسب" style="width:100%;padding:10px;border:2px solid #e0e0e0;border-radius:8px;font-size:12px;box-sizing:border-box;direction:ltr;text-align:left;"></textarea>';
+  html += '<div style="margin-top:6px;display:flex;gap:4px;">';
+  html += '<button class="admin-save-btn" onclick="adminLoadResults()" style="flex:1;">📥 تحميل النتائج الحالية</button>';
+  html += '<button class="admin-save-btn" onclick="adminSaveResults()" style="flex:1;">💾 حفظ النتائج</button>';
+  html += '</div>';
+  html += '<div id="resultsStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
+
+  content.innerHTML = html;
+  adminLoadResults();
+}
+
+async function adminLoadResults() {
+  const type = document.getElementById('resultTypeSelect').value;
+  const file = type + '.json';
+  const status = document.getElementById('resultsStatus');
+  status.textContent = '⏳ جاري تحميل النتائج...';
+  try {
+    const res = await fetch(RESULTS_API + file + '?t=' + Date.now());
+    if (!res.ok) throw new Error('لا توجد نتائج');
+    const data = await res.json();
+    const lines = Object.entries(data).map(([id, result]) => id + '=' + (result ? 'ناجح' : 'راسب')).join('\n');
+    document.getElementById('resultsTextarea').value = lines;
+    const count = Object.keys(data).length;
+    status.textContent = '✅ تم تحميل ' + count + ' نتيجة';
+  } catch(e) {
+    status.textContent = 'ℹ️ لا توجد نتائج محفوظة بعد';
+  }
+}
+
+async function adminSaveResults() {
+  const type = document.getElementById('resultTypeSelect').value;
+  const token = document.getElementById('githubTokenInput').value.trim();
+  if (!token) { alert('❌ الرجاء إدخال توكن GitHub'); return; }
+  localStorage.setItem('github_token', token);
+
+  const text = document.getElementById('resultsTextarea').value.trim();
+  const lines = text.split('\n').filter(l => l.trim());
+  const data = {};
+  for (const line of lines) {
+    const parts = line.split('=');
+    if (parts.length !== 2) continue;
+    const id = parts[0].trim();
+    const result = parts[1].trim();
+    if (result === 'ناجح') data[id] = true;
+    else if (result === 'راسب') data[id] = false;
+  }
+
+  const status = document.getElementById('resultsStatus');
+  status.textContent = '⏳ جاري حفظ ' + Object.keys(data).length + ' نتيجة...';
+  status.style.color = '#888';
+
+  try {
+    const file = type + '.json';
+    const path = 'data/' + file;
+    const url = 'https://api.github.com/repos/' + GITHUB_OWNER + '/' + GITHUB_REPO + '/contents/' + path;
+    const jsonContent = JSON.stringify(data, null, 2);
+
+    // Get existing file SHA if it exists
+    let sha = null;
+    const getRes = await fetch(url, { headers: { Authorization: 'token ' + token, Accept: 'application/vnd.github.v3+json' } });
+    if (getRes.ok) { const existing = await getRes.json(); sha = existing.sha; }
+
+    // Encode content to base64
+    const encoder = new TextEncoder();
+    const bytes = encoder.encode(jsonContent);
+    let binary = '';
+    for (let i = 0; i < bytes.length; i++) binary += String.fromCharCode(bytes[i]);
+    const base64 = btoa(binary);
+
+    const body = { message: 'تحديث نتائج ' + type, content: base64, branch: 'main' };
+    if (sha) body.sha = sha;
+
+    const putRes = await fetch(url, {
+      method: 'PUT',
+      headers: { Authorization: 'token ' + token, 'Content-Type': 'application/json' },
+      body: JSON.stringify(body)
+    });
+
+    if (putRes.ok) {
+      status.textContent = '✅ تم حفظ ' + Object.keys(data).length + ' نتيجة بنجاح!';
+      status.style.color = '#2e7d32';
+    } else {
+      const err = await putRes.json();
+      status.textContent = '❌ فشل الحفظ: ' + (err.message || 'خطأ غير معروف');
+      status.style.color = '#c62828';
+    }
+  } catch(e) {
+    status.textContent = '❌ خطأ: ' + e.message;
+    status.style.color = '#c62828';
+  }
 }
 
 // ========== Admin: Questions ==========
