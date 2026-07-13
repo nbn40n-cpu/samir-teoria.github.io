@@ -255,10 +255,10 @@ body {
 .announcement-bar {
   background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px;
   padding: 12px 16px; margin-bottom: 14px; font-size: 14px;
-  line-height: 1.7; color: #e65100; display: none;
+   line-height: 1.7; color: #000000; display: none;
 }
 .announcement-bar.has-text { display: block; animation: slideUp 0.3s ease; }
-.announcement-bar .alabel { font-weight: bold; color: #e65100; margin-left: 6px; font-size: 12px; }
+.announcement-bar .alabel { font-weight: bold; color: #000000; margin-left: 6px; font-size: 12px; }
 
 /* Divider */
 .divider { border: none; height: 1px; background: #e0e0e0; margin: 6px 0; }
@@ -425,7 +425,7 @@ body {
 </head>
 <body>
 
-<a class="whatsapp-float" href="https://wa.me/970568444407" target="_blank" title="تواصل مع المدرب">💬</a>
+<a class="whatsapp-float" href="https://wa.me/972568444407" target="_blank" title="تواصل مع المدرب">💬</a>
 <button class="back-top" id="backTopBtn" onclick="scrollToTop()" title="العودة للأعلى">⬆</button>
 
 <div class="container">
@@ -435,7 +435,7 @@ body {
     <img id="profileImg" src="assets/profile.jpeg" alt="مدرب السياقة سمير ابو قبيطة" onerror="this.src='assets/profile.jpeg'">
     <h1 id="mainTitle">🚗 مدرب السياقة سمير ابو قبيطة</h1>
     <div class="sub" id="headerSub">امتحان التؤوريا النظري التجريبي</div>
-    <div class="phone">📞 0568444407</div>
+    <div class="phone">📞 <span id="headerPhone">009725684444407</span></div>
     <div style="font-size:13px;opacity:0.85;margin-top:4px;">📍 يطا</div>
   </div>
 
@@ -456,7 +456,7 @@ body {
           <span class="icon">📤</span>
           <span>مشاركة الموقع</span>
         </div>
-        <a class="action-btn share" href="https://wa.me/970568444407" target="_blank">
+        <a class="action-btn share" href="https://wa.me/972568444407" target="_blank">
           <span class="icon">💬</span>
           <span>تواصل مع المدرب</span>
         </a>
@@ -513,8 +513,8 @@ body {
     </div>
 
     <!-- Bottom Image -->
-    <div class="section slide-up" style="animation-delay:0.22s;text-align:center;">
-      <img src="assets/bottom_img.jpeg" alt="صورة" style="max-width:100%;border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,0.1);" onerror="this.style.display='none'">
+    <div class="section slide-up" style="animation-delay:0.22s;text-align:center; padding:10px;">
+      <div id="bottomImages"></div>
     </div>
 
     <!-- Contact -->
@@ -522,7 +522,7 @@ body {
       <h2>📞 تواصل معي</h2>
       <p style="text-align:center;font-size:15px;">
         <strong id="contactName">مدرب السياقة سمير ابو قبيطة</strong><br>
-        📞 0568444407<br>
+        📞 <span id="contactPhone">009725684444407</span><br>
         🇵🇸 فلسطين
       </p>
     </div>
@@ -776,7 +776,7 @@ function toggleAdminPanel() {
   const panel = document.createElement('div');
   panel.id = 'adminPanel';
   panel.style.cssText = 'position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:white;padding:20px;border-radius:16px;box-shadow:0 8px 40px rgba(0,0,0,0.3);z-index:9999;max-width:480px;width:94%;text-align:center;animation:fadeIn 0.2s ease;';
-     panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="headerImg">🖼️ صورة الهيدر</button><button class="admin-tab" data-tab="announce">📢 الإعلان النصي</button><button class="admin-tab" data-tab="pdf">📖 رابط الدوسية</button><button class="admin-tab" data-tab="stats">📈 الإحصائيات</button></div><div id="adminContent" style="font-size:12px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div style="margin-top:6px;padding-top:6px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:16px;color:#888;">⏳ جاري التحميل...</div>';
+     panel.innerHTML = '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;"><h3 style="color:#009688;margin:0;">🔧 لوحة الإدارة</h3><button onclick="closeAdmin()" style="background:none;border:none;font-size:20px;cursor:pointer;color:#888;">✕</button></div><div class="admin-tabs" id="adminTabs"><button class="admin-tab active" data-tab="questions">📋 الأسئلة</button><button class="admin-tab" data-tab="images">📸 الإعلانات</button><button class="admin-tab" data-tab="headerImg">🖼️ صورة الهيدر</button><button class="admin-tab" data-tab="personalImg">🖼️ صور شخصيه</button><button class="admin-tab" data-tab="announce">📢 الإعلان النصي</button><button class="admin-tab" data-tab="phone">📞 الرقم</button><button class="admin-tab" data-tab="pdf">📖 رابط الدوسية</button><button class="admin-tab" data-tab="stats">📈 الإحصائيات</button></div><div id="adminContent" style="font-size:12px;color:#555;max-height:350px;overflow-y:auto;text-align:right;"></div><div style="margin-top:6px;padding-top:6px;border-top:1px solid #eee;"><button onclick="setAdminPassword()" style="padding:4px 10px;border:none;border-radius:6px;background:#ff6f00;color:white;cursor:pointer;font-size:11px;">🔒 تغيير كلمة السر</button></div><div id="adminLoading" style="display:none;text-align:center;padding:16px;color:#888;">⏳ جاري التحميل...</div>';
   document.body.appendChild(panel);
   document.getElementById('adminTabs').addEventListener('click', function(e) {
     const tab = e.target.closest('.admin-tab');
@@ -812,8 +812,12 @@ function adminSwitchTab(tab) {
     adminShowImages();
   } else if (tab === 'announce') {
     adminShowAnnounce();
+  } else if (tab === 'phone') {
+    adminShowPhone();
   } else if (tab === 'headerImg') {
     adminShowHeaderImage();
+  } else if (tab === 'personalImg') {
+    adminShowPersonalImages();
   } else if (tab === 'pdf') {
     adminShowPdfSettings();
   } else if (tab === 'stats') {
@@ -880,6 +884,75 @@ function loadHeaderImage() {
   const img = document.getElementById('profileImg');
   const custom = localStorage.getItem('admin_header_img');
   img.src = custom || 'assets/profile.jpeg';
+}
+
+// ========== Admin: Personal Images ==========
+function adminShowPersonalImages() {
+  const content = document.getElementById('adminContent');
+  const images = JSON.parse(localStorage.getItem('admin_personal_images') || '["assets/bottom_img.jpeg"]');
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">إدارة الصور الشخصية (تظهر أسفل الصفحة):</p>';
+  html += '<div id="personalImgList">';
+  for (let i = 0; i < images.length; i++) {
+    const src = images[i] || '';
+    html += '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;background:#f9f9f9;padding:6px;border-radius:8px;">';
+    html += '<span style="font-size:11px;color:#888;width:20px;">' + (i+1) + '</span>';
+    html += '<input type="text" id="personalImgUrl' + i + '" value="' + src + '" placeholder="رابط الصورة" style="flex:1;padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;">';
+    if (src) {
+      html += '<img src="' + src + '" style="width:40px;height:40px;border-radius:6px;object-fit:cover;border:1px solid #ddd;" onerror="this.outerHTML=\'<span style=color:#c62828;font-size:16px;>❌</span>\'">';
+    }
+    html += '<button onclick="adminRemovePersonalImg(' + i + ')" style="background:#c62828;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;width:28px;height:28px;">✕</button>';
+    html += '</div>';
+  }
+  html += '</div>';
+  html += '<button onclick="adminAddPersonalImg()" style="padding:5px 12px;border:1px dashed #009688;border-radius:8px;background:white;color:#009688;cursor:pointer;font-size:12px;margin-bottom:6px;">+ إضافة صورة</button>';
+  html += '<div><button class="admin-save-btn" onclick="adminSavePersonalImages()">💾 حفظ الصور</button>';
+  html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminResetPersonalImages()">🗑️ استعادة الافتراضي</button></div>';
+  html += '<div id="personalImgStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
+  content.innerHTML = html;
+}
+
+function adminAddPersonalImg() {
+  const list = document.getElementById('personalImgList');
+  const count = list.children.length;
+  const div = document.createElement('div');
+  div.style.cssText = 'display:flex;align-items:center;gap:6px;margin-bottom:6px;background:#f9f9f9;padding:6px;border-radius:8px;';
+  div.innerHTML = '<span style="font-size:11px;color:#888;width:20px;">' + (count+1) + '</span><input type="text" id="personalImgUrl' + count + '" value="" placeholder="رابط الصورة" style="flex:1;padding:5px 8px;border:1px solid #ddd;border-radius:6px;font-size:12px;"><button onclick="this.parentElement.remove()" style="background:#c62828;color:white;border:none;border-radius:6px;cursor:pointer;font-size:14px;width:28px;height:28px;">✕</button>';
+  list.appendChild(div);
+}
+
+function adminRemovePersonalImg(idx) {
+  const el = document.getElementById('personalImgUrl' + idx);
+  if (el) el.parentElement.remove();
+}
+
+function adminSavePersonalImages() {
+  const list = document.getElementById('personalImgList');
+  const urls = [];
+  for (let i = 0; i < list.children.length; i++) {
+    const input = list.children[i].querySelector('input[type="text"]');
+    if (input && input.value.trim()) urls.push(input.value.trim());
+  }
+  if (urls.length === 0) urls.push('assets/bottom_img.jpeg');
+  localStorage.setItem('admin_personal_images', JSON.stringify(urls));
+  document.getElementById('personalImgStatus').textContent = '✅ تم حفظ الصور!';
+  loadBottomImages();
+}
+
+function adminResetPersonalImages() {
+  localStorage.removeItem('admin_personal_images');
+  document.getElementById('personalImgStatus').textContent = '🗑️ تم استعادة الصورة الافتراضية';
+  loadBottomImages();
+  adminShowPersonalImages();
+}
+
+function loadBottomImages() {
+  const container = document.getElementById('bottomImages');
+  if (!container) return;
+  const images = JSON.parse(localStorage.getItem('admin_personal_images') || '["assets/bottom_img.jpeg"]');
+  if (images.length === 0) { container.innerHTML = ''; return; }
+  container.innerHTML = images.map(function(url) {
+    return '<img src="' + url + '" alt="صورة" style="max-width:100%;border-radius:16px;box-shadow:0 4px 15px rgba(0,0,0,0.1);margin-bottom:8px;" onerror="this.style.display=\'none\'">';
+  }).join('<br>');
 }
 
 // ========== Admin: PDF Settings ==========
@@ -996,6 +1069,52 @@ function adminClearAnnounce() {
   document.getElementById('announceText').value = '';
   document.getElementById('announceStatus').textContent = '🗑️ تم حذف الإعلان';
   loadAnnouncement();
+}
+
+// ========== Admin: Phone Number ==========
+function adminShowPhone() {
+  const content = document.getElementById('adminContent');
+  const num = localStorage.getItem('admin_phone') || '009725684444407';
+  let html = '<p style="font-size:13px;color:#666;margin-bottom:8px;">تعديل رقم الهاتف المعروض في الموقع:</p>';
+  html += '<input type="text" id="phoneInput" value="' + num + '" placeholder="مثال: 009725684444407" style="width:100%;padding:10px;border:1px solid #ddd;border-radius:8px;font-size:16px;text-align:center;direction:ltr;box-sizing:border-box;">';
+  html += '<div style="margin-top:6px;font-size:11px;color:#888;padding:8px;background:#f0f0f0;border-radius:8px;">الرقم سيظهر في الهيدر وقسم الاتصال. واتساب سيستخدم نفس الرقم مع <strong>972</strong> بدلاً من 00972.</div>';
+  html += '<div><button class="admin-save-btn" onclick="adminSavePhone()">💾 حفظ الرقم</button>';
+  html += ' <button class="admin-save-btn" style="background:#c62828;" onclick="adminResetPhone()">🗑️ استعادة الافتراضي</button></div>';
+  html += '<div id="phoneStatus" style="margin-top:4px;font-size:11px;color:#888;"></div>';
+  content.innerHTML = html;
+}
+
+function adminSavePhone() {
+  const num = document.getElementById('phoneInput').value.trim();
+  if (!num) { document.getElementById('phoneStatus').textContent = '⚠️ الرقم لا يمكن أن يكون فارغاً'; return; }
+  localStorage.setItem('admin_phone', num);
+  document.getElementById('phoneStatus').textContent = '✅ تم حفظ الرقم!';
+  loadPhoneNumber();
+}
+
+function adminResetPhone() {
+  localStorage.removeItem('admin_phone');
+  document.getElementById('phoneStatus').textContent = '🗑️ تم استعادة الرقم الافتراضي';
+  loadPhoneNumber();
+  adminShowPhone();
+}
+
+function loadPhoneNumber() {
+  const num = localStorage.getItem('admin_phone') || '009725684444407';
+  const headerEl = document.getElementById('headerPhone');
+  const contactEl = document.getElementById('contactPhone');
+  const waNum = '972' + num.replace(/^00972/, '').replace(/^0/, '');
+  if (headerEl) headerEl.textContent = num;
+  if (contactEl) contactEl.textContent = num;
+  const waLinks = document.querySelectorAll('a[href*="wa.me"]');
+  waLinks.forEach(function(el) {
+    if (el.href.includes('wa.me/')) {
+      const parts = el.href.split('wa.me/');
+      if (parts.length > 1) {
+        el.href = parts[0] + 'wa.me/' + waNum;
+      }
+    }
+  });
 }
 
 // ========== Admin: Stats ==========
@@ -1495,6 +1614,8 @@ initCategories();
 loadGalleryImages();
 loadAnnouncement();
 loadHeaderImage();
+loadPhoneNumber();
+loadBottomImages();
 trackVisit();
 </script>
 
