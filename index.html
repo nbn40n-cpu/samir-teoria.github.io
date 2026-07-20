@@ -218,6 +218,7 @@ body {
 .q-nav .prev { background: #e0e0e0; color: #333; }
 .q-nav .next { background: #009688; color: white; }
 .q-nav .check-btn { background: #1565c0; color: white; }
+.q-nav .check-btn[disabled] { background: #90caf9; }
 .q-nav .submit { background: #ff6f00; color: white; }
 .q-nav button:disabled { opacity: 0.4; cursor: default; }
 .q-nav button:hover:not(:disabled) { transform: scale(1.05); }
@@ -1227,6 +1228,7 @@ let userAnswers = {};
 let currentIdx = 0;
 let isReviewMode = false;
 let feedbackMode = false;
+let autoAdvanceTimer = null;
 let catFileName = '';
 let quizPassScore = 25;
 let quizTotalQ = 30;
@@ -1508,12 +1510,10 @@ function renderQuestion() {
   const answered = Object.keys(userAnswers).length;
   let navHtml = '<div class="q-nav">';
   navHtml += '<button class="prev" onclick="prevQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + '>‹ السابق</button>';
-  if (selectedIdx !== undefined && !feedbackMode && !isReviewMode) {
-    navHtml += '<button class="check-btn" onclick="checkAnswer()">🔍 تحقق من الإجابة</button>';
-  } else {
-    if (currentIdx < total - 1) { navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>'; }
-    else if (feedbackMode || isReviewMode) { navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>'; }
-  }
+  var checkDisabled = (selectedIdx === undefined || feedbackMode || isReviewMode) ? 'disabled' : '';
+  navHtml += '<button class="check-btn" onclick="checkAnswer()" ' + checkDisabled + '>🔍 تحقق من الإجابة</button>';
+  if (currentIdx < total - 1) { navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>'; }
+  else { navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>'; }
   navHtml += '</div>';
   const cardHtml = '<div class="question-card"><div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total + '<button class="spk" data-t="' + cleanQText + '" style="margin-right:6px;">🔊</button></div>' + imgHtml + '<div class="q-text">' + qText + '</div>' + optionsHtml + navHtml + '<div class="q-counter">تمت الإجابة على ' + answered + ' من ' + total + ' أسئلة</div></div>';
   const existing = quizArea.querySelector('.question-card');
@@ -1526,18 +1526,25 @@ function selectAnswer(idx) {
   const q = currentQuestions[currentIdx]; if (!q) return;
   userAnswers[currentIdx] = idx;
   renderQuestion();
+  if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
+  if (currentIdx < currentQuestions.length - 1) {
+    autoAdvanceTimer = setTimeout(function() { autoAdvanceTimer = null; currentIdx++; feedbackMode = false; renderQuestion(); }, 1200);
+  }
 }
 
 function checkAnswer() {
   if (feedbackMode || isReviewMode) return;
   if (userAnswers[currentIdx] === undefined) return;
+  if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; }
   feedbackMode = true;
   renderQuestion();
 }
 
-function prevQuestion() { if (currentIdx > 0) { currentIdx--; feedbackMode = userAnswers[currentIdx] !== undefined; renderQuestion(); } }
-function nextQuestion() { if (currentIdx < currentQuestions.length - 1) { currentIdx++; feedbackMode = userAnswers[currentIdx] !== undefined; renderQuestion(); } }
-function goToQuestion(idx) { if (idx >= 0 && idx < currentQuestions.length) { currentIdx = idx; feedbackMode = userAnswers[currentIdx] !== undefined; renderQuestion(); } }
+function cancelAutoAdvance() { if (autoAdvanceTimer) { clearTimeout(autoAdvanceTimer); autoAdvanceTimer = null; } }
+
+function prevQuestion() { cancelAutoAdvance(); feedbackMode = false; if (currentIdx > 0) { currentIdx--; renderQuestion(); } }
+function nextQuestion() { cancelAutoAdvance(); feedbackMode = false; if (currentIdx < currentQuestions.length - 1) { currentIdx++; renderQuestion(); } }
+function goToQuestion(idx) { cancelAutoAdvance(); feedbackMode = false; if (idx >= 0 && idx < currentQuestions.length) { currentIdx = idx; renderQuestion(); } }
 
 function showCelebration(studentName) {
   const name = studentName || 'الطالب';
@@ -1584,7 +1591,7 @@ function showCelebration(studentName) {
 }
 
 function submitQuiz() {
-  isReviewMode = true; feedbackMode = false;
+  cancelAutoAdvance(); isReviewMode = true; feedbackMode = false;
   const total = currentQuestions.length;
   const answered = Object.keys(userAnswers).length;
   let correct = 0;
