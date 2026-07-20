@@ -254,12 +254,12 @@ body {
 
 /* Annoucement */
 .announcement-bar {
-  background: #fff3e0; border: 2px solid #ff9800; border-radius: 12px;
-  padding: 12px 16px; margin-bottom: 14px; font-size: 14px;
-   line-height: 1.7; color: #000000; display: none;
+  background: linear-gradient(135deg, #fff8e1, #fff3e0); border: 3px solid #ff9800; border-radius: 16px;
+  padding: 18px 22px; margin-bottom: 18px; font-size: 20px; font-weight: 700;
+  line-height: 1.8; color: #000000; display: none; box-shadow: 0 4px 15px rgba(255,152,0,0.2);
 }
 .announcement-bar.has-text { display: block; animation: slideUp 0.3s ease; }
-.announcement-bar .alabel { font-weight: bold; color: #000000; margin-left: 6px; font-size: 12px; }
+.announcement-bar .alabel { font-weight: 900; color: #e65100; margin-left: 10px; font-size: 18px; }
 
 /* Divider */
 .divider { border: none; height: 1px; background: #e0e0e0; margin: 6px 0; }
@@ -587,6 +587,10 @@ body {
     </div>
     <div class="section quiz-section hidden" id="quizSection">
       <div id="quizArea"></div>
+    </div>
+    <div class="announcement-bar" id="announcementBarBottom">
+      <span class="alabel">📢 إعلان:</span>
+      <span id="announcementTextBottom"></span>
     </div>
   </div>
 
@@ -1221,6 +1225,7 @@ let currentQuestions = [];
 let userAnswers = {};
 let currentIdx = 0;
 let isReviewMode = false;
+let feedbackMode = false;
 let catFileName = '';
 let quizPassScore = 25;
 let quizTotalQ = 30;
@@ -1418,14 +1423,14 @@ function backToCategories() {
   document.getElementById('quizSection').classList.remove('active');
   document.getElementById('quizSection').classList.add('hidden');
   document.getElementById('quizArea').innerHTML = '';
-  currentQuestions = []; userAnswers = {}; currentIdx = 0; isReviewMode = false;
+  currentQuestions = []; userAnswers = {}; currentIdx = 0; isReviewMode = false; feedbackMode = false;
   hideAllPages();
   document.getElementById('mainPage').classList.remove('hidden');
   window.scrollTo({top: 0, behavior: 'smooth'});
 }
 
 function startQuiz(questions, sectionName, groupNum, passScore, totalQ) {
-  currentQuestions = questions; userAnswers = {}; currentIdx = 0; isReviewMode = false;
+  currentQuestions = questions; userAnswers = {}; currentIdx = 0; isReviewMode = false; feedbackMode = false;
   quizPassScore = passScore; quizTotalQ = totalQ;
   const quizArea = document.getElementById('quizArea');
   quizArea.innerHTML = '<div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;"><div class="q-header" style="margin:0;font-size:15px;">' + sectionName + ' - مجموعة ' + groupNum + '</div><div style="margin-right:auto;"><span class="speak-toggle muted" id="muteBtn" onclick="toggleMute()">🔇 مكتوم</span></div></div>';
@@ -1443,7 +1448,7 @@ function renderProgress() {
     let cls = '';
     if (i === currentIdx) cls = 'active';
     if (userAnswers[i] !== undefined) {
-      if (isReviewMode) { cls = userAnswers[i] === currentQuestions[i].answers.findIndex(a => a.isCorrect) ? 'correct' : 'wrong'; }
+      if (isReviewMode || feedbackMode) { cls = userAnswers[i] === currentQuestions[i].answers.findIndex(a => a.isCorrect) ? 'correct' : 'wrong'; }
       else { cls = 'answered'; }
     }
     html += '<button class="progress-dot ' + cls + '" onclick="goToQuestion(' + i + ')">' + (i + 1) + '</button>';
@@ -1483,14 +1488,15 @@ function renderQuestion() {
   for (let i = 0; i < q.answers.length; i++) {
     const a = q.answers[i];
     let cls = 'option';
-    if (isReviewMode) {
+    if (isReviewMode || feedbackMode) {
       const correctIdx = q.answers.findIndex(x => x.isCorrect);
       if (i === correctIdx) cls += ' correct';
       if (i === selectedIdx && i !== correctIdx) cls += ' wrong';
     } else if (selectedIdx === i) { cls += ' selected'; }
     const answerText = replaceSigns(a.text);
     const cleanText = a.text.replace(/\[SIG:\w+\]/g, '').replace(/\[صورة:[^\]]+\]/g, '');
-    optionsHtml += '<div class="' + cls + '" onclick="selectAnswer(' + i + ')">';
+    const canClick = (feedbackMode || isReviewMode) ? '' : ' onclick="selectAnswer(' + i + ')"';
+    optionsHtml += '<div class="' + cls + '"' + canClick + '>';
     optionsHtml += '<div class="letter">' + letters[i] + '</div><div>' + answerText + '</div>';
     optionsHtml += '<button class="spk spk-sm" data-t="' + cleanText.replace(/"/g, '&quot;') + '">🔊</button></div>';
   }
@@ -1511,18 +1517,16 @@ function renderQuestion() {
 }
 
 function selectAnswer(idx) {
-  if (isReviewMode) return;
+  if (isReviewMode || feedbackMode) return;
   const q = currentQuestions[currentIdx]; if (!q) return;
   userAnswers[currentIdx] = idx;
+  feedbackMode = true;
   renderQuestion();
-  if (currentIdx < currentQuestions.length - 1) {
-    setTimeout(function() { currentIdx++; renderQuestion(); }, 200);
-  }
 }
 
-function prevQuestion() { if (currentIdx > 0) { currentIdx--; renderQuestion(); } }
-function nextQuestion() { if (currentIdx < currentQuestions.length - 1) { currentIdx++; renderQuestion(); } }
-function goToQuestion(idx) { if (idx >= 0 && idx < currentQuestions.length) { currentIdx = idx; renderQuestion(); } }
+function prevQuestion() { if (currentIdx > 0) { currentIdx--; feedbackMode = userAnswers[currentIdx] !== undefined; renderQuestion(); } }
+function nextQuestion() { if (currentIdx < currentQuestions.length - 1) { currentIdx++; feedbackMode = userAnswers[currentIdx] !== undefined; renderQuestion(); } }
+function goToQuestion(idx) { if (idx >= 0 && idx < currentQuestions.length) { currentIdx = idx; feedbackMode = userAnswers[currentIdx] !== undefined; renderQuestion(); } }
 
 function showCelebration(studentName) {
   const name = studentName || 'الطالب';
@@ -1569,7 +1573,7 @@ function showCelebration(studentName) {
 }
 
 function submitQuiz() {
-  isReviewMode = true;
+  isReviewMode = true; feedbackMode = false;
   const total = currentQuestions.length;
   const answered = Object.keys(userAnswers).length;
   let correct = 0;
@@ -1599,11 +1603,15 @@ function loadGalleryImages() {
 }
 
 function loadAnnouncement() {
-  const bar = document.getElementById('announcementBar');
-  const text = document.getElementById('announcementText');
   const val = localStorage.getItem('admin_announcement') || '';
-  if (val.trim()) { text.textContent = val; bar.classList.add('has-text'); }
-  else { bar.classList.remove('has-text'); }
+  ['announcementBar', 'announcementBarBottom'].forEach(function(id) {
+    const bar = document.getElementById(id);
+    const text = document.getElementById(id === 'announcementBar' ? 'announcementText' : 'announcementTextBottom');
+    if (bar && text) {
+      if (val.trim()) { text.textContent = val; bar.classList.add('has-text'); }
+      else { bar.classList.remove('has-text'); }
+    }
+  });
 }
 
 function trackVisit() {
