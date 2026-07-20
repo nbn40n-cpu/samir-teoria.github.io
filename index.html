@@ -1526,10 +1526,6 @@ function selectAnswer(idx) {
   const q = currentQuestions[currentIdx]; if (!q) return;
   userAnswers[currentIdx] = idx;
   renderQuestion();
-  if (autoAdvanceTimer) clearTimeout(autoAdvanceTimer);
-  if (currentIdx < currentQuestions.length - 1) {
-    autoAdvanceTimer = setTimeout(function() { autoAdvanceTimer = null; currentIdx++; feedbackMode = false; renderQuestion(); }, 1200);
-  }
 }
 
 function checkAnswer() {
