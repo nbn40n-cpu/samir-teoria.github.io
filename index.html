@@ -217,6 +217,7 @@ body {
 }
 .q-nav .prev { background: #e0e0e0; color: #333; }
 .q-nav .next { background: #009688; color: white; }
+.q-nav .check-btn { background: #1565c0; color: white; }
 .q-nav .submit { background: #ff6f00; color: white; }
 .q-nav button:disabled { opacity: 0.4; cursor: default; }
 .q-nav button:hover:not(:disabled) { transform: scale(1.05); }
@@ -1507,8 +1508,12 @@ function renderQuestion() {
   const answered = Object.keys(userAnswers).length;
   let navHtml = '<div class="q-nav">';
   navHtml += '<button class="prev" onclick="prevQuestion()" ' + (currentIdx === 0 ? 'disabled' : '') + '>‹ السابق</button>';
-  if (currentIdx < total - 1) { navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>'; }
-  else { navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>'; }
+  if (selectedIdx !== undefined && !feedbackMode && !isReviewMode) {
+    navHtml += '<button class="check-btn" onclick="checkAnswer()">🔍 تحقق من الإجابة</button>';
+  } else {
+    if (currentIdx < total - 1) { navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>'; }
+    else if (feedbackMode || isReviewMode) { navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>'; }
+  }
   navHtml += '</div>';
   const cardHtml = '<div class="question-card"><div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total + '<button class="spk" data-t="' + cleanQText + '" style="margin-right:6px;">🔊</button></div>' + imgHtml + '<div class="q-text">' + qText + '</div>' + optionsHtml + navHtml + '<div class="q-counter">تمت الإجابة على ' + answered + ' من ' + total + ' أسئلة</div></div>';
   const existing = quizArea.querySelector('.question-card');
@@ -1520,6 +1525,12 @@ function selectAnswer(idx) {
   if (isReviewMode || feedbackMode) return;
   const q = currentQuestions[currentIdx]; if (!q) return;
   userAnswers[currentIdx] = idx;
+  renderQuestion();
+}
+
+function checkAnswer() {
+  if (feedbackMode || isReviewMode) return;
+  if (userAnswers[currentIdx] === undefined) return;
   feedbackMode = true;
   renderQuestion();
 }
