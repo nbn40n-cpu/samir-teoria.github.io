@@ -1149,10 +1149,12 @@ async function adminLoadCategory(cat) {
   if (!content || !loading) return;
   loading.style.display = 'block'; content.innerHTML = '';
   try {
-    const url = Q_DIR + '/' + cat.file + '.txt';
+    await ensureSignMap();
+    const url = Q_DIR + '/' + cat.file + '.b64';
     const res = await fetch(url);
-    if (!res.ok) throw new Error('فشل التحميل');
-    const text = await res.text();
+    if (!res.ok) throw new Error('فشل تحميل الملف');
+    const encoded = await res.text();
+    const text = decodeURIComponent(escape(atob(encoded)));
     const groups = parseQuestions(text);
     catFileName = cat.file;
     let html = '<div style="border-bottom:2px solid #009688;padding-bottom:6px;margin-bottom:6px;"><strong style="font-size:14px;">' + cat.icon + ' ' + cat.name + '</strong> <span style="color:#888;font-size:11px;">(' + groups.length + ' مجموعة)</span></div>';
@@ -1234,7 +1236,13 @@ let quizPassScore = 25;
 let quizTotalQ = 30;
 
 async function loadSignMap() {
-  try { const res = await fetch(BASE + '/signs/sign_map.json'); signMap = await res.json(); } catch(e) {}
+  try { const t = Date.now(); const res = await fetch(BASE + '/signs/sign_map.json?t=' + t); signMap = await res.json(); } catch(e) {}
+}
+
+let signMapPromise = null;
+function ensureSignMap() {
+  if (!signMapPromise) signMapPromise = loadSignMap();
+  return signMapPromise;
 }
 
 function getSignUrl(code) {
@@ -1370,10 +1378,12 @@ async function loadCategory(cat) {
   document.getElementById('catsSection').classList.add('hidden');
   document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
   try {
-    const url = Q_DIR + '/' + cat.file + '.txt';
+    await ensureSignMap();
+    const url = Q_DIR + '/' + cat.file + '.b64';
     const res = await fetch(url);
     if (!res.ok) throw new Error('فشل تحميل الملف');
-    const content = await res.text();
+    const encoded = await res.text();
+    const content = decodeURIComponent(escape(atob(encoded)));
     const groups = parseQuestions(content);
     catFileName = cat.file;
     let totalQs = 0; for (const g of groups) totalQs += g.questions.length;
@@ -1636,8 +1646,23 @@ function trackVisit() {
   fetch('https://api.countapi.xyz/hit/samir-teoria/visitors').catch(()=>{});
 }
 
+// ========== Anti-theft Protection ==========
+document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'u')) {
+    e.preventDefault(); return false;
+  }
+});
+(function() {
+  var body = document.body;
+  if (body) body.style.userSelect = 'none';
+  var style = document.createElement('style');
+  style.textContent = 'body { -webkit-user-select: none; -moz-user-select: none; -ms-user-select: none; user-select: none; } .option, .cat-btn, button, input, textarea, .progress-dot { -webkit-user-select: auto; -moz-user-select: auto; -ms-user-select: auto; user-select: auto; }';
+  document.head.appendChild(style);
+})();
+
 // Init
-loadSignMap();
+ensureSignMap();
 initCategories();
 loadGalleryImages();
 loadAnnouncement();
