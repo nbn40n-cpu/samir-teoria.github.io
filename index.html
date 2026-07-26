@@ -1552,6 +1552,7 @@ function renderQuestion() {
   navHtml += '<button class="check-btn" onclick="checkAnswer()" ' + checkDisabled + '>🔍 تحقق من الإجابة</button>';
   if (currentIdx < total - 1) { navHtml += '<button class="next" onclick="nextQuestion()">التالي ›</button>'; }
   else { navHtml += '<button class="submit" onclick="submitQuiz()">عرض النتيجة</button>'; }
+  navHtml += '<button class="home-btn" onclick="backToCategories()" title="العودة للصفحة الرئيسية" style="padding:5px 10px;border:none;border-radius:8px;background:#e0e0e0;cursor:pointer;font-size:12px;">🏠 الرئيسية</button>';
   navHtml += '</div>';
   const cardHtml = '<div class="question-card"><div class="q-header">سؤال ' + (currentIdx + 1) + ' من ' + total + '<button class="spk" data-t="' + cleanQText + '" style="margin-right:6px;">🔊</button></div>' + imgHtml + '<div class="q-text">' + qText + '</div>' + optionsHtml + navHtml + '<div class="q-counter">تمت الإجابة على ' + answered + ' من ' + total + ' أسئلة</div></div>';
   const existing = quizArea.querySelector('.question-card');
