@@ -1150,7 +1150,8 @@ async function adminLoadCategory(cat) {
   loading.style.display = 'block'; content.innerHTML = '';
   try {
     await ensureSignMap();
-    const url = Q_DIR + '/' + cat.file + '.b64';
+    const t = Date.now();
+    const url = Q_DIR + '/' + cat.file + '.b64?t=' + t;
     const res = await fetch(url);
     if (!res.ok) throw new Error('فشل تحميل الملف');
     const encoded = await res.text();
@@ -1379,7 +1380,8 @@ async function loadCategory(cat) {
   document.getElementById('catsSection').scrollIntoView({ behavior: 'smooth' });
   try {
     await ensureSignMap();
-    const url = Q_DIR + '/' + cat.file + '.b64';
+    const t = Date.now();
+    const url = Q_DIR + '/' + cat.file + '.b64?t=' + t;
     const res = await fetch(url);
     if (!res.ok) throw new Error('فشل تحميل الملف');
     const encoded = await res.text();
