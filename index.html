@@ -188,7 +188,7 @@ body {
 .q-image { margin-bottom: 10px; }
 .q-image img { max-width: 200px; max-height: 200px; border-radius: 8px; border: 2px solid #e0e0e0; }
 .sign-inline { display: inline; }
-.sign-inline img { height: 36px; vertical-align: middle; margin: 0 3px; border-radius: 4px; }
+.sign-inline img, .sign-inline svg { height: 36px; vertical-align: middle; margin: 0 3px; border-radius: 4px; }
 .options { display: flex; flex-direction: column; gap: 6px; }
 .option {
   display: flex; align-items: center; gap: 10px;
@@ -1186,7 +1186,7 @@ function adminShowGroup(gi) {
   for (const q of g.questions) {
     const correctIdx = q.answers.findIndex(a => a.isCorrect);
     html += '<div style="border:1px solid #e0e0e0;border-radius:8px;padding:8px;margin-bottom:6px;"><div style="font-weight:bold;color:#00796b;margin-bottom:4px;font-size:12px;">سؤال ' + q.number + ':</div>';
-    let qtext = q.text.replace(/\[SIG:(\w+)\]/g, '<span style="color:#1565c0;font-size:11px;">[$1]</span>');
+    let qtext = replaceSigns(q.text);
     html += '<div style="margin-bottom:4px;line-height:1.6;font-size:12px;">' + qtext + '</div>';
     if (q.imageCodes.length > 0) {
       for (const code of q.imageCodes) {
@@ -1194,10 +1194,10 @@ function adminShowGroup(gi) {
         if (url) html += '<div><img src="' + url + '" style="max-width:100px;max-height:100px;border-radius:4px;border:1px solid #ddd;"></div>';
       }
     }
-    const letters = ['أ', 'ب', 'ج', 'د'];
     for (let i = 0; i < q.answers.length; i++) {
       const a = q.answers[i];
-      let atext = a.text.replace(/\[SIG:(\w+)\]/g, '<span style="color:#1565c0;font-size:11px;">[$1]</span>');
+      const letters = ['أ', 'ب', 'ج', 'د'];
+      let atext = replaceSigns(a.text);
       html += '<div style="padding:3px 6px;margin:1px 0;border-radius:4px;background:' + (a.isCorrect ? '#c8e6c9' : '#fff') + ';border:1px solid ' + (a.isCorrect ? '#2e7d32' : '#eee') + ';font-size:11px;">';
       html += '<span style="font-weight:bold;color:' + (a.isCorrect ? '#2e7d32' : '#888') + ';">' + letters[i] + ')</span> ' + atext;
       if (a.isCorrect) html += ' <span style="color:#2e7d32;">✓</span>';
@@ -1258,13 +1258,39 @@ function getSignUrl(code) {
 }
 
 function renderSign(code) {
+  const svg = renderSignSVG(code);
+  if (svg) return svg;
   const url = getSignUrl(code);
   if (!url) return code;
   return '<img src="' + url + '" alt="' + code + '" style="height:50px;vertical-align:middle;border-radius:4px;border:1px solid #ddd;" onerror="this.outerHTML=\'[' + code + ']\'">';
 }
 
+function renderSignSVG(code) {
+  if (!code.match(/^h\d+$/)) return '';
+  const r = 6, cy = [17, 30, 43], cx = 25, off = 0;
+  const lit = { red: false, yellow: false, green: false };
+  switch (code) {
+    case 'h2': lit.green = true; break;
+    case 'h3': lit.red = true; break;
+    case 'h5': case 'h6': case 'h8': lit.yellow = true; break;
+    case 'h7': lit.red = true; break;
+    case 'h1': break;
+    case 'h9': lit.yellow = true; lit.red = true; break;
+    case 'h11': lit.green = true; break;
+    default: break;
+  }
+  return '<svg viewBox="0 0 50 70" style="height:36px;vertical-align:middle;"><rect x="3" y="2" width="44" height="66" rx="5" fill="#1a237e" stroke="#fff" stroke-width="1.5"/><rect x="8" y="7" width="34" height="54" rx="3" fill="#222"/>' +
+    ['#f44336','#FFD600','#4CAF50'].map(function(c, i) {
+      var fill = (i === 0 && lit.red) || (i === 1 && lit.yellow) || (i === 2 && lit.green) ? c : '#444';
+      return '<circle cx="' + cx + '" cy="' + (cy[i] + off) + '" r="' + r + '" fill="' + fill + '" stroke="#555" stroke-width=".5"/>';
+    }).join('') +
+    '<text x="25" y="65" text-anchor="middle" font-size="6" fill="#fff" font-family="sans-serif">' + code.toUpperCase() + '</text></svg>';
+}
+
 function replaceSigns(text) {
   return text.replace(/\[SIG:(\w+)\]/g, function(m, code) {
+    const svg = renderSignSVG(code);
+    if (svg) return '<span class="sign-inline">' + svg + '</span>';
     const url = getSignUrl(code);
     if (!url) return '[الإشارة: ' + code + ']';
     return '<span class="sign-inline"><img src="' + url + '" alt="' + code + '" onerror="this.outerHTML=\'[' + code + ']\'"></span>';
