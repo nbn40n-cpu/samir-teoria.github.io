@@ -67,8 +67,8 @@
    ج) On the road you are driving on and up to the nearby intersection
    د) Only in the opposite direction of traffic on the road ahead
 
-سؤال 9: The distance of sign [SIG:A25] from the railway junction:
-   [صورة: A25]
+سؤال 9: The distance of sign [SIG:a25] from the railway junction:
+   [صورة: a25]
    أ) 10 m before the meeting
    ب) 150 m before the meeting
    ج) Depending on its position above the sign [SIG:a28] [SIG:a29] or [SIG:a30] ✓
@@ -694,7 +694,7 @@
 سؤال 8: What is the sign that indicates directional arrows on the road surface:
    أ) Sign [SIG:d12]
    ب) Sign [SIG:d13] ✓
-   ج) Sign [SIG:d11]
+   ج) Sign [SIG:d10]
    د) Sign [SIG:d8]
 
 سؤال 9: The sign [SIG:d15] means:
