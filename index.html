@@ -1137,8 +1137,8 @@ function adminShowStats() {
   html += '<div style="font-size:13px;color:#555;">عدد زياراتك الشخصية: <strong>' + visits + '</strong></div>';
   html += '<div style="font-size:11px;color:#999;margin-top:4px;">آخر زيارة: ' + lastVisit + '</div></div>';
   content.innerHTML = html;
-  fetch('https://api.countapi.xyz/get/samir-teoria/visitors')
-    .then(r => r.json()).then(d => { document.getElementById('globalCount').textContent = d.value; })
+  fetch('https://tally.yuki.sh/hits/samir-teoria/visitors.json?mode=read')
+    .then(r => r.json()).then(d => { document.getElementById('globalCount').textContent = d.visit; })
     .catch(() => { document.getElementById('globalCount').textContent = visits; });
 }
 
@@ -1671,8 +1671,7 @@ function trackVisit() {
   let count = parseInt(localStorage.getItem('visit_count_local') || '0');
   count++; localStorage.setItem('visit_count_local', count.toString());
   localStorage.setItem('last_visit_date', new Date().toLocaleDateString('ar-PS'));
-  fetch('https://api.countapi.xyz/create?namespace=samir-teoria&key=visitors&value=0').catch(()=>{});
-  fetch('https://api.countapi.xyz/hit/samir-teoria/visitors').catch(()=>{});
+  fetch('https://tally.yuki.sh/hits/samir-teoria/visitors.json').catch(()=>{});
 }
 
 // ========== Anti-theft Protection ==========
